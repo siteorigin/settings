@@ -33,29 +33,23 @@ class SiteOrigin_Font_Control extends WP_Customize_Control {
 		}
 
 		static $fonts = false;
+		static $websafe = false;
 		if( empty($fonts) ) {
 			$fonts = include dirname(__FILE__) . '/fonts.php';
 		}
+		if( empty($websafe) ) {
+			$websafe = include dirname(__FILE__) . '/websafe.php';
+		}
+
 		?>
 		<select class="font">
 			<!-- Unchanged -->
 			<option value="" data-webfont="false"></option>
 
 			<optgroup label="Web Safe">
-				<!-- Sans Serif Fonts -->
-				<option value="Arial" data-category="sans-serif" data-webfont="false">Arial</option>
-				<option value="Helvetica" data-category="sans-serif" data-webfont="false">Helvetica</option>
-				<option value="Tahoma" data-category="sans-serif" data-webfont="false">Tahoma</option>
-				<option value="Verdana" data-category="sans-serif" data-webfont="false">Verdana</option>
-
-				<!-- Sans Serif Fonts -->
-				<option value="Georgia" data-category="serif" data-webfont="false">Georgia</option>
-				<option value="Palatino" data-category="serif" data-webfont="false">Palatino</option>
-				<option value="Times New Roman" data-category="serif" data-webfont="false">Times New Roman</option>
-
-				<!-- Monospaced -->
-				<option value="Courier New" data-category="serif" data-webfont="false">Courier New</option>
-
+				<?php foreach( $websafe as $name => $attr ) : ?>
+					<option value="<?php echo esc_attr($name) ?>" data-variants="<?php echo esc_attr( implode( ',', $attr['variants'] ) ) ?>" data-subsets="<?php echo esc_attr( implode( ',', $attr['subsets'] ) ) ?>" data-category="<?php echo esc_attr($attr['category']) ?>" data-webfont="true"><?php echo esc_html($name) ?></option>
+				<?php endforeach; ?>
 			</optgroup>
 
 			<optgroup label="Google Webfonts">
