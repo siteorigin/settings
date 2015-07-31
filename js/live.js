@@ -31,19 +31,34 @@ jQuery( function($){
 
             switch( match[1] ) {
                 case 'font':
-                    replace += 'font-family: "' + fargs.font + '", ' + fargs.category + '; ';
-
                     if( fargs.webfont ) {
                         prepend = '@import url(//fonts.googleapis.com/css?';
                         prepend += 'family=' + encodeURIComponent( fargs.font ) + '|' + encodeURIComponent( fargs.variant );
                         prepend += '&subset=' + encodeURIComponent( fargs.subset );
                         prepend += '); ';
                     }
+
+                    replace += 'font-family: "' + fargs.font + '", ' + fargs.category + '; ';
+
+                    var weight;
+                    if( fargs.variant.indexOf('italic' ) !== -1 ) {
+                        weight = fargs.variant.replace('italic', '');
+                        replace += 'font-style: italic; ';
+                    }
+                    else {
+                        weight = fargs.variant;
+                    }
+
+                    if( fargs.variant == '' ) fargs.variant = 'regular';
+                    replace += 'font-weight: ' + weight + '; ';
+
+
                     break;
             }
 
             css = css.replace( match[0], replace );
             css = prepend + css;
+            console.log(css);
         } while( match !== null );
 
         $style.html( css );

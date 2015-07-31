@@ -55,7 +55,7 @@ jQuery( function($){
                 control.setting.set( JSON.stringify(val) );
             };
 
-            control.container.find('select.font').change(changeValue);
+            control.container.find('select').change(changeValue);
 
             // Also bind values on change
             this.setting.bind( function ( value ) {
