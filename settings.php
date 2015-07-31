@@ -27,7 +27,10 @@ class SiteOrigin_Settings {
 	 */
 	private $sections;
 
-	private $loc;
+	/**
+	 * @var array The localization strings
+	 */
+	public $loc;
 
 	function __construct(){
 		$this->add_actions();
@@ -38,6 +41,8 @@ class SiteOrigin_Settings {
 		$this->loc = array(
 			'section_title' => 'Theme Settings',
 			'section_description' => 'Theme Settings',
+			'premium_only' => 'Premium Only',
+
 		);
 	}
 
@@ -140,11 +145,13 @@ class SiteOrigin_Settings {
 	 *
 	 * @param $section
 	 * @param $id
-	 * @param $name
+	 * @param $label
 	 * @param array $args
 	 */
-	function add_teaser( $section, $id, $name, $args = array() ) {
-
+	function add_teaser( $section, $id, $label, $args = array() ) {
+		// Don't add any teasers if the user is already using Premium
+		if( defined('SITEORIGIN_IS_PREMIUM') ) return;
+		$this->add_field( $section, $id, 'teaser', $label, $args);
 	}
 
 	/**
@@ -153,9 +160,12 @@ class SiteOrigin_Settings {
 	 * @param WP_Customize_Manager $wp_customize
 	 */
 	function customize_register( $wp_customize ){
+		// Include the extra control types
+		include_once dirname( __FILE__ ) . '/inc/controls.php';
+
 		// Let everything setup the settings
-		if( !did_action('siteorigin_settings_init') ) {
-			do_action('siteorigin_settings_init');
+		if( !did_action( 'siteorigin_settings_init' ) ) {
+			do_action( 'siteorigin_settings_init' );
 		}
 
 		// We'll use a single panel for theme settings
@@ -179,7 +189,6 @@ class SiteOrigin_Settings {
 		// Finally, add the settings
 		foreach( $this->settings as $section_id => $settings ) {
 			foreach( $settings as $setting_id => $setting_args ) {
-				$sanitize_callback = false;
 				switch( $setting_args['type'] ) {
 					case 'url':
 					case 'media':
@@ -187,6 +196,9 @@ class SiteOrigin_Settings {
 						break;
 					case 'color':
 						$sanitize_callback = 'sanitize_hex_color';
+						break;
+					case 'font':
+						$sanitize_callback = 'sanitize_text_field';
 						break;
 					default:
 						$sanitize_callback = 'sanitize_text_field';
@@ -248,6 +260,26 @@ class SiteOrigin_Settings {
 						);
 						break;
 
+					case 'teaser' :
+						$wp_customize->add_control(
+							new SiteOrigin_Teaser_Control(
+								$wp_customize,
+								'theme_settings_' . $section_id . '_' . $setting_id,
+								$control_args
+							)
+						);
+						break;
+
+					case 'font' :
+						$wp_customize->add_control(
+							new SiteOrigin_Font_Control(
+								$wp_customize,
+								'theme_settings_' . $section_id . '_' . $setting_id,
+								$control_args
+							)
+						);
+						break;
+
 					default:
 						$control_args['type'] = $setting_args['type'];
 						$wp_customize->add_control(
@@ -273,7 +305,7 @@ class SiteOrigin_Settings {
 			}
 		}
 
-		wp_enqueue_script( 'siteorigin-settings-live-preview', get_stylesheet_directory_uri() . '/settings/live.js', array('jquery') );
+		wp_enqueue_script( 'siteorigin-settings-live-preview', get_stylesheet_directory_uri() . '/settings/js/live.js', array('jquery') );
 		wp_localize_script( 'siteorigin-settings-live-preview', 'soSettings', array(
 			'css' => apply_filters('siteorigin_settings_custom_css', ''),
 			'settings' => !empty($values) ? $values : false
@@ -287,7 +319,7 @@ class SiteOrigin_Settings {
 		if( !empty($css) ) {
 			$css_lines = array_map("trim", preg_split("/[\r\n]+/", $css));
 			foreach( $css_lines as $i => & $line ) {
-				preg_match_all('/@\{([a-z_]+)\}/', $line, $matches);
+				preg_match_all('/@\{([a-z0-9_]+)\}/', $line, $matches);
 				if( empty($matches[0]) ) continue;
 
 				$replaced = 0;
@@ -312,6 +344,53 @@ class SiteOrigin_Settings {
 
 			$css = implode(' ', $css_lines);
 
+			// Now, lets handle the custom functions.
+			$css = preg_replace_callback('/\.([a-z\-]+) *\(([^\)]+)\) *;/', array($this, 'css_functions'), $css);
+
+			// Finally, we'll combine all imports and put them at the top of the file
+			preg_match_all( '/@import url\(([^\)]+)\);/', $css, $matches );
+			if( !empty($matches[0]) ) {
+				$webfont_imports = array();
+
+				for( $i = 0; $i < count($matches[0]); $i++ ) {
+					if( strpos('//fonts.googleapis.com/css', $matches[1][$i]) !== -1 ) {
+						$webfont_imports[] = $matches[1][$i];
+						$css = str_replace( $matches[0][$i], '', $css );
+					}
+				}
+
+				if( !empty($webfont_imports) ) {
+					$args = array(
+						'family' => array(),
+						'subset' => array(),
+					);
+
+					// Combine all webfont imports into a single argument
+					foreach( $webfont_imports as $url ) {
+						$url = parse_url($url);
+						if( empty($url['query']) ) continue;
+						parse_str( $url['query'], $query );
+
+						if( !empty($query['family']) ) {
+							$args['family'][] = $query['family'];
+						}
+
+						$args['subset'][] = !empty($query['subset']) ? $query['subset'] : 'latim';
+					}
+
+					// Clean up the arguments
+					$args['subset'] = array_unique($args['subset']);
+
+					$args['family'] = array_map( 'urlencode', $args['family'] );
+					$args['subset'] = array_map( 'urlencode', $args['subset'] );
+					$args['family'] = implode('|', $args['family']);
+					$args['subset'] = implode(',', $args['subset']);
+
+					$import = '@import url(' . add_query_arg( $args, '//fonts.googleapis.com/css' ) . ');';
+					$css = $import . "\n" . $css;
+				}
+			}
+
 			// Now lets remove empty rules
 			do {
 				$css = preg_replace('/[^\{\}]*?\{ *\}/', ' ', $css, -1, $count);
@@ -324,6 +403,45 @@ class SiteOrigin_Settings {
 			</style>
 			<?php
 		}
+	}
+
+	function css_functions($match) {
+		$function = $match[1];
+		$args = json_decode( trim($match[2]), true );
+
+		$return = '';
+
+		switch( $function ) {
+			case 'font':
+				if( empty($args['font']) ) {
+					break;
+				}
+
+				if( $args['webfont'] ) {
+					// We need to import this too
+					$query = add_query_arg(array(
+						'family' => rawurlencode( $args['font'] ) . ':' . rawurlencode( $args['variant'] ),
+						'subset' => rawurlencode( $args['subset'] )
+					), '//fonts.googleapis.com/css');
+					$return .= '@import url(' . $query . '); ';
+				}
+
+				// Now lets add all the css styling
+				$return .= 'font-family: "' . esc_attr( $args['font'] ) . '", ' . $args['category'] . '; ';
+				if( strpos( $args['variant'], 'italic' ) !== -1 ) {
+					$weight = str_replace('italic', '', $args['variant']);
+					$return .= 'font-style: italic; ';
+				}
+				else {
+					$weight = $args['variant'];
+				}
+				if( empty($args['variant']) ) $args['variant'] = 'regular';
+				$return .= 'font-weight: ' . esc_attr( $weight) . '; ';
+
+				break;
+		}
+
+		return $return;
 	}
 }
 
@@ -341,14 +459,37 @@ function siteorigin_setting( $setting ){
 	return SiteOrigin_Settings::single()->get( $setting );
 }
 
+/**
+ * Add a settings section
+ *
+ * @param $id
+ * @param $title
+ */
 function siteorigin_settings_add_section( $id, $title ) {
 	SiteOrigin_Settings::single()->add_section( $id, $title );
 }
 
+/**
+ * Add a settings field
+ *
+ * @param $section
+ * @param $id
+ * @param $type
+ * @param null $label
+ * @param array $args
+ */
 function siteorigin_settings_add_field( $section, $id, $type, $label = null, $args = array() ) {
 	SiteOrigin_Settings::single()->add_field( $section, $id, $type, $label, $args );
 }
 
+/**
+ * Add a teaser field
+ *
+ * @param $section
+ * @param $id
+ * @param $name
+ * @param array $args
+ */
 function siteorigin_settings_add_teaser( $section, $id, $name, $args = array() ) {
 	SiteOrigin_Settings::single()->add_teaser( $section, $id, $name, $args );
 }
