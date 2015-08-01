@@ -5,6 +5,8 @@ jQuery( function($){
 
     var api = wp.customize;
 
+    var loadedFonts = {};
+
     /**
      * The font control object
      */
@@ -28,14 +30,14 @@ jQuery( function($){
                     } );
 
                     if( $v.find('option').length > 1 ) {
-                        $v.show();
+                        $v.parent().show();
                     }
                     else {
-                        $v.hide();
+                        $v.parent().hide();
                     }
                 }
                 else {
-                    $v.hide();
+                    $v.parent().hide();
                 }
 
                 if( $fs.data('subsets') !== undefined ) {
@@ -46,14 +48,14 @@ jQuery( function($){
                     $s.val('latin');
 
                     if( $s.find('option').length > 1 ) {
-                        $s.show();
+                        $s.parent().show();
                     }
                     else {
-                        $s.hide();
+                        $s.parent().hide();
                     }
                 }
                 else {
-                    $s.hide();
+                    $s.parent().hide();
                 }
             } );
 
@@ -84,14 +86,81 @@ jQuery( function($){
             var chosen = null;
             api.section( control.section() ).container
                 .on( 'expanded', function() {
+                    // Setup this field for the first time
                     if( chosen === null ){
-                        $f.chosen({
-                            allow_single_deselect: true,
-                            search_contains: true
-                        });
+                        var timeout = null;
+                        $f
+                            .on('chosen:ready', function( e, params ){
+                                var dropdown = params.chosen.dropdown;
+                                var results = dropdown.find('.chosen-results');
+
+                                dropdown.find('.chosen-results').on('scroll', function(){
+                                    clearTimeout(timeout);
+                                    timeout = setTimeout(function(){
+                                        // These are the fonts we'll load
+                                        var loadFonts = [], font, match;
+
+                                        results.find('li').each( function(){
+                                            var $$ = $(this),
+                                                offset = $$.position().top;
+
+                                            // Check that this element is in the viewport and not a websafe font
+                                            if( $$.attr('style') !== undefined &&
+                                                $$.attr('style').indexOf('__websafe') === -1 &&
+                                                offset > - 10 &&
+                                                offset < results.outerHeight() + 30
+                                            ) {
+                                                match = $$.attr('style').match(/font-family: ([^,]+),.*;/);
+                                                font = match[1].replace(/'/g, '').trim();
+                                                if( typeof loadedFonts[font] === 'undefined' ) {
+                                                    loadFonts.push(font);
+                                                    loadedFonts[font] = true;
+                                                }
+                                            }
+                                        } );
+
+                                        // Load the fonts
+                                        if( loadFonts.length > 0 ) {
+                                            var loadUrl = '//fonts.googleapis.com/css';
+                                            loadUrl += '?family=' + loadFonts.join('|').replace(' ', '+');
+                                            loadUrl += '&text=+%2C-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+                                            $("<link/>", {
+                                                rel: "stylesheet",
+                                                type: "text/css",
+                                                href: loadUrl
+                                            }).appendTo("head");
+                                        }
+
+                                    }, 500);
+                                });
+
+                                // Trigger a fake scroll after a short timeout
+                                setTimeout( function(){
+                                    results.trigger('scroll');
+                                }, 500 );
+
+                                // After the user searches, trigger a scroll
+                                params.chosen.search_field.on('keyup', function(){
+                                    setTimeout( function(){
+                                        results.trigger('scroll');
+                                    }, 500 );
+                                });
+                            } )
+                            .on('chosen:showing_dropdown', function(e, params){
+                                params.chosen.dropdown.find('.chosen-results').trigger('scroll');
+                            })
+                            .chosen({
+                                allow_single_deselect: true,
+                                search_contains: true
+                            });
                         chosen = true;
                     }
                 });
+
+            //$(document).on( 'scroll', '#idOfDivThatContainsULandScroll', function(){
+            //    console.log('Event Fired');
+            //});
 
         }
     });

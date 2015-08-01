@@ -55,7 +55,7 @@ class SiteOrigin_Font_Control extends WP_Customize_Control {
 							data-subsets="<?php echo esc_attr( implode( ',', $attr['subsets'] ) ) ?>"
 							data-category="<?php echo esc_attr($attr['category']) ?>"
 							data-webfont="false"
-							style="font-family: '<?php echo esc_attr($name) ?>', <?php echo esc_attr($attr['category']) ?>">
+							style="font-family: '<?php echo esc_attr($name) ?>', <?php echo esc_attr($attr['category']) ?>, __websafe">
 							<?php echo esc_html($name) ?>
 						</option>
 					<?php endforeach; ?>
@@ -77,13 +77,15 @@ class SiteOrigin_Font_Control extends WP_Customize_Control {
 			</select>
 		</div>
 
-		<select class="font-variant">
+		<div class="field-wrapper">
+			<label>Variant</label>
+			<select class="font-variant"></select>
+		</div>
 
-		</select>
-
-		<select class="font-subset">
-
-		</select>
+		<div class="field-wrapper">
+			<label>Subset</label>
+			<select class="font-subset"></select>
+		</div>
 
 		<input type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); ?> />
 
