@@ -100,9 +100,6 @@ class SiteOrigin_Font_Control extends WP_Customize_Control {
 		wp_enqueue_script( 'siteorigin-settings-chosen', get_template_directory_uri() . '/settings/chosen/chosen.jquery.min.js', array('jquery'), '1.4.2' );
 		wp_enqueue_style( 'siteorigin-settings-chosen', get_template_directory_uri() . '/settings/chosen/chosen.min.css', array(), '1.4.2' );
 
-		// Enqueue onscreen for loading fonts
-		wp_enqueue_script( 'siteorigin-settings-onscreen', get_template_directory_uri() . '/settings/js/jquery.onscreen.js', array('jquery') );
-
 		// The main font controls
 		wp_enqueue_script( 'siteorigin-settings-font-control', get_template_directory_uri() . '/settings/js/font-control.js', array('jquery') );
 		wp_enqueue_style( 'siteorigin-settings-font-control', get_template_directory_uri() . '/settings/css/font-control.css', array() );
