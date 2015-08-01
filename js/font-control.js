@@ -25,11 +25,13 @@ jQuery( function($){
 
                 if( $fs.data('variants') !== undefined ) {
                     // Lets populate the variants and subsets
+                    $v.append( $("<option></option>")).val('');
                     $.each( $fs.data('variants').split(','), function(i, v){
                         $v.append( $("<option></option>").html(v) );
                     } );
+                    $v.val('regular');
 
-                    if( $v.find('option').length > 1 ) {
+                    if( $v.find('option').length > 2 ) {
                         $v.parent().show();
                     }
                     else {
@@ -42,12 +44,13 @@ jQuery( function($){
 
                 if( $fs.data('subsets') !== undefined ) {
                     // Lets populate the variants and subsets
+                    $s.append( $("<option></option>"));
                     $.each( $fs.data('subsets').split(','), function(i, v){
                         $s.append( $("<option></option>").html(v) );
                     } );
                     $s.val('latin');
 
-                    if( $s.find('option').length > 1 ) {
+                    if( $s.find('option').length > 2 ) {
                         $s.parent().show();
                     }
                     else {
@@ -123,7 +126,7 @@ jQuery( function($){
                                         if( loadFonts.length > 0 ) {
                                             var loadUrl = '//fonts.googleapis.com/css';
                                             loadUrl += '?family=' + loadFonts.join('|').replace(' ', '+');
-                                            loadUrl += '&text=+%2C-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+                                            loadUrl += '&text=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
                                             $("<link/>", {
                                                 rel: "stylesheet",
