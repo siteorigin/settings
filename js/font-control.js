@@ -26,7 +26,13 @@ jQuery( function($){
                     $.each( $fs.data('variants').split(','), function(i, v){
                         $v.append( $("<option></option>").html(v) );
                     } );
-                    $v.show();
+
+                    if( $v.find('option').length > 1 ) {
+                        $v.show();
+                    }
+                    else {
+                        $v.hide();
+                    }
                 }
                 else {
                     $v.hide();
@@ -37,7 +43,14 @@ jQuery( function($){
                     $.each( $fs.data('subsets').split(','), function(i, v){
                         $s.append( $("<option></option>").html(v) );
                     } );
-                    $s.val('latin').show();
+                    $s.val('latin');
+
+                    if( $s.find('option').length > 1 ) {
+                        $s.show();
+                    }
+                    else {
+                        $s.hide();
+                    }
                 }
                 else {
                     $s.hide();
@@ -57,10 +70,6 @@ jQuery( function($){
 
             control.container.find('select').change(changeValue);
 
-            // Also bind values on change
-            this.setting.bind( function ( value ) {
-            } );
-
             // Now, lets set everything up to start
             if( control.setting() !== '' ) {
                 var vals = JSON.parse( control.setting() );
@@ -68,6 +77,22 @@ jQuery( function($){
                 $v.val( vals.variant );
                 $s.val( vals.subset );
             }
+            else {
+                $f.change();
+            }
+
+            var chosen = null;
+            api.section( control.section() ).container
+                .on( 'expanded', function() {
+                    if( chosen === null ){
+                        $f.chosen({
+                            allow_single_deselect: true,
+                            search_contains: true
+                        });
+                        chosen = true;
+                    }
+                });
+
         }
     });
 

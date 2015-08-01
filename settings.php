@@ -345,7 +345,7 @@ class SiteOrigin_Settings {
 			$css = implode(' ', $css_lines);
 
 			// Now, lets handle the custom functions.
-			$css = preg_replace_callback('/\.([a-z\-]+) *\(([^\)]+)\) *;/', array($this, 'css_functions'), $css);
+			$css = preg_replace_callback('/\.([a-z\-]+) *\(([^\)]*)\) *;/', array($this, 'css_functions'), $css);
 
 			// Finally, we'll combine all imports and put them at the top of the file
 			preg_match_all( '/@import url\(([^\)]+)\);/', $css, $matches );
@@ -407,12 +407,13 @@ class SiteOrigin_Settings {
 
 	function css_functions($match) {
 		$function = $match[1];
-		$args = json_decode( trim($match[2]), true );
 
 		$return = '';
 
 		switch( $function ) {
 			case 'font':
+				if( empty($match[2]) ) break;
+				$args = json_decode( trim($match[2]), true );
 				if( empty($args['font']) ) {
 					break;
 				}

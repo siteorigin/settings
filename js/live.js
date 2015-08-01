@@ -21,20 +21,32 @@ jQuery( function($){
         // This should mirror what's in PHP - SiteOrigin_Settings::css_functions
         var match, replace, prepend, fargs;
         do {
-            match =  css.match(/\.([a-z\-]+) *\(([^\)]+)\) *;/);
+            match =  css.match(/\.([a-z\-]+) *\(([^\)]*)\) *;/);
             if( match === null ) {
                 break;
             }
-            fargs = JSON.parse( match[2] );
             replace = '';
             prepend = '';
 
             switch( match[1] ) {
                 case 'font':
+                    try {
+                        fargs = JSON.parse( match[2] );
+                    }
+                    catch( e ) {
+                        break;
+                    }
+
+                    if( fargs.font === '' ) {
+                        break;
+                    }
+
                     if( fargs.webfont ) {
                         prepend = '@import url(//fonts.googleapis.com/css?';
-                        prepend += 'family=' + encodeURIComponent( fargs.font ) + '|' + encodeURIComponent( fargs.variant );
-                        prepend += '&subset=' + encodeURIComponent( fargs.subset );
+                        prepend += 'family=' + encodeURIComponent( fargs.font ) + ':' + encodeURIComponent( fargs.variant );
+                        if( fargs.subset !== null ) {
+                            prepend += '&subset=' + encodeURIComponent( fargs.subset );
+                        }
                         prepend += '); ';
                     }
 
@@ -52,13 +64,11 @@ jQuery( function($){
                     if( fargs.variant == '' ) fargs.variant = 'regular';
                     replace += 'font-weight: ' + weight + '; ';
 
-
                     break;
             }
 
             css = css.replace( match[0], replace );
             css = prepend + css;
-            console.log(css);
         } while( match !== null );
 
         $style.html( css );
