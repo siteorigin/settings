@@ -77,7 +77,18 @@ class SiteOrigin_Settings {
 	 * @return string
 	 */
 	function get( $setting ) {
-		$default = isset( $this->defaults[$setting] ) ? $this->defaults[$setting] : false;
+		static $old_settings = false;
+		if( $old_settings === false ) {
+			$old_settings = get_option( get_template() . '_theme_settings' );
+		}
+
+		if( isset( $old_settings[$setting] ) ) {
+			$default = $old_settings[$setting];
+		}
+		else {
+			$default = isset( $this->defaults[$setting] ) ? $this->defaults[$setting] : false;
+		}
+
 		return get_theme_mod( 'theme_settings_' . $setting, $default );
 	}
 
