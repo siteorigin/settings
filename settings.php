@@ -344,7 +344,7 @@ class SiteOrigin_Settings {
 						$replaced++;
 					}
 
-					$line = str_replace( $matches[0][$j], $current, $line );
+					$line = str_replace( $matches[0][$j], esc_attr($current), $line );
 				}
 
 				if( $replaced == 0 ) {
