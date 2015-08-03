@@ -86,6 +86,7 @@ jQuery( function($){
                 $f.change();
             }
 
+            // This is some setup stuff that needs to happen after the section is expanded
             var chosen = null;
             api.section( control.section() ).container
                 .on( 'expanded', function() {
@@ -160,11 +161,6 @@ jQuery( function($){
                         chosen = true;
                     }
                 });
-
-            //$(document).on( 'scroll', '#idOfDivThatContainsULandScroll', function(){
-            //    console.log('Event Fired');
-            //});
-
         }
     });
 
