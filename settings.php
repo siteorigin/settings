@@ -89,7 +89,8 @@ class SiteOrigin_Settings {
 			$default = isset( $this->defaults[$setting] ) ? $this->defaults[$setting] : false;
 		}
 
-		return get_theme_mod( 'theme_settings_' . $setting, $default );
+		// Return a filtered version of the setting
+		return apply_filters( 'siteorigin_setting', get_theme_mod( 'theme_settings_' . $setting, $default ), $setting );
 	}
 
 	/**
