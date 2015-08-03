@@ -144,12 +144,14 @@ class SiteOrigin_Settings {
 	 * @param array $args
 	 */
 	function add_field( $section, $id, $type, $label = null, $args = array() ) {
-		$this->settings[$section][$id] = array(
+		$current = isset( $this->settings[$section][$id] ) ? $this->settings[$section][$id] : array();
+
+		$this->settings[$section][$id] = wp_parse_args( array(
 			'id' => $id,
 			'type' => $type,
 			'label' => $label,
 			'args' => $args,
-		);
+		), $current);
 	}
 
 	/**
@@ -157,13 +159,20 @@ class SiteOrigin_Settings {
 	 *
 	 * @param $section
 	 * @param $id
+	 * @param $type
 	 * @param $label
 	 * @param array $args
 	 */
-	function add_teaser( $section, $id, $label, $args = array() ) {
+	function add_teaser( $section, $id, $type, $label, $args = array() ) {
 		// Don't add any teasers if the user is already using Premium
-		if( defined('SITEORIGIN_IS_PREMIUM') ) return;
-		$this->add_field( $section, $id, 'teaser', $label, $args);
+		if( apply_filters('siteorigin_display_teaser', true, $section, $id) ) {
+			// The theme hasn't implemented this setting yet
+			$this->add_field( $section, $id, 'teaser', $label, $args);
+		}
+		else {
+			// Support for this setting has been added
+			$this->add_field( $section, $id, $type, $label, $args);
+		}
 	}
 
 	/**
