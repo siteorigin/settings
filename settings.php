@@ -40,12 +40,7 @@ class SiteOrigin_Settings {
 		$this->defaults = array();
 		$this->settings = array();
 		$this->sections = array();
-		$this->loc = array(
-			'section_title' => 'Theme Settings',
-			'section_description' => 'Theme Settings',
-			'premium_only' => 'Premium Only',
-
-		);
+		$this->loc = array();
 	}
 
 	/**
@@ -123,6 +118,17 @@ class SiteOrigin_Settings {
 		$theme = wp_get_theme();
 		$this->theme_name = $theme->get_template();
 		$this->defaults = apply_filters( 'siteorigin_settings_defaults', $this->defaults );
+
+		$this->loc = apply_filters('siteorigin_settings_localization', array(
+			'section_title' => '',          // __('Theme Settings', 'siteorigin'),
+			'section_description' =>  '',   // __('Settings for your theme', 'siteorigin'),
+			'premium_only' =>  '',          // __('Premium Only', 'siteorigin'),
+			'premium_url' => '#',           // The URL where we'll send users for premium information
+
+			// For the controls
+			'variant' =>  '',               // __('Variant', 'siteorigin'),
+			'subset' =>  '',                // __('Subset', 'siteorigin'),
+		) );
 	}
 
 	/**

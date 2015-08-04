@@ -14,7 +14,7 @@ class SiteOrigin_Teaser_Control extends WP_Customize_Control {
 			?><span class="description customize-control-description"><?php echo $this->description; ?></span><?php
 		}
 
-		?><a href="#premium" class="button-primary"><?php echo SiteOrigin_Settings::single()->loc['premium_only'] ?></a><?php
+		?><a href="<?php echo esc_url( SiteOrigin_Settings::single()->loc['premium_url'] ) ?>" class="button-primary" target="_blank"><?php echo SiteOrigin_Settings::single()->loc['premium_only'] ?></a><?php
 	}
 }
 
@@ -78,12 +78,12 @@ class SiteOrigin_Font_Control extends WP_Customize_Control {
 		</div>
 
 		<div class="field-wrapper">
-			<label>Variant</label>
+			<label><?php echo esc_html( SiteOrigin_Settings::single()->loc['variant'] ) ?></label>
 			<select class="font-variant"></select>
 		</div>
 
 		<div class="field-wrapper">
-			<label>Subset</label>
+			<label><?php echo esc_html( SiteOrigin_Settings::single()->loc['subset'] ) ?></label>
 			<select class="font-subset"></select>
 		</div>
 
