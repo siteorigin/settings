@@ -1,5 +1,7 @@
 <?php
 
+include dirname( __FILE__ ) . '/inc/webfonts.php';
+
 /**
 * Class SiteOrigin_Settings
  *
@@ -515,15 +517,15 @@ function siteorigin_settings_add_field( $section, $id, $type, $label = null, $ar
 }
 
 /**
- * Add a teaser field
+ * Add a teaser fields which indicates a field that's implemented elsewhere.
  *
  * @param $section
  * @param $id
  * @param $name
  * @param array $args
  */
-function siteorigin_settings_add_teaser( $section, $id, $name, $args = array() ) {
-	SiteOrigin_Settings::single()->add_teaser( $section, $id, $name, $args );
+function siteorigin_settings_add_teaser( $section, $id, $type, $name, $args = array() ) {
+	SiteOrigin_Settings::single()->add_teaser( $section, $id, $type, $name, $args );
 }
 
 class SiteOrigin_Settings_Value_Sanitize {
