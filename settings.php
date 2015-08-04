@@ -223,6 +223,9 @@ class SiteOrigin_Settings {
 					case 'font':
 						$sanitize_callback = 'sanitize_text_field';
 						break;
+					case 'checkbox':
+						$sanitize_callback = array($this, 'sanitize_bool');
+						break;
 					default:
 						$sanitize_callback = 'sanitize_text_field';
 						break;
@@ -476,6 +479,10 @@ class SiteOrigin_Settings {
 		}
 
 		return $return;
+	}
+
+	function sanitize_bool($val){
+		return (bool) $val;
 	}
 }
 
