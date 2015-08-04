@@ -251,12 +251,12 @@ class SiteOrigin_Settings {
 				}
 
 				// Add different control args for the different field types
-				if( $setting_args['type'] == 'radio' || $setting_args['type'] == 'select' ) {
-					if( !empty($setting_args['options']) ) {
-						$control_args['choices'] = $setting_args['options'];
+				if( $setting_args['type'] == 'radio' || $setting_args['type'] == 'select' || $setting_args['type'] == 'image_select' ) {
+					if( !empty($setting_args['args']['options']) ) {
+						$control_args['choices'] = $setting_args['args']['options'];
 					}
-					if( !empty($setting_args['choices']) ) {
-						$control_args['choices'] = $setting_args['choices'];
+					if( !empty($setting_args['args']['choices']) ) {
+						$control_args['choices'] = $setting_args['args']['choices'];
 					}
 				}
 
@@ -284,6 +284,16 @@ class SiteOrigin_Settings {
 					case 'teaser' :
 						$wp_customize->add_control(
 							new SiteOrigin_Teaser_Control(
+								$wp_customize,
+								'theme_settings_' . $section_id . '_' . $setting_id,
+								$control_args
+							)
+						);
+						break;
+
+					case 'image_select':
+						$wp_customize->add_control(
+							new SiteOrigin_Image_Select_Control(
 								$wp_customize,
 								'theme_settings_' . $section_id . '_' . $setting_id,
 								$control_args
