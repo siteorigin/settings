@@ -361,7 +361,7 @@ class SiteOrigin_Settings {
 		if( !empty($css) ) {
 			$css_lines = array_map("trim", preg_split("/[\r\n]+/", $css));
 			foreach( $css_lines as $i => & $line ) {
-				preg_match_all('/@\{([a-z0-9_]+)\}/', $line, $matches);
+				preg_match_all('/$\{([a-z0-9_]+)\}/', $line, $matches);
 				if( empty($matches[0]) ) continue;
 
 				$replaced = 0;
