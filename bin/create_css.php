@@ -33,6 +33,7 @@ foreach( $files as $file ) {
 
 $output = array();
 foreach( $conf['stylesheets'] as $s ) {
+	$output[$s] = array();
 	// Compile the SASS
 	exec('sass --style expanded ' . $temp_dir . '/sass/' . $s . '.scss ' . $temp_dir . '/sass/' . $s . '.css' );
 
@@ -43,26 +44,29 @@ foreach( $conf['stylesheets'] as $s ) {
 		if( preg_match('/ [A-Za-z0-9\-_]+ *\: *[^;]+;/', $line) && !preg_match('/"\$\{[A-Za-z0-9\-_]+\}"/', $line) ) {
 			continue;
 		}
-		$output[] = $line;
+		$output[$s][] = $line;
 	}
 }
 
-
-$css = CssMin::minify( implode( $output, "" ), array
-(
-	"ImportImports"                 => false,
-	"RemoveComments"                => true,
-	"RemoveEmptyRulesets"           => true,
-	"RemoveEmptyAtBlocks"           => true,
-	"ConvertLevel3AtKeyframes"      => false,
-	"ConvertLevel3Properties"       => false,
-	"Variables"                     => true,
-	"RemoveLastDelarationSemiColon" => false
-) );
-$css = preg_replace('/"(\$\{[A-Za-z0-9\-_]+\})"/', '$1', $css);
-echo "=========\n\n";
-echo $css;
-echo "\n\n=========\n\n";
+foreach( $conf['stylesheets'] as $s ) {
+	$css = CssMin::minify( implode( $output[$s], "" ), array
+	(
+		"ImportImports"                 => false,
+		"RemoveComments"                => true,
+		"RemoveEmptyRulesets"           => true,
+		"RemoveEmptyAtBlocks"           => true,
+		"ConvertLevel3AtKeyframes"      => false,
+		"ConvertLevel3Properties"       => false,
+		"Variables"                     => true,
+		"RemoveLastDelarationSemiColon" => false
+	) );
+	$css = preg_replace( '/"(\$\{[A-Za-z0-9\-_]+\})"/', '$1', $css );
+	echo "=========\n";
+	echo "$s\n";
+	echo "=========\n";
+	echo $css;
+	echo "\n\n=========\n\n";
+}
 
 
 // var_dump($temp_dir);
