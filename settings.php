@@ -347,7 +347,7 @@ class SiteOrigin_Settings {
 			}
 		}
 
-		wp_enqueue_script( 'siteorigin-settings-live-preview', get_stylesheet_directory_uri() . '/settings/js/live.js', array('jquery') );
+		wp_enqueue_script( 'siteorigin-settings-live-preview', get_stylesheet_directory_uri() . '/settings/js/live' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery') );
 		wp_localize_script( 'siteorigin-settings-live-preview', 'soSettings', array(
 			'css' => apply_filters('siteorigin_settings_custom_css', ''),
 			'settings' => !empty($values) ? $values : false

@@ -101,7 +101,7 @@ class SiteOrigin_Font_Control extends WP_Customize_Control {
 		wp_enqueue_style( 'siteorigin-settings-chosen', get_template_directory_uri() . '/settings/chosen/chosen.min.css', array(), '1.4.2' );
 
 		// The main font controls
-		wp_enqueue_script( 'siteorigin-settings-font-control', get_template_directory_uri() . '/settings/js/font-control.js', array('jquery') );
+		wp_enqueue_script( 'siteorigin-settings-font-control', get_template_directory_uri() . '/settings/js/font-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery') );
 		wp_enqueue_style( 'siteorigin-settings-font-control', get_template_directory_uri() . '/settings/css/font-control.css', array() );
 	}
 }
@@ -140,7 +140,7 @@ class SiteOrigin_Image_Select_Control extends WP_Customize_Control {
 	}
 
 	public function enqueue() {
-		wp_enqueue_script( 'siteorigin-settings-font-control', get_template_directory_uri() . '/settings/js/image-select-control.js', array('jquery') );
+		wp_enqueue_script( 'siteorigin-settings-font-control', get_template_directory_uri() . '/settings/js/image-select-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery') );
 		wp_enqueue_style( 'siteorigin-settings-font-control', get_template_directory_uri() . '/settings/css/image-select-control.css', array() );
 	}
 
