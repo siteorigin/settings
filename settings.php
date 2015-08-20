@@ -178,8 +178,8 @@ class SiteOrigin_Settings {
 			$this->add_field( $section, $id, 'teaser', $label, $args);
 		}
 		else {
-			// Support for this setting has been added
-			$this->add_field( $section, $id, $type, $label, $args);
+			// Handle this field elsewhere
+			do_action( 'siteorigin_settings_add_teaser_field', $this, $section, $id, $type, $label, $args );
 		}
 	}
 
