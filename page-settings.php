@@ -39,11 +39,14 @@ class SiteOrigin_Settings_Page_Settings {
 	 *
 	 * @return null
 	 */
-	function get( $key ) {
-		if( $this->meta[ get_the_ID() ] ) {
-			$this->meta[ get_the_ID() ] = $this->get_post_meta( get_the_ID() );
+	static function get( $key ) {
+		$single = self::single();
+
+		global $post;
+		if( empty($single->meta[ $post->ID ] ) ) {
+			$single->meta[ $post->ID ] = $single->get_post_meta( $post->ID );
 		}
-		return isset( $this->meta[$key] ) ? $this->meta[$key] : null;
+		return isset( $single->meta[ $post->ID ][ $key ] ) ? $single->meta[ $post->ID ][ $key ] : null;
 	}
 
 	/**
