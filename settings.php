@@ -67,6 +67,17 @@ class SiteOrigin_Settings {
 	}
 
 	/**
+	 * Get a single localization term.
+	 *
+	 * @param $id
+	 *
+	 * @return string
+	 */
+	function get_localization_term( $id ){
+		return !empty($this->loc[$id]) ? $this->loc[$id] : '';
+	}
+
+	/**
 	 * Get a theme setting value
 	 *
 	 * @param $setting
