@@ -73,12 +73,15 @@ class SiteOrigin_Settings_Page_Settings {
 	 * Add the metabox
 	 */
 	function add_meta_box(){
+
 		add_meta_box(
 			'siteorigin_page_settings',
 			SiteOrigin_Settings::single()->get_localization_term( 'meta_box' ),
 			array( $this, 'display_meta_box' ),
-			'page'
+			'page',
+			'side'
 		);
+
 	}
 
 	/**
@@ -87,7 +90,6 @@ class SiteOrigin_Settings_Page_Settings {
 	function display_meta_box( $post ){
 
 		$values = $this->get_post_meta( $post->ID );
-
 		foreach( $this->settings as $id => $field ) {
 			?><p><label for="so-page-settings-<?php echo esc_attr( $id ) ?>"><strong><?php echo esc_html( $field['label'] ) ?></strong></label></p><?php
 
