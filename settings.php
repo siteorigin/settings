@@ -143,6 +143,25 @@ class SiteOrigin_Settings {
 	}
 
 	/**
+	 * @param array $settings
+	 */
+	function configure( $settings ){
+		foreach( $settings as $section_id => $section ) {
+			$this->add_section( $section_id, !empty($section['title']) ? $section['title'] : '' );
+			$fields = !empty($section['fields']) ? $section['fields'] : array();
+			foreach( $fields as $field_id => $field ) {
+				$this->add_field(
+						$section_id,
+						$field_id,
+						$field['type'],
+						!empty($field['label']) ? $field['label'] : '',
+						!empty($field['args']) ? $field['args'] : array()
+				);
+			}
+		}
+	}
+
+	/**
 	 * @param $id
 	 * @param $title
 	 */
