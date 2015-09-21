@@ -14,6 +14,7 @@ class SiteOrigin_Settings_Page_Settings {
 		$this->meta = array();
 		$this->settings = array();
 
+		add_action( 'load-post.php', array($this, 'init') );
 		add_action( 'add_meta_boxes', array($this, 'add_meta_box') );
 		add_action( 'save_post', array($this, 'save_post') );
 	}
@@ -49,6 +50,16 @@ class SiteOrigin_Settings_Page_Settings {
 		return isset( $single->meta[ $post->ID ][ $key ] ) ? $single->meta[ $post->ID ][ $key ] : null;
 	}
 
+	function init() {
+		$screen = get_current_screen();
+		if( $screen->base != 'post' || $screen->id != 'page' ) return;
+
+		// Let everything setup the settings
+		if( !did_action( 'siteorigin_page_settings_init' ) ) {
+			do_action( 'siteorigin_page_settings_init' );
+		}
+	}
+
 	/**
 	 * Get the settings post meta and add the default values.
 	 *
@@ -57,16 +68,11 @@ class SiteOrigin_Settings_Page_Settings {
 	 * @return array|mixed
 	 */
 	function get_post_meta( $post_id ){
+		$defaults = apply_filters( 'siteorigin_page_settings_defaults', array() );
 		$values = get_post_meta( $post_id, 'siteorigin_page_settings', true );
 		if( empty($values) ) $values = array();
 
-		foreach( $this->settings as $id => $field ) {
-			if( !isset($values[$id]) && isset($field['default']) ) {
-				$values[$id] = $field['default'];
-			}
-		}
-
-		return $values;
+		return wp_parse_args( $values, $defaults );
 	}
 
 	/**
@@ -88,9 +94,9 @@ class SiteOrigin_Settings_Page_Settings {
 	 * Display the Meta Box
 	 */
 	function display_meta_box( $post ){
-
 		$values = $this->get_post_meta( $post->ID );
 		foreach( $this->settings as $id => $field ) {
+			if( empty($values[$id]) ) $values[$id] = false;
 			?><p><label for="so-page-settings-<?php echo esc_attr( $id ) ?>"><strong><?php echo esc_html( $field['label'] ) ?></strong></label></p><?php
 
 			switch( $field['type'] ) {
