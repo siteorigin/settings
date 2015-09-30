@@ -14,9 +14,13 @@ class SiteOrigin_Settings_Page_Settings {
 		$this->meta = array();
 		$this->settings = array();
 
-		add_action( 'load-post.php', array($this, 'init') );
 		add_action( 'add_meta_boxes', array($this, 'add_meta_box') );
 		add_action( 'save_post', array($this, 'save_post') );
+
+		add_action( 'load-post.php', array($this, 'init') );
+		add_action( 'load-post-new.php', array($this, 'init') );
+
+		add_action( 'siteorigin_panels_create_home_page', array( $this, 'panels_save_home_page' ) );
 	}
 
 	/**
@@ -169,6 +173,15 @@ class SiteOrigin_Settings_Page_Settings {
 
 	function configure( $settings ){
 		$this->settings = $settings;
+	}
+
+	/**
+	 * @param $post_id
+	 */
+	function panels_save_home_page( $post_id ){
+		$settings = $this->get_post_meta( $post_id );
+		$settings = apply_filters( 'siteorigin_page_settings_panels_home_defaults', $settings );
+		update_post_meta( $post_id, 'siteorigin_page_settings', $settings );
 	}
 
 }
