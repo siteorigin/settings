@@ -97,12 +97,12 @@ class SiteOrigin_Font_Control extends WP_Customize_Control {
 	 */
 	public function enqueue() {
 		// We'll use chosen for the font selector
-		wp_enqueue_script( 'siteorigin-settings-chosen', get_template_directory_uri() . '/settings/chosen/chosen.jquery.min.js', array('jquery'), '1.4.2' );
-		wp_enqueue_style( 'siteorigin-settings-chosen', get_template_directory_uri() . '/settings/chosen/chosen.min.css', array(), '1.4.2' );
+		wp_enqueue_script( 'siteorigin-settings-chosen', get_template_directory_uri() . '/inc/settings/chosen/chosen.jquery.min.js', array('jquery'), '1.4.2' );
+		wp_enqueue_style( 'siteorigin-settings-chosen', get_template_directory_uri() . '/inc/settings/chosen/chosen.min.css', array(), '1.4.2' );
 
 		// The main font controls
-		wp_enqueue_script( 'siteorigin-settings-font-control', get_template_directory_uri() . '/settings/js/font-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery') );
-		wp_enqueue_style( 'siteorigin-settings-font-control', get_template_directory_uri() . '/settings/css/font-control.css', array() );
+		wp_enqueue_script( 'siteorigin-settings-font-control', get_template_directory_uri() . '/inc/settings/js/font-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery') );
+		wp_enqueue_style( 'siteorigin-settings-font-control', get_template_directory_uri() . '/inc/settings/css/font-control.css', array() );
 	}
 }
 
@@ -140,8 +140,8 @@ class SiteOrigin_Image_Select_Control extends WP_Customize_Control {
 	}
 
 	public function enqueue() {
-		wp_enqueue_script( 'siteorigin-settings-font-control', get_template_directory_uri() . '/settings/js/image-select-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery') );
-		wp_enqueue_style( 'siteorigin-settings-font-control', get_template_directory_uri() . '/settings/css/image-select-control.css', array() );
+		wp_enqueue_script( 'siteorigin-settings-font-control', get_template_directory_uri() . '/inc/settings/js/image-select-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery') );
+		wp_enqueue_style( 'siteorigin-settings-font-control', get_template_directory_uri() . '/inc/settings/css/image-select-control.css', array() );
 	}
 
 }
