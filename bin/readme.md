@@ -5,13 +5,14 @@ This is a script that helps you create custom CSS from your SCSS files. Please n
 1. There must be a `settings.conf.php` in the `inc` folder of your theme.
 2. Your theme must use SASS, which should all be located in the `sass` folder of your theme.
 3. Make sure you have SASS [installed](http://sass-lang.com/install).
-4. SiteOrigin Settings must be installed at `/inc/settings/settings.php` and the bin folder must be at `/inc/settings/bin/`
+4. Install CSS Beautify CLI https://www.npmjs.com/package/cssbeautify-cli
+5. SiteOrigin Settings must be installed at `/inc/settings/settings.php` and the bin folder must be at `/inc/settings/bin/`
 
-Run the parser script using `/create_css.php` in the command line. You should remove the `bin` folder in SiteOrigin Settings before distributing your theme.
+Run the parser script using `./create_css.php` in the command line. It should have a chmod of 775. You should remove the `bin` folder in SiteOrigin Settings before distributing your theme.
 
 ## Configuration File
 
-This file is checked every time you run the settings parser. It tells the parser which files should be processed and how to translate the variables.
+This file should be located at `inc/settings.conf.php` and is checked every time you run the settings parser. It tells the parser which files should be processed and how to translate the variables.
 
 ```php
 <?php

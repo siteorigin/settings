@@ -4,7 +4,7 @@
 include dirname( __FILE__ ) . '/inc/recursive_copy.php';
 include dirname( __FILE__ ) . '/inc/cssmin.php';
 
-$conf = include dirname( __FILE__ ) . '/../../inc/settings.conf.php';
+$conf = include dirname( __FILE__ ) . '/../../settings.conf.php';
 if( empty($conf) ) {
 	echo 'Empty config file';
 	exit();
@@ -14,7 +14,7 @@ if( empty($conf) ) {
 $temp_dir = tempdir();
 
 // Copy everything to the temporary directory
-recurse_copy( dirname(__FILE__) . '/../../sass/', $temp_dir . '/sass/' );
+recurse_copy( dirname(__FILE__) . '/../../../sass/', $temp_dir . '/sass/' );
 
 $files = rsearch( $temp_dir . '/sass/', '/.*\.scss/' );
 foreach( $files as $file ) {
@@ -39,7 +39,6 @@ foreach( $conf['stylesheets'] as $s ) {
 
 	// Remove any lines that aren't important
 	$contents = file( $temp_dir . '/sass/' . $s . '.css' );
-
 	foreach( $contents as $i => $line ) {
 		if( preg_match('/ [A-Za-z0-9\-_]+ *\: *[^;]+;/', $line) && !preg_match('/"\$\{[A-Za-z0-9\-_]+\}"/', $line) ) {
 			continue;
@@ -49,7 +48,7 @@ foreach( $conf['stylesheets'] as $s ) {
 }
 
 foreach( $conf['stylesheets'] as $s ) {
-	$css = CssMin::minify( implode( $output[$s], "" ), array
+	$css = CssMin::minify( implode( $output[$s], "\n\n" ), array
 	(
 		"ImportImports"                 => false,
 		"RemoveComments"                => true,
@@ -60,11 +59,19 @@ foreach( $conf['stylesheets'] as $s ) {
 		"Variables"                     => true,
 		"RemoveLastDelarationSemiColon" => false
 	) );
+
+	file_put_contents( $temp_dir . '/sass/' . $s . '.css', $css );
+	ob_start();
+	passthru('cssbeautify-cli -f ' . $temp_dir . '/sass/' . $s . '.css' );
+	$css = ob_get_clean();
+
 	$css = preg_replace( '/"(\$\{[A-Za-z0-9\-_]+\})"/', '$1', $css );
+	$css = preg_replace('/font-family: (\$\{[a-z0-9_]+\});/', '.font( $1 );', $css);
+
 	echo "=========\n";
 	echo "$s\n";
 	echo "=========\n";
-	echo $css;
+	echo $css ;
 	echo "\n\n=========\n\n";
 }
 
