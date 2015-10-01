@@ -13,7 +13,7 @@ jQuery( function($){
         var css = JSON.parse(JSON.stringify(soSettings.css));
         var re;
         for( var k in soSettings.settings ) {
-            re = new RegExp('@\{' + k + '\}', 'i');
+            re = new RegExp('\\$\{' + k + '\}', 'i');
             css = css.replace( re, soSettings.settings[k] );
         }
 
