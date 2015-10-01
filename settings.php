@@ -623,41 +623,6 @@ function siteorigin_setting( $setting ){
 	return SiteOrigin_Settings::single()->get( $setting );
 }
 
-/**
- * Add a settings section
- *
- * @param $id
- * @param $title
- */
-function siteorigin_settings_add_section( $id, $title ) {
-	SiteOrigin_Settings::single()->add_section( $id, $title );
-}
-
-/**
- * Add a settings field
- *
- * @param $section
- * @param $id
- * @param $type
- * @param null $label
- * @param array $args
- */
-function siteorigin_settings_add_field( $section, $id, $type, $label = null, $args = array() ) {
-	SiteOrigin_Settings::single()->add_field( $section, $id, $type, $label, $args );
-}
-
-/**
- * Add a teaser fields which indicates a field that's implemented elsewhere.
- *
- * @param $section
- * @param $id
- * @param $name
- * @param array $args
- */
-function siteorigin_settings_add_teaser( $section, $id, $type, $name, $args = array() ) {
-	SiteOrigin_Settings::single()->add_teaser( $section, $id, $type, $name, $args );
-}
-
 class SiteOrigin_Settings_Value_Sanitize {
 	static function intval( $val ){
 		return intval( $val );
