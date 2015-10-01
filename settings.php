@@ -102,6 +102,22 @@ class SiteOrigin_Settings {
 	}
 
 	/**
+	 * Get all theme settings values currently in the database
+	 *
+	 * @return array|void
+	 */
+	function get_all( ){
+		$settings = get_theme_mods();
+		foreach( array_keys($settings) as $k ) {
+			if( strpos( $k, 'theme_settings_' ) !== 0 ) {
+				unset($settings[$k]);
+			}
+		}
+
+		return $settings;
+	}
+
+	/**
 	 * Set a theme setting value. Simple wrapper for set theme mod.
 	 *
 	 * @param $setting
@@ -109,6 +125,7 @@ class SiteOrigin_Settings {
 	 */
 	function set( $setting, $value ) {
 		set_theme_mod( 'theme_settings_' . $setting, $value );
+		set_theme_mod( 'custom_css_key', false );
 	}
 
 	/**
@@ -473,88 +490,101 @@ class SiteOrigin_Settings {
 
 	function display_custom_css(){
 		$css = apply_filters('siteorigin_settings_custom_css', '');
-		$defaults = $this->defaults;
 
 		if( !empty($css) ) {
-			$css_lines = array_map("trim", preg_split("/[\r\n]+/", $css));
-			foreach( $css_lines as $i => & $line ) {
-				preg_match_all('/$\{([a-z0-9_]+)\}/', $line, $matches);
-				if( empty($matches[0]) ) continue;
 
-				$replaced = 0;
+			$css_key = md5( json_encode( array(
+				'css' => $css,
+				'settings' => $this->get_all(),
+			) ) );
 
-				for( $j = 0; $j < count($matches[0]); $j++ ) {
-					$current = $this->get( $matches[1][$j] );
-					$default = isset($this->defaults[$matches[1][$j]]) ? $this->defaults[$matches[1][$j]] : false;
+			if( $css_key !== get_theme_mod('custom_css_key') || ( defined('WP_DEBUG') && WP_DEBUG ) ) {
+				$css_lines = array_map("trim", preg_split("/[\r\n]+/", $css));
+				foreach( $css_lines as $i => & $line ) {
+					preg_match_all( '/\$\{([a-zA-Z0-9_]+)\}/', $line, $matches );
+					if( empty($matches[0]) ) continue;
 
-					if( $current != $default ) {
-						// Lets store that we've replaced something in this line
-						$replaced++;
-					}
+					$replaced = 0;
 
-					$line = str_replace( $matches[0][$j], esc_attr($current), $line );
-				}
+					for( $j = 0; $j < count($matches[0]); $j++ ) {
+						$current = $this->get( $matches[1][$j] );
+						$default = isset($this->defaults[$matches[1][$j]]) ? $this->defaults[$matches[1][$j]] : false;
 
-				if( $replaced == 0 ) {
-					// Remove any lines where we haven't done anything
-					unset($css_lines[$i]);
-				}
-			}
-
-			$css = implode(' ', $css_lines);
-
-			// Now, lets handle the custom functions.
-			$css = preg_replace_callback('/\.([a-z\-]+) *\(([^\)]*)\) *;/', array($this, 'css_functions'), $css);
-
-			// Finally, we'll combine all imports and put them at the top of the file
-			preg_match_all( '/@import url\(([^\)]+)\);/', $css, $matches );
-			if( !empty($matches[0]) ) {
-				$webfont_imports = array();
-
-				for( $i = 0; $i < count($matches[0]); $i++ ) {
-					if( strpos('//fonts.googleapis.com/css', $matches[1][$i]) !== -1 ) {
-						$webfont_imports[] = $matches[1][$i];
-						$css = str_replace( $matches[0][$i], '', $css );
-					}
-				}
-
-				if( !empty($webfont_imports) ) {
-					$args = array(
-						'family' => array(),
-						'subset' => array(),
-					);
-
-					// Combine all webfont imports into a single argument
-					foreach( $webfont_imports as $url ) {
-						$url = parse_url($url);
-						if( empty($url['query']) ) continue;
-						parse_str( $url['query'], $query );
-
-						if( !empty($query['family']) ) {
-							$args['family'][] = $query['family'];
+						if( $current != $default ) {
+							// Lets store that we've replaced something in this line
+							$replaced++;
 						}
 
-						$args['subset'][] = !empty($query['subset']) ? $query['subset'] : 'latim';
+						$line = str_replace( $matches[0][$j], $current, $line );
 					}
 
-					// Clean up the arguments
-					$args['subset'] = array_unique($args['subset']);
-
-					$args['family'] = array_map( 'urlencode', $args['family'] );
-					$args['subset'] = array_map( 'urlencode', $args['subset'] );
-					$args['family'] = implode('|', $args['family']);
-					$args['subset'] = implode(',', $args['subset']);
-
-					$import = '@import url(' . add_query_arg( $args, '//fonts.googleapis.com/css' ) . ');';
-					$css = $import . "\n" . $css;
+					if( $replaced == 0 ) {
+						// Remove any lines where we haven't done anything
+						unset($css_lines[$i]);
+					}
 				}
-			}
 
-			// Now lets remove empty rules
-			do {
-				$css = preg_replace('/[^\{\}]*?\{ *\}/', ' ', $css, -1, $count);
-			} while( $count > 0 );
-			$css = trim($css);
+				$css = implode(' ', $css_lines);
+
+				// Now, lets handle the custom functions.
+				$css = preg_replace_callback('/\.([a-z\-]+) *\(([^\)]*)\) *;/', array($this, 'css_functions'), $css);
+
+				// Finally, we'll combine all imports and put them at the top of the file
+				preg_match_all( '/@import url\(([^\)]+)\);/', $css, $matches );
+				if( !empty($matches[0]) ) {
+					$webfont_imports = array();
+
+					for( $i = 0; $i < count($matches[0]); $i++ ) {
+						if( strpos('//fonts.googleapis.com/css', $matches[1][$i]) !== -1 ) {
+							$webfont_imports[] = $matches[1][$i];
+							$css = str_replace( $matches[0][$i], '', $css );
+						}
+					}
+
+					if( !empty($webfont_imports) ) {
+						$args = array(
+							'family' => array(),
+							'subset' => array(),
+						);
+
+						// Combine all webfont imports into a single argument
+						foreach( $webfont_imports as $url ) {
+							$url = parse_url($url);
+							if( empty($url['query']) ) continue;
+							parse_str( $url['query'], $query );
+
+							if( !empty($query['family']) ) {
+								$args['family'][] = $query['family'];
+							}
+
+							$args['subset'][] = !empty($query['subset']) ? $query['subset'] : 'latin';
+						}
+
+						// Clean up the arguments
+						$args['subset'] = array_unique($args['subset']);
+
+						$args['family'] = array_map( 'urlencode', $args['family'] );
+						$args['subset'] = array_map( 'urlencode', $args['subset'] );
+						$args['family'] = implode('|', $args['family']);
+						$args['subset'] = implode(',', $args['subset']);
+
+						$import = '@import url(' . add_query_arg( $args, '//fonts.googleapis.com/css' ) . ');';
+						$css = $import . "\n" . $css;
+					}
+				}
+
+				// Now lets remove empty rules
+				do {
+					$css = preg_replace('/[^\{\}]*?\{ *\}/', ' ', $css, -1, $count);
+				} while( $count > 0 );
+				$css = trim($css);
+
+				set_theme_mod( 'custom_css', $css );
+				set_theme_mod( 'custom_css_key', $css_key );
+			}
+			else {
+				$css = get_theme_mod('custom_css');
+			}
 
 			?>
 			<style type="text/css" id="<?php echo esc_attr($this->theme_name) ?>-settings-custom" data-siteorigin-settings="true">
@@ -564,9 +594,15 @@ class SiteOrigin_Settings {
 		}
 	}
 
+	/**
+	 * LESS style CSS functions
+	 *
+	 * @param $match
+	 *
+	 * @return string
+	 */
 	function css_functions($match) {
 		$function = $match[1];
-
 		$return = '';
 
 		switch( $function ) {
