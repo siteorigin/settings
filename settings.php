@@ -164,12 +164,52 @@ class SiteOrigin_Settings {
 	/**
 	 * @param $id
 	 * @param $title
+	 * @param string|bool $after Add this section after another one
 	 */
-	function add_section( $id, $title ) {
-		$this->sections[$id] = array(
+	function add_section( $id, $title, $after = false ) {
+
+		if( $after === false ) {
+			$index = null;
+		}
+		else if( $after === '' ) {
+			$index = 0;
+		}
+		else if( $after !== false ) {
+			$index = array_search( $after, array_keys( $this->sections ) ) + 1;
+			if( $index == count( array_keys($this->sections) ) ) {
+				$index = null;
+			}
+		}
+
+		$new_section = array( $id => array(
 			'id' => $id,
 			'title' => $title,
-		);
+		) );
+
+		if( $index === null ) {
+			// Null means we add this at the end or the current position
+			$this->sections = array_merge(
+				$this->sections,
+				$new_section
+			);
+		}
+		else if( $index === 0 ) {
+			$this->sections = array_merge(
+				$new_section,
+				$this->sections
+			);
+		}
+		else {
+			$this->sections = array_merge(
+				array_slice( $this->sections, 0, $index, true ),
+				$new_section,
+				array_slice( $this->sections, $index, count($this->sections), true )
+			);
+		}
+
+		if( empty($this->settings[$id]) ) {
+			$this->settings[$id] = array();
+		}
 	}
 
 	/**
@@ -180,16 +220,62 @@ class SiteOrigin_Settings {
 	 * @param $type
 	 * @param null $label
 	 * @param array $args
+	 * @param string|bool $after Add this field after another one
 	 */
-	function add_field( $section, $id, $type, $label = null, $args = array() ) {
-		$current = isset( $this->settings[$section][$id] ) ? $this->settings[$section][$id] : array();
+	function add_field( $section, $id, $type, $label = null, $args = array(), $after = false ) {
 
-		$this->settings[$section][$id] = wp_parse_args( array(
+		if( empty($this->settings[$section]) ) {
+			$this->settings[$section] = array();
+		}
+
+		$new_field = array(
 			'id' => $id,
 			'type' => $type,
 			'label' => $label,
 			'args' => $args,
-		), $current);
+		);
+
+		if( isset($this->settings[$section][$id]) ) {
+			$this->settings[$section][$id] = wp_parse_args(
+				$new_field,
+				$this->settings[$section][$id]
+			);
+		}
+
+		if( $after === false ) {
+			$index = null;
+		}
+		else if( $after === '' ) {
+			$index = 0;
+		}
+		else if( $after !== false ) {
+			$index = array_search( $after, array_keys( $this->settings[$section] ) ) + 1;
+			if( $index == count( $this->settings[$section] ) ) {
+				$index = null;
+			}
+		}
+
+		if( $index === null ) {
+			// Null means we add this at the end or the current position
+			$this->settings[$section] = array_merge(
+				$this->settings[$section],
+				array( $id => $new_field )
+			);
+		}
+		else if( $index === 0 ) {
+			$this->settings[$section] = array_merge(
+				array( $id => $new_field ),
+				$this->settings[$section]
+			);
+		}
+		else {
+			$this->settings[$section] = array_merge(
+				array_slice( $this->settings[$section], 0, $index, true ),
+				array( $id => $new_field ),
+				array_slice( $this->settings[$section], $index, count( $this->settings[$section] ), true )
+			);
+		}
+
 	}
 
 	/**
@@ -200,16 +286,17 @@ class SiteOrigin_Settings {
 	 * @param $type
 	 * @param $label
 	 * @param array $args
+	 * @param string|bool $after Add this field after another one
 	 */
-	function add_teaser( $section, $id, $type, $label, $args = array() ) {
+	function add_teaser( $section, $id, $type, $label, $args = array(), $after = false ) {
 		// Don't add any teasers if the user is already using Premium
 		if( apply_filters('siteorigin_display_teaser', true, $section, $id) ) {
 			// The theme hasn't implemented this setting yet
-			$this->add_field( $section, $id, 'teaser', $label, $args);
+			$this->add_field( $section, $id, 'teaser', $label, $args, $after);
 		}
 		else {
 			// Handle this field elsewhere
-			do_action( 'siteorigin_settings_add_teaser_field', $this, $section, $id, $type, $label, $args );
+			do_action( 'siteorigin_settings_add_teaser_field', $this, $section, $id, $type, $label, $args, $after );
 		}
 	}
 
