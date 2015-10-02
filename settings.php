@@ -132,7 +132,7 @@ class SiteOrigin_Settings {
 	 * Add all the necessary actions
 	 */
 	function add_actions(){
-		add_action( 'after_setup_theme', array( $this, 'init' ) );
+		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'customize_register', array( $this, 'customize_register' ) );
 
 		add_action( 'customize_preview_init', array( $this, 'enqueue_preview' ) );
@@ -146,7 +146,6 @@ class SiteOrigin_Settings {
 		$theme = wp_get_theme();
 		$this->theme_name = $theme->get_template();
 		$this->defaults = apply_filters( 'siteorigin_settings_defaults', $this->defaults );
-
 		$this->loc = apply_filters('siteorigin_settings_localization', array(
 			'section_title' => '',          // __('Theme Settings', 'siteorigin'),
 			'section_description' =>  '',   // __('Settings for your theme', 'siteorigin'),
