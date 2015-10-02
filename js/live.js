@@ -8,13 +8,16 @@ jQuery( function($){
         $style = $('<style type="text/css" id="siteorigin-settings-css" data-siteorigin-settings="true"></style>').appendTo('head');
     }
 
+    function replaceAll(string, find, replace) {
+        return string.replace(new RegExp( find.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1") , 'g'), replace);
+    }
+
     var updateCss = function(){
         // Create a copy of the CSS
         var css = JSON.parse(JSON.stringify(soSettings.css));
         var re;
         for( var k in soSettings.settings ) {
-            re = new RegExp('\\$\{' + k + '\}', 'i');
-            css = css.replace( re, soSettings.settings[k] );
+            css = replaceAll( css, '${' + k + '}', soSettings.settings[k] );
         }
 
         // Now we also need to handle the CSS functions.
@@ -53,7 +56,7 @@ jQuery( function($){
                     replace += 'font-family: "' + fargs.font + '", ' + fargs.category + '; ';
 
                     var weight;
-                    if( fargs.variant.indexOf('italic' ) !== -1 ) {
+                    if( fargs.variant && fargs.variant.indexOf('italic' ) !== -1 ) {
                         weight = fargs.variant.replace('italic', '');
                         replace += 'font-style: italic; ';
                     }
@@ -61,7 +64,9 @@ jQuery( function($){
                         weight = fargs.variant;
                     }
 
-                    if( fargs.variant == '' ) fargs.variant = 'regular';
+                    if( fargs.variant === '' ) {
+                        fargs.variant = 'regular';
+                    }
                     replace += 'font-weight: ' + weight + '; ';
 
                     break;
