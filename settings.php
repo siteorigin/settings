@@ -669,4 +669,27 @@ class SiteOrigin_Settings_Value_Sanitize {
 	static function intval( $val ){
 		return intval( $val );
 	}
+
+	static function measurement( $val ){
+		$measurements = array_map('preg_quote', array(
+			'px',
+			'%',
+			'in',
+			'cm',
+			'mm',
+			'em',
+			'ex',
+			'pt',
+			'pc',
+		) );
+
+		if (preg_match('/([0-9\.,]+).*?(' . implode('|', $measurements) . ')/', $val, $match)) {
+			$return = $match[1] . $match[2];
+		}
+		else {
+			$return = '';
+		}
+
+		return $return;
+	}
 }
