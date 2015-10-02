@@ -8,7 +8,7 @@ This is a script that helps you create custom CSS from your SCSS files. Please n
 4. Install CSS Beautify CLI https://www.npmjs.com/package/cssbeautify-cli
 5. SiteOrigin Settings must be installed at `/inc/settings/settings.php` and the bin folder must be at `/inc/settings/bin/`
 
-Run the parser script using `./create_css.php` in the command line. It should have a chmod of 775. You should remove the `bin` folder in SiteOrigin Settings before distributing your theme.
+Run the parser script using `./create_css.php` in the command line. It should have a chmod of 775. You should remove the `bin` folder in SiteOrigin Settings before distributing your theme. Use `./create_css.php free` to generate the CSS for the free version of your theme.
 
 ## Configuration File
 
@@ -21,6 +21,10 @@ This file should be located at `inc/settings.conf.php` and is checked every time
 return array(
 	'variables' => array(
 		'color__link' => 'branding_primary_color',
+	),
+	'free' => array(
+		// Any SASS variables that are available in the free version
+		'sass__variable_1',
 	),
 	'stylesheets' => array(
 		'style', 'woocommerce'
