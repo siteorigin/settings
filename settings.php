@@ -108,6 +108,8 @@ class SiteOrigin_Settings {
 	 */
 	function get_all( ){
 		$settings = get_theme_mods();
+		if( empty($settings) ) return array();
+
 		foreach( array_keys($settings) as $k ) {
 			if( strpos( $k, 'theme_settings_' ) !== 0 ) {
 				unset($settings[$k]);
@@ -516,7 +518,7 @@ class SiteOrigin_Settings {
 						$current = $this->get( $matches[1][$j] );
 						$default = isset($this->defaults[$matches[1][$j]]) ? $this->defaults[$matches[1][$j]] : false;
 
-						if( $current != $default ) {
+						if( $current != $default && str_replace('%', '%%', $current) != $default ) {
 							// Lets store that we've replaced something in this line
 							$replaced++;
 						}
