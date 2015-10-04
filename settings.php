@@ -592,11 +592,13 @@ class SiteOrigin_Settings {
 				$css = get_theme_mod('custom_css');
 			}
 
-			?>
-			<style type="text/css" id="<?php echo esc_attr($this->theme_name) ?>-settings-custom" data-siteorigin-settings="true">
-				<?php echo strip_tags($css) ?>
-			</style>
-			<?php
+			if( !empty($css) ) {
+				?>
+				<style type="text/css" id="<?php echo esc_attr($this->theme_name) ?>-settings-custom" data-siteorigin-settings="true">
+					<?php echo strip_tags($css) ?>
+				</style>
+				<?php
+			}
 		}
 	}
 
