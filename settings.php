@@ -653,6 +653,35 @@ class SiteOrigin_Settings {
 	function sanitize_bool($val){
 		return (bool) $val;
 	}
+
+	static function template_part_names($parts, $part_name){
+		$return = array();
+
+		$parent_parts = glob( get_template_directory().'/'.$parts.'*.php' );
+		$child_parts = glob( get_stylesheet_directory().'/'.$parts.'*.php' );
+
+		$files = array_unique( array_merge(
+			!empty($parent_parts) ? $parent_parts : array(),
+			!empty($child_parts) ? $child_parts : array()
+		) );
+
+		if( !empty($files) ) {
+			foreach( $files as $file ) {
+				$p = pathinfo($file);
+				$filename = explode('-', $p['filename'], 2);
+				$name = isset($filename[1]) ? $filename[1] : '';
+
+				$info = get_file_data($file, array(
+					'name' => $part_name,
+				) );
+
+				$return[$name] = $info['name'];
+			}
+		}
+
+		ksort($return);
+		return $return;
+	}
 }
 
 // Setup the single
