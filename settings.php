@@ -315,7 +315,7 @@ class SiteOrigin_Settings {
 	 */
 	function add_teaser( $section, $id, $type, $label, $args = array(), $after = false ) {
 		// Don't add any teasers if the user is already using Premium
-		if( apply_filters('siteorigin_display_teaser', true, $section, $id) ) {
+		if( apply_filters('siteorigin_settings_display_teaser', true, $section, $id) ) {
 			// The theme hasn't implemented this setting yet
 			$this->add_field( $section, $id, 'teaser', $label, $args, $after);
 		}
