@@ -315,7 +315,7 @@ class SiteOrigin_Settings {
 	 */
 	function add_teaser( $section, $id, $type, $label, $args = array(), $after = false ) {
 		// Don't add any teasers if the user is already using Premium
-		if( apply_filters('siteorigin_display_teaser', true, $section, $id) ) {
+		if( apply_filters('siteorigin_settings_display_teaser', true, $section, $id) ) {
 			// The theme hasn't implemented this setting yet
 			$this->add_field( $section, $id, 'teaser', $label, $args, $after);
 		}
@@ -652,6 +652,48 @@ class SiteOrigin_Settings {
 
 	function sanitize_bool($val){
 		return (bool) $val;
+	}
+
+	static function template_part_names($parts, $part_name){
+		$return = array();
+
+		$parent_parts = glob( get_template_directory().'/'.$parts.'*.php' );
+		$child_parts = glob( get_stylesheet_directory().'/'.$parts.'*.php' );
+
+		$files = array_unique( array_merge(
+			!empty($parent_parts) ? $parent_parts : array(),
+			!empty($child_parts) ? $child_parts : array()
+		) );
+
+		if( !empty($files) ) {
+			foreach( $files as $file ) {
+				$p = pathinfo($file);
+				$filename = explode('-', $p['filename'], 2);
+				$name = isset($filename[1]) ? $filename[1] : '';
+
+				$info = get_file_data($file, array(
+					'name' => $part_name,
+				) );
+
+				$return[$name] = $info['name'];
+			}
+		}
+
+		ksort($return);
+		return $return;
+	}
+
+	/**
+	 * Convert an attachment URL to a post ID
+	 *
+	 * @param $image_url
+	 *
+	 * @return mixed
+	 */
+	static function get_image_id( $image_url ){
+		global $wpdb;
+		$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url ));
+		return $attachment[0];
 	}
 }
 
