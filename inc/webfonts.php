@@ -7,9 +7,11 @@ class SiteOrigin_Settings_Webfont_Manager {
 
 	function __construct(){
 		$this->fonts = array();
+
+		add_action( 'wp_enqueue_scripts', array($this, 'enqueue') );
 	}
 
-	function single() {
+	static function single() {
 		static $single;
 
 		if( empty($single) ) {
@@ -33,6 +35,19 @@ class SiteOrigin_Settings_Webfont_Manager {
 	}
 
 	function enqueue() {
+		$default_font_settings = apply_filters( 'siteorigin_settings_font_settings', array() );
+		if( !empty($default_font_settings) ) {
+			$settings = SiteOrigin_Settings::single();
+			foreach( $default_font_settings as $setting => $webfont ) {
+				$value = json_decode( $settings->get( $setting ), true );
+
+				if( empty($value) || empty($value['font']) ) {
+					// We need to enqueue the default fonts
+					$this->add_font( $webfont['name'], $webfont['weights'] );
+				}
+			}
+		}
+
 		if( empty( $this->fonts ) ) return;
 
 		$family = array();
@@ -53,11 +68,4 @@ class SiteOrigin_Settings_Webfont_Manager {
 	}
 
 }
-
-/**
- * Enqueue the Google web fonts.
- */
-function siteorigin_settings_webfonts_enqueue(){
-
-}
-add_action('wp_enqueue_scripts', 'siteorigin_settings_webfonts_enqueue');
+SiteOrigin_Settings_Webfont_Manager::single();

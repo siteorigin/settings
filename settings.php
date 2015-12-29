@@ -142,6 +142,29 @@ class SiteOrigin_Settings {
 	}
 
 	/**
+	 * Check if a setting is currently at its default value
+	 *
+	 * @param string $setting The setting name.
+	 *
+	 * @return bool Is the setting current at its default value.
+	 */
+	function is_default( $setting ){
+		$default = $this->get_default( $setting );
+		return $this->get($setting) == $default;
+	}
+
+	/**
+	 * Get the default value for the setting
+	 *
+	 * @param string $setting The name of the setting
+	 *
+	 * @return bool|mixed
+	 */
+	function get_default( $setting ) {
+		return isset( $this->defaults[$setting] ) ? $this->defaults[$setting] : false;
+	}
+
+	/**
 	 * Initialize the theme settings
 	 */
 	function init(){
