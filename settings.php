@@ -181,14 +181,26 @@ class SiteOrigin_Settings {
 				);
 				unset($args['label']);
 				unset($args['type']);
+				unset($args['teaser']);
 
-				$this->add_field(
-					$section_id,
-					$field_id,
-					$field['type'],
-					!empty($field['label']) ? $field['label'] : '',
-					$args
-				);
+				if( !empty($field['teaser']) ) {
+					$this->add_teaser(
+						$section_id,
+						$field_id,
+						$field['type'],
+						!empty($field['label']) ? $field['label'] : '',
+						$args
+					);
+				}
+				else {
+					$this->add_field(
+						$section_id,
+						$field_id,
+						$field['type'],
+						!empty($field['label']) ? $field['label'] : '',
+						$args
+					);
+				}
 			}
 		}
 	}
