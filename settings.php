@@ -145,6 +145,29 @@ class SiteOrigin_Settings {
 	}
 
 	/**
+	 * Check if a setting is currently at its default value
+	 *
+	 * @param string $setting The setting name.
+	 *
+	 * @return bool Is the setting current at its default value.
+	 */
+	function is_default( $setting ){
+		$default = $this->get_default( $setting );
+		return $this->get($setting) == $default;
+	}
+
+	/**
+	 * Get the default value for the setting
+	 *
+	 * @param string $setting The name of the setting
+	 *
+	 * @return bool|mixed
+	 */
+	function get_default( $setting ) {
+		return isset( $this->defaults[$setting] ) ? $this->defaults[$setting] : false;
+	}
+
+	/**
 	 * Initialize the theme settings
 	 */
 	function init(){
@@ -334,7 +357,7 @@ class SiteOrigin_Settings {
 	 */
 	function add_teaser( $section, $id, $type, $label, $args = array(), $after = false ) {
 		// Don't add any teasers if the user is already using Premium
-		if( apply_filters('siteorigin_display_teaser', true, $section, $id) ) {
+		if( apply_filters('siteorigin_settings_display_teaser', true, $section, $id) ) {
 			// The theme hasn't implemented this setting yet
 			$this->add_field( $section, $id, 'teaser', $label, $args, $after);
 		}
