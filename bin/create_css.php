@@ -13,16 +13,16 @@ if( empty($conf) ) {
 if( !empty($conf['free']) ) {
 	if( isset($argv[1]) && $argv[1] == 'free' ) {
 		// Only have the free variables
-		foreach( $conf['variables'] as $sass_name => $so_name ) {
-			if( !in_array($sass_name, $conf['free']) ) {
-				unset( $conf['variables'][$sass_name] );
+		foreach( $conf['variables'] as $setting_name => $sass_name ) {
+			if( !in_array($setting_name, $conf['free']) ) {
+				unset( $conf['variables'][$setting_name] );
 			}
 		}
 	}
 	else {
 		// Exclude the free variables
-		foreach( $conf['free'] as $v ) {
-			unset($conf['variables'][$v]);
+		foreach( $conf['free'] as $setting_name ) {
+			unset($conf['variables'][$setting_name]);
 		}
 	}
 }
@@ -38,10 +38,10 @@ $files = rsearch( $temp_dir . '/sass/', '/.*\.scss/' );
 foreach( $files as $file ) {
 	$content = file_get_contents( $file );
 
-	foreach( $conf['variables'] as $sass_name => $so_name ) {
+	foreach( $conf['variables'] as $setting_name => $sass_name ) {
 		$content = preg_replace(
 			'/\$' . preg_quote($sass_name) . ': [^;]*;/',
-			'$' . $sass_name . ': "${' . $so_name . '}";',
+			'$' . $sass_name . ': "${' . $setting_name . '}";',
 			$content
 		);
 	}

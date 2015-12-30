@@ -14,13 +14,15 @@ Run the parser script using `./create_css.php` in the command line. It should ha
 
 This file should be located at `inc/settings.conf.php` and is checked every time you run the settings parser. It tells the parser which files should be processed and how to translate the variables.
 
+For an example, see SiteOrigin North - https://github.com/siteorigin/siteorigin-north/blob/develop/inc/settings.conf.php
+
 ```php
 <?php
 
-// An array mapping SCSS variable to a SiteOrigin Settings variable name
+// An array mapping SiteOrigin Settings variable name to a SCSS variable
 return array(
 	'variables' => array(
-		'color__link' => 'branding_primary_color',
+		'branding_primary_color' => 'color__link',
 	),
 	'free' => array(
 		// Any SASS variables that are available in the free version
