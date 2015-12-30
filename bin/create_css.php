@@ -10,8 +10,8 @@ if( empty($conf) ) {
 	exit();
 }
 
-if( !empty($conf['free']) ) {
-	if( isset($argv[1]) && $argv[1] == 'free' ) {
+if( !empty($conf['free']) && isset($argv[1]) ) {
+	if( $argv[1] == 'free' ) {
 		// Only have the free variables
 		foreach( $conf['variables'] as $setting_name => $sass_name ) {
 			if( !in_array($setting_name, $conf['free']) ) {
@@ -19,7 +19,7 @@ if( !empty($conf['free']) ) {
 			}
 		}
 	}
-	else {
+	else if( $argv[1] == 'premium' ) {
 		// Exclude the free variables
 		foreach( $conf['free'] as $setting_name ) {
 			unset($conf['variables'][$setting_name]);

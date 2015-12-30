@@ -1,7 +1,7 @@
 <?php
 
 class SiteOrigin_Teaser_Control extends WP_Customize_Control {
-	public $type = 'teaser';
+	public $type = 'siteorigin-teaser';
 
 	/**
 	 * Render the control's content.
@@ -14,7 +14,15 @@ class SiteOrigin_Teaser_Control extends WP_Customize_Control {
 			?><span class="description customize-control-description"><?php echo $this->description; ?></span><?php
 		}
 
-		?><a href="<?php echo esc_url( SiteOrigin_Settings::single()->loc['premium_url'] ) ?>" class="button-primary" target="_blank"><?php echo SiteOrigin_Settings::single()->loc['premium_only'] ?></a><?php
+		?><a href="<?php echo esc_url( SiteOrigin_Settings::single()->loc['premium_url'] ) ?>" class="button-primary so-premium-upgrade" target="_blank"><?php echo SiteOrigin_Settings::single()->loc['premium_only'] ?></a><?php
+	}
+
+	/**
+	 * Enqueue everything we need for this teaser
+	 */
+	public function enqueue (  ){
+		wp_enqueue_script( 'siteorigin-settings-teaser-control', get_template_directory_uri() . '/inc/settings/js/teaser-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery') );
+		wp_enqueue_style( 'siteorigin-settings-teaser-control', get_template_directory_uri() . '/inc/settings/css/teaser-control.css', array() );
 	}
 }
 

@@ -1,0 +1,90 @@
+#so-premium-modal {
+
+	$edge_spacing: 30px;
+
+	$title_bar_height: 50px;
+	$toolbar_height: 58px;
+
+	$pane_padding: 15px;
+	$border_color: #D8D8D8;
+
+	.so-modal-overlay {
+		position: fixed;
+		background: rgba( 0,0,0,0.75 );
+		z-index: 999998;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+	}
+
+
+	.so-modal-titlebar,
+	.so-modal-content,
+	.so-modal-toolbar {
+		position: fixed;
+		background: #f0f0f0;
+		z-index: 999999;
+		padding: $pane_padding;
+		box-sizing: border-box;
+	}
+
+	.so-modal-titlebar {
+		top: $edge_spacing;
+		left: $edge_spacing;
+		right: $edge_spacing;
+		height: $title_bar_height;
+
+		background-color: #fafafa;
+		border-bottom: 1px solid $border_color;
+
+		.so-modal-title {
+			margin: 0 $toolbar_height 0 0;
+			line-height: 1.25em;
+		}
+
+		.so-modal-close {
+			position: absolute;
+			top: 0;
+			right: 0;
+			height: $toolbar_height;
+			width: $toolbar_height - 2px;
+			cursor: pointer;
+			border-left: 1px solid $border_color;
+
+			.so-modal-close-icon {
+				display: block;
+				position: absolute;
+				top: 3px;
+				left: 16px;
+
+				&:before {
+					display: inline-block;
+					font: normal 22px/45px dashicons;
+					content: "\f335";
+				}
+
+			}
+		}
+
+	}
+
+	.so-modal-content {
+		top: $edge_spacing + $title_bar_height;
+		left: $edge_spacing;
+		right: $edge_spacing;
+		bottom: $edge_spacing + $toolbar_height;
+		background-color: #fdfdfd;
+		box-shadow: inset 0 2px 2px rgba(0,0,0,0.03);
+	}
+
+	.so-modal-toolbar {
+		height: $toolbar_height;
+		left: $edge_spacing;
+		right: $edge_spacing;
+		bottom: $edge_spacing;
+		background-color: #fafafa;
+		border-top: 1px solid $border_color;
+	}
+
+}
