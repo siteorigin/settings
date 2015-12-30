@@ -1,6 +1,7 @@
 #!/usr/bin/php -q
 <?php
 
+// Add your Google webfont key here <https://developers.google.com/fonts/docs/developer_api?hl=en#APIKey>
 $key = '';
 $response = file_get_contents( 'https://www.googleapis.com/webfonts/v1/webfonts?key=' . urlencode( $key ) );
 
