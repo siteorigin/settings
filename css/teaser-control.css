@@ -6,6 +6,7 @@
   left: 0;
   bottom: 0;
   right: 0; }
+
 #so-premium-modal .so-modal-titlebar,
 #so-premium-modal .so-modal-content,
 #so-premium-modal .so-modal-toolbar {
@@ -14,13 +15,14 @@
   z-index: 999999;
   padding: 15px;
   box-sizing: border-box; }
+
 #so-premium-modal .so-modal-titlebar {
   top: 30px;
   left: 30px;
   right: 30px;
   height: 50px;
   background-color: #fafafa;
-  border-bottom: 1px solid #d8d8d8; }
+  border-bottom: 1px solid #D8D8D8; }
   #so-premium-modal .so-modal-titlebar .so-modal-title {
     margin: 0 58px 0 0;
     line-height: 1.25em; }
@@ -31,7 +33,7 @@
     height: 58px;
     width: 56px;
     cursor: pointer;
-    border-left: 1px solid #d8d8d8; }
+    border-left: 1px solid #D8D8D8; }
     #so-premium-modal .so-modal-titlebar .so-modal-close .so-modal-close-icon {
       display: block;
       position: absolute;
@@ -41,6 +43,7 @@
         display: inline-block;
         font: normal 22px/45px dashicons;
         content: "\f335"; }
+
 #so-premium-modal .so-modal-content {
   top: 80px;
   left: 30px;
@@ -48,10 +51,11 @@
   bottom: 88px;
   background-color: #fdfdfd;
   box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.03); }
+
 #so-premium-modal .so-modal-toolbar {
   height: 58px;
   left: 30px;
   right: 30px;
   bottom: 30px;
   background-color: #fafafa;
-  border-top: 1px solid #d8d8d8; }
+  border-top: 1px solid #D8D8D8; }
