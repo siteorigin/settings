@@ -676,7 +676,7 @@ class SiteOrigin_Settings {
 
 				// Now lets add all the css styling
 				$return .= 'font-family: "' . esc_attr( $args['font'] ) . '", ' . $args['category'] . '; ';
-				if( strpos( $args['variant'], 'italic' ) !== -1 ) {
+				if( strpos( $args['variant'], 'italic' ) !== false ) {
 					$weight = str_replace('italic', '', $args['variant']);
 					$return .= 'font-style: italic; ';
 				}
