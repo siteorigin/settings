@@ -784,6 +784,16 @@ function siteorigin_setting( $setting ){
 	return SiteOrigin_Settings::single()->get( $setting );
 }
 
+/**
+ * Set the value of a single setting. Included here for backwards compatibility.
+ *
+ * @param $setting
+ * @param $value
+ */
+function siteorigin_settings_set( $setting, $value ){
+	SiteOrigin_Settings::single()->set( $setting, $value );
+}
+
 class SiteOrigin_Settings_Value_Sanitize {
 	static function intval( $val ){
 		return intval( $val );
