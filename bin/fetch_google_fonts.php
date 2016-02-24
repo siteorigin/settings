@@ -19,7 +19,7 @@ foreach( $fonts as $font ) {
 	$return[$family] = $font;
 }
 
-// Sort the keys, just incase
+// Sort the keys, just in case
 ksort( $return );
 
 echo 'Writing fonts to: ' . realpath( dirname(__FILE__). '/../inc/fonts.php' ) . "\n";

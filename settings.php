@@ -519,6 +519,9 @@ class SiteOrigin_Settings {
 		}
 	}
 
+	/**
+	 * Enqueue everything necessary for the live previewing in the Customizer
+	 */
 	function enqueue_preview(){
 		if( !did_action('siteorigin_settings_init') ) {
 			do_action('siteorigin_settings_init');
@@ -538,6 +541,9 @@ class SiteOrigin_Settings {
 		) );
 	}
 
+	/**
+	 * Display all the generated custom CSS.
+	 */
 	function display_custom_css(){
 		$css = apply_filters('siteorigin_settings_custom_css', '');
 
@@ -692,10 +698,25 @@ class SiteOrigin_Settings {
 		return $return;
 	}
 
+	/**
+	 * Sanitize a boolean value.
+	 *
+	 * @param $val
+	 *
+	 * @return bool
+	 */
 	function sanitize_bool($val){
 		return (bool) $val;
 	}
 
+	/**
+	 * Get the names of a specific template part
+	 *
+	 * @param $parts
+	 * @param $part_name
+	 *
+	 * @return array
+	 */
 	static function template_part_names($parts, $part_name){
 		$return = array();
 
@@ -747,7 +768,7 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 *
+	 * Display the premium upgrade modal
 	 */
 	function admin_footer(){
 		?>

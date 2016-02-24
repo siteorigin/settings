@@ -4,7 +4,7 @@ class SiteOrigin_Teaser_Control extends WP_Customize_Control {
 	public $type = 'siteorigin-teaser';
 
 	/**
-	 * Render the control's content.
+	 * Render the teaser control's content.
 	 */
 	public function render_content() {
 		if ( ! empty( $this->label ) ) {
@@ -30,7 +30,7 @@ class SiteOrigin_Font_Control extends WP_Customize_Control {
 	public $type = 'siteorigin-font';
 
 	/**
-	 *
+	 * Render the font selector
 	 */
 	public function render_content(){
 		if ( ! empty( $this->label ) ) {

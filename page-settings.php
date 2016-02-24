@@ -10,6 +10,7 @@ class SiteOrigin_Settings_Page_Settings {
 	private $settings;
 	private $meta;
 
+
 	function __construct(){
 		$this->meta = array();
 		$this->settings = array();
@@ -80,7 +81,7 @@ class SiteOrigin_Settings_Page_Settings {
 	}
 
 	/**
-	 * Add the metabox
+	 * Add the meta box
 	 */
 	function add_meta_box(){
 
@@ -99,6 +100,9 @@ class SiteOrigin_Settings_Page_Settings {
 	 */
 	function display_meta_box( $post ){
 		$values = $this->get_post_meta( $post->ID );
+
+		do_action( 'siteorigin_settings_before_page_settings_meta_box', $post );
+
 		foreach( $this->settings as $id => $field ) {
 			if( empty($values[$id]) ) $values[$id] = false;
 			?><p><label for="so-page-settings-<?php echo esc_attr( $id ) ?>"><strong><?php echo esc_html( $field['label'] ) ?></strong></label></p><?php
@@ -135,6 +139,8 @@ class SiteOrigin_Settings_Page_Settings {
 		}
 
 		wp_nonce_field( 'save_page_settings', '_so_page_settings_nonce' );
+
+		do_action( 'siteorigin_settings_after_page_settings_meta_box', $post );
 	}
 
 	/**
