@@ -754,9 +754,10 @@ class SiteOrigin_Settings {
 	 * @return mixed
 	 */
 	static function get_image_id( $image_url ){
+		if( empty($image_url) ) return false;
 		global $wpdb;
 		$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url ));
-		return $attachment[0];
+		return !empty($attachment[0]) ? $attachment[0] : false;
 	}
 
 	/**
