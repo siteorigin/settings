@@ -399,6 +399,12 @@ class SiteOrigin_Settings {
 			) );
 		}
 
+		// Handle old settings for legacy reasons
+		static $old_settings = false;
+		if( $old_settings === false ) {
+			$old_settings = get_option( get_template() . '_theme_settings' );
+		}
+
 		// Finally, add the settings
 		foreach( $this->settings as $section_id => $settings ) {
 			foreach( $settings as $setting_id => $setting_args ) {
@@ -425,9 +431,16 @@ class SiteOrigin_Settings {
 					$sanitize_callback = $setting_args['args']['sanitize_callback'];
 				}
 
+				if( isset( $old_settings[$section_id . '_' . $setting_id] ) ) {
+					$default = $old_settings[$section_id . '_' . $setting_id];
+				}
+				else {
+					$default = isset( $this->defaults[$section_id . '_' . $setting_id] ) ? $this->defaults[$section_id . '_' . $setting_id] : '';
+				}
+
 				// Create the customizer setting
 				$wp_customize->add_setting( 'theme_settings_' . $section_id . '_' . $setting_id , array(
-					'default' => isset($this->defaults[ $section_id . '_' . $setting_id ]) ? $this->defaults[ $section_id . '_' . $setting_id ] : '',
+					'default' => $default,
 					'transport' => empty($setting_args['args']['live']) ? 'refresh' : 'postMessage',
 					'capability' => 'edit_theme_options',
 					'type' => 'theme_mod',
