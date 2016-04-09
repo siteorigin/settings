@@ -41,6 +41,10 @@ class SiteOrigin_Settings {
 		$this->settings = array();
 		$this->sections = array();
 		$this->loc = array();
+
+		if( !empty( $_POST['wp_customize'] ) && $_POST['wp_customize'] == 'on' ) {
+			add_filter( 'siteorigin_setting', array( $this, 'customizer_filter' ), 15, 2 );
+		}
 	}
 
 	/**
@@ -98,7 +102,32 @@ class SiteOrigin_Settings {
 		}
 
 		// Return a filtered version of the setting
-		return apply_filters( 'siteorigin_setting', get_theme_mod( 'theme_settings_' . $setting, $default ), $setting );
+		$value = apply_filters( 'siteorigin_setting', get_theme_mod( 'theme_settings_' . $setting, $default ), $setting );
+
+		return $value;
+	}
+
+	/**
+	 * Filter SiteOrigin settings based on customizer values. Gets around early use of setting values in customizer preview.
+	 *
+	 * @param $value
+	 * @param $setting
+	 *
+	 * @return mixed
+	 */
+	function customizer_filter( $value, $setting ){
+		if( ! check_ajax_referer( 'preview-customize_' . get_stylesheet(), 'nonce' ) ) return $value;
+
+		static $customzier_values = null;
+		if( is_null( $customzier_values ) && ! empty( $_POST['customized'] ) ) {
+			$customzier_values =  json_decode( stripslashes( $_POST['customized'] ), true );
+		}
+
+		if( isset( $customzier_values[ 'theme_settings_' . $setting ] ) ) {
+			$value = $customzier_values[ 'theme_settings_' . $setting ];
+		}
+
+		return $value;
 	}
 
 	/**
