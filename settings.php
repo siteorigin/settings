@@ -42,7 +42,7 @@ class SiteOrigin_Settings {
 		$this->sections = array();
 		$this->loc = array();
 
-		if( !empty( $_POST['wp_customize'] ) && $_POST['wp_customize'] == 'on' ) {
+		if( !empty( $_POST['wp_customize'] ) && $_POST['wp_customize'] == 'on' && is_customize_preview() ) {
 			add_filter( 'siteorigin_setting', array( $this, 'customizer_filter' ), 15, 2 );
 		}
 	}
@@ -116,7 +116,10 @@ class SiteOrigin_Settings {
 	 * @return mixed
 	 */
 	function customizer_filter( $value, $setting ){
-		if( ! check_ajax_referer( 'preview-customize_' . get_stylesheet(), 'nonce' ) ) return $value;
+		if (
+			empty( $_REQUEST['nonce'] ) ||
+			!wp_verify_nonce( $_REQUEST['nonce'], 'preview-customize_' . get_stylesheet() )
+		) return $value;
 
 		static $customzier_values = null;
 		if( is_null( $customzier_values ) && ! empty( $_POST['customized'] ) ) {
