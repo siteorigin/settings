@@ -500,6 +500,15 @@ class SiteOrigin_Settings {
 					}
 				}
 
+				// Arguments for the range field
+				if( $setting_args['type'] == 'range' ) {
+					$control_args['input_attrs'] = array(
+						'min' => !empty($setting_args['args']['min']) ? $setting_args['args']['min'] : 0,
+						'max' => !empty($setting_args['args']['max']) ? $setting_args['args']['max'] : 100,
+						'step' => !empty($setting_args['args']['step']) ? $setting_args['args']['step'] : 0.1,
+					);
+				}
+
 				switch( $setting_args['type'] ) {
 					case 'media' :
 						$wp_customize->add_control(
