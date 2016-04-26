@@ -38,12 +38,41 @@ $files = rsearch( $temp_dir . '/sass/', '/.*\.scss/' );
 foreach( $files as $file ) {
 	$content = file_get_contents( $file );
 
+	// Replace the variables
 	foreach( $conf['variables'] as $setting_name => $sass_name ) {
 		$content = preg_replace(
 			'/\$' . preg_quote($sass_name) . ': [^;]*;/',
 			'$' . $sass_name . ': "${' . $setting_name . '}";',
 			$content
 		);
+	}
+
+
+	$GLOBALS['sass_vars'] = array();
+	foreach( $conf['variables'] as $setting_name => $sass_name ) {
+		$GLOBALS['sass_vars'][ '$' . $sass_name ] = $setting_name;
+	}
+
+	foreach( $conf['variables'] as $setting_name => $sass_name ) {
+		$content = preg_replace_callback( '/([a-zA-Z_\-]+) *\(([^\)]*\$' . preg_quote( $sass_name ) . '[^\)]*)\)/', function ( $match ) {
+			$args = preg_split('/ *, */', $match[2]);
+			$args_replaced = 0;
+
+			foreach( $args as $i => $arg ) {
+				if( $arg[0] !== '$' ) continue;
+				if( isset( $GLOBALS['sass_vars'][ $arg ] ) ) {
+					$args[$i] = $GLOBALS['sass_vars'][$arg];
+					$args_replaced++;
+				}
+			}
+
+			if( $args_replaced > 0 && $args_replaced !== count( $args ) ) {
+				die( 'Function arguments must either be all settings variables or no settings variables' );
+			}
+
+			$fn = array_merge( array( $match[1] ), $args );
+			return '"#FUNCTION#:' . urlencode( json_encode( $fn  ) ) . '#END_FUNCTION#"';
+		}, $content );
 	}
 
 	file_put_contents( $file, $content );
@@ -58,7 +87,11 @@ foreach( $conf['stylesheets'] as $s ) {
 	// Remove any lines that aren't important
 	$contents = file( $temp_dir . '/sass/' . $s . '.css' );
 	foreach( $contents as $i => $line ) {
-		if( preg_match('/ [A-Za-z0-9\-_]+ *\: *[^;]+;/', $line) && !preg_match('/"\$\{[A-Za-z0-9\-_]+\}"/', $line) ) {
+		if(
+			preg_match('/ [A-Za-z0-9\-_]+ *\: *[^;]+;/', $line) &&
+			!preg_match('/"\$\{[A-Za-z0-9\-_]+\}"/', $line) &&
+		    strpos( $line, '#FUNCTION#' ) === false
+		) {
 			continue;
 		}
 		$output[$s][] = $line;
@@ -86,6 +119,18 @@ foreach( $conf['stylesheets'] as $s ) {
 
 	$css = preg_replace( '/"(\$\{[A-Za-z0-9\-_]+\})"/', '$1', $css );
 	$css = preg_replace('/font-family: (\$\{[a-z0-9_]+\});/', '.font( $1 );', $css);
+
+	// Now lets replace all the function calls
+	$css = preg_replace_callback( '/\"#FUNCTION#:(.*)#END_FUNCTION#\"/', function( $match ){
+		$args = json_decode( urldecode( $match[1] ) );
+		$function = array_shift( $args );
+		$return = '.' . $function . '( ';
+		if( !empty( $args ) ) {
+			$return .= '${' . implode( '}, ${', $args ) . '}';
+		}
+		$return .= ')';
+		return $return;
+	}, $css );
 
 	if( trim($css) != '' ) {
 		$all_css .= "/* $s */\n\n";
