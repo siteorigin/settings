@@ -738,6 +738,26 @@ class SiteOrigin_Settings {
 				$return .= 'font-weight: ' . esc_attr( $weight) . '; ';
 
 				break;
+
+			case 'rgba':
+				if( empty( $match[2] ) ) break;
+				$args = explode( ',', $match[2] );
+
+				$hex = str_replace( "#", "", trim( $args[0] ) );
+
+				if( strlen($hex) == 3 ) {
+					$r = hexdec( substr($hex,0,1).substr($hex,0,1) );
+					$g = hexdec( substr($hex,1,1).substr($hex,1,1) );
+					$b = hexdec( substr($hex,2,1).substr($hex,2,1) );
+				} else {
+					$r = hexdec( substr($hex,0,2) );
+					$g = hexdec( substr($hex,2,2) );
+					$b = hexdec( substr($hex,4,2) );
+				}
+
+				$return = 'rgba(' . implode( ',', array( $r, $g, $b, floatval( $args[1] ) ) ) . ')';
+				break;
+
 		}
 
 		return $return;

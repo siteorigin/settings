@@ -12,9 +12,24 @@ jQuery( function($){
         return string.replace(new RegExp( find.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1") , 'g'), replace);
     }
 
+	function hexToRgb(hex) {
+		// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+		var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+		hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+			return r + r + g + g + b + b;
+		});
+
+		var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+		return result ? [
+			parseInt(result[1], 16),
+			parseInt(result[2], 16),
+			parseInt(result[3], 16)
+		] : null;
+	}
+
     var updateCss = function(){
         // Create a copy of the CSS
-        var css = JSON.parse(JSON.stringify(soSettings.css));
+        var css = JSON.parse( JSON.stringify(soSettings.css) );
         var re;
         for( var k in soSettings.settings ) {
             css = replaceAll( css, '${' + k + '}', soSettings.settings[k] );
@@ -70,6 +85,19 @@ jQuery( function($){
                     replace += 'font-weight: ' + weight + '; ';
 
                     break;
+
+	            case 'rgba' :
+		            try {
+			            fargs = match[2].split(',');
+		            }
+		            catch( e ) {
+			            break;
+		            }
+
+		            var rgba = hexToRgb( fargs[0].trim() );
+		            rgba.push( parseFloat( fargs[1] ) );
+		            replace = 'rgba(' + rgba.join(',') + ')';
+		            break;
             }
 
             css = css.replace( match[0], replace );
