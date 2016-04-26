@@ -454,6 +454,9 @@ class SiteOrigin_Settings {
 					case 'checkbox':
 						$sanitize_callback = array($this, 'sanitize_bool');
 						break;
+					case 'range':
+						$sanitize_callback = 'floatval';
+						break;
 					default:
 						$sanitize_callback = 'sanitize_text_field';
 						break;
