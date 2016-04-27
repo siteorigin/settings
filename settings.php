@@ -455,7 +455,7 @@ class SiteOrigin_Settings {
 						$sanitize_callback = array($this, 'sanitize_bool');
 						break;
 					case 'range':
-						$sanitize_callback = 'floatval';
+						$sanitize_callback = array( $this, 'sanitize_float' );
 						break;
 					default:
 						$sanitize_callback = 'sanitize_text_field';
@@ -784,6 +784,10 @@ class SiteOrigin_Settings {
 	 */
 	function sanitize_bool($val){
 		return (bool) $val;
+	}
+
+	function sanitize_float( $val ){
+		return floatval( $val );
 	}
 
 	/**
