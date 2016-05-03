@@ -76,9 +76,11 @@ class SiteOrigin_Settings_Page_Settings {
 	 * @return array|mixed
 	 */
 	function get_post_meta( $post_id ){
-		$defaults = apply_filters( 'siteorigin_page_settings_defaults', array() );
+		$defaults = apply_filters( 'siteorigin_page_settings_defaults', array(), $post_id );
 		$values = get_post_meta( $post_id, 'siteorigin_page_settings', true );
 		if( empty($values) ) $values = array();
+
+		$values = apply_filters( 'siteorigin_page_settings_values', $values, $post_id );
 
 		return wp_parse_args( $values, $defaults );
 	}
