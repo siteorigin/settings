@@ -6,10 +6,8 @@
  * Class SiteOrigin_Settings_Page_Settings
  */
 class SiteOrigin_Settings_Page_Settings {
-
 	private $settings;
 	private $meta;
-
 
 	function __construct(){
 		$this->meta = array();
@@ -42,22 +40,27 @@ class SiteOrigin_Settings_Page_Settings {
 	 * Get a settings value
 	 *
 	 * @param $key
+	 * @param $default
 	 *
 	 * @return null
 	 */
-	static function get( $key ) {
+	static function get( $key, $default = null ) {
 		$single = self::single();
 
 		global $post;
 		if( empty($single->meta[ $post->ID ] ) ) {
 			$single->meta[ $post->ID ] = $single->get_post_meta( $post->ID );
 		}
-		return isset( $single->meta[ $post->ID ][ $key ] ) ? $single->meta[ $post->ID ][ $key ] : null;
+		return isset( $single->meta[ $post->ID ][ $key ] ) ? $single->meta[ $post->ID ][ $key ] : $default;
 	}
 
+	/**
+	 *
+	 */
 	function init() {
 		$screen = get_current_screen();
-		if( $screen->base != 'post' || $screen->id != 'page' ) return;
+
+		if( $screen->base != 'post' ) return;
 
 		// Let everything setup the settings
 		if( !did_action( 'siteorigin_page_settings_init' ) ) {
