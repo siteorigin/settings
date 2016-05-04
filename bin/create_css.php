@@ -150,7 +150,7 @@ if( !empty($lines) ) {
 		echo "==============\n\n";
 		echo '// Custom CSS Code' . "\n";
 		echo '$css .= ' . "'";
-		echo implode( ' ', $code_lines );
+		echo implode( "\n	", $code_lines );
 		echo "'" . ';';
 		echo "\n\n";
 		echo "==============\n\n";
