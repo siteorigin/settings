@@ -55,19 +55,15 @@ foreach( $files as $file ) {
 
 	foreach( $conf['variables'] as $setting_name => $sass_name ) {
 		$content = preg_replace_callback( '/([a-zA-Z_\-]+) *\(([^\)]*\$' . preg_quote( $sass_name ) . '[^\)]*)\)/', function ( $match ) {
-			$args = preg_split('/ *, */', $match[2]);
+			$args = array_map( 'trim',  preg_split('/ *, */', $match[2] ) );
 			$args_replaced = 0;
 
 			foreach( $args as $i => $arg ) {
 				if( $arg[0] !== '$' ) continue;
 				if( isset( $GLOBALS['sass_vars'][ $arg ] ) ) {
-					$args[$i] = $GLOBALS['sass_vars'][$arg];
+					$args[$i] = '${' . $GLOBALS['sass_vars'][$arg] . '}';
 					$args_replaced++;
 				}
-			}
-
-			if( $args_replaced > 0 && $args_replaced !== count( $args ) ) {
-				die( 'Function arguments must either be all settings variables or no settings variables' );
 			}
 
 			$fn = array_merge( array( $match[1] ), $args );
@@ -123,10 +119,11 @@ foreach( $conf['stylesheets'] as $s ) {
 	// Now lets replace all the function calls
 	$css = preg_replace_callback( '/\"#FUNCTION#:(.*)#END_FUNCTION#\"/', function( $match ){
 		$args = json_decode( urldecode( $match[1] ) );
+
 		$function = array_shift( $args );
 		$return = '.' . $function . '( ';
 		if( !empty( $args ) ) {
-			$return .= '${' . implode( '}, ${', $args ) . '}';
+			$return .= implode( ', ', $args );
 		}
 		$return .= ')';
 		return $return;
@@ -145,15 +142,16 @@ if( !empty($lines) ) {
 	foreach( $lines as $line ) {
 		$line = trim($line);
 		if( empty($line) ) continue;
-		$code_lines[] = "'" . addcslashes( $line, "'" ) . "'";
+		$code_lines[] = addcslashes( $line, "'" );
 	}
+
 
 	if( !empty($code_lines) ) {
 		echo "==============\n\n";
 		echo '// Custom CSS Code' . "\n";
-		echo '$css .= ';
-		echo implode( ' . "\n" .' . "\n", $code_lines );
-		echo ';';
+		echo '$css .= ' . "'";
+		echo implode( ' ', $code_lines );
+		echo "'" . ';';
 		echo "\n\n";
 		echo "==============\n\n";
 	}

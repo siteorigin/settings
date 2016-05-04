@@ -591,7 +591,8 @@ class SiteOrigin_Settings {
 			}
 		}
 
-		wp_enqueue_script( 'siteorigin-settings-live-preview', get_stylesheet_directory_uri() . '/inc/settings/js/live' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery') );
+		wp_enqueue_script( 'siteorigin-settings-tinycolor', get_stylesheet_directory_uri() . '/inc/settings/js/tinycolor' . SITEORIGIN_THEME_JS_PREFIX . '.js', array(), SITEORIGIN_THEME_VERSION );
+		wp_enqueue_script( 'siteorigin-settings-live-preview', get_stylesheet_directory_uri() . '/inc/settings/js/live' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery'), SITEORIGIN_THEME_VERSION );
 		wp_localize_script( 'siteorigin-settings-live-preview', 'soSettings', array(
 			'css' => apply_filters('siteorigin_settings_custom_css', ''),
 			'settings' => !empty($values) ? $values : false
@@ -720,6 +721,11 @@ class SiteOrigin_Settings {
 		$function = $match[1];
 		$return = '';
 
+		if( !class_exists( 'SiteOrigin_Color' ) ) {
+			include dirname( __FILE__ ) . '/inc/color.php';
+		}
+
+		// This should be refactored to use actual functions
 		switch( $function ) {
 			case 'font':
 				if( empty($match[2]) ) break;
@@ -754,20 +760,39 @@ class SiteOrigin_Settings {
 			case 'rgba':
 				if( empty( $match[2] ) ) break;
 				$args = explode( ',', $match[2] );
+				$rgb = SiteOrigin_Color::hex2rgb( trim( $args[0] ) );
 
-				$hex = str_replace( "#", "", trim( $args[0] ) );
+				$return = 'rgba(' . implode( ',', array_merge( $rgb, array( floatval( $args[1] ) ) ) ) . ')';
+				break;
 
-				if( strlen($hex) == 3 ) {
-					$r = hexdec( substr($hex,0,1).substr($hex,0,1) );
-					$g = hexdec( substr($hex,1,1).substr($hex,1,1) );
-					$b = hexdec( substr($hex,2,1).substr($hex,2,1) );
+			case 'lighten' :
+				$args = explode( ',', $match[2] );
+				$rgb = SiteOrigin_Color::hex2rgb( trim( $args[0] ) );
+				$hsv = SiteOrigin_Color::rgb2hsv( $rgb );
+				if( strpos( $args[1], '%' ) !== false ) {
+					$percent = intval( trim($args[1]) ) / 100;
 				} else {
-					$r = hexdec( substr($hex,0,2) );
-					$g = hexdec( substr($hex,2,2) );
-					$b = hexdec( substr($hex,4,2) );
+					$percent = floatval( trim($args[1]) );
 				}
 
-				$return = 'rgba(' . implode( ',', array( $r, $g, $b, floatval( $args[1] ) ) ) . ')';
+				$hsv[2] += $percent;
+				$return = SiteOrigin_Color::rgb2hex( SiteOrigin_Color::hsv2rgb( $hsv ) );
+
+				break;
+
+			case 'darken' :
+				$args = explode( ',', $match[2] );
+				$rgb = SiteOrigin_Color::hex2rgb( trim( $args[0] ) );
+				$hsv = SiteOrigin_Color::rgb2hsv( $rgb );
+				if( strpos( $args[1], '%' ) !== false ) {
+					$percent = intval( trim($args[1]) ) / 100;
+				} else {
+					$percent = floatval( trim($args[1]) );
+				}
+
+				$hsv[2] -= $percent;
+				$return = SiteOrigin_Color::rgb2hex( SiteOrigin_Color::hsv2rgb( $hsv ) );
+
 				break;
 
 		}

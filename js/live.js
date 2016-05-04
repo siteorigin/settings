@@ -5,7 +5,7 @@ jQuery( function($){
 
     var $style = $('style[data-siteorigin-settings="true"]');
     if( $style.length === 0 ) {
-        $style = $('<style type="text/css" id="siteorigin-settings-css" data-siteorigin-settings="true"></style>').appendTo('head');
+        $style = $('<style type="text/css" id="siteorigin-settings-css" data-siteorigin-settings="true"></style>').appendTo('head');tinycolor.js
     }
 
     function replaceAll(string, find, replace) {
@@ -37,7 +37,7 @@ jQuery( function($){
 
         // Now we also need to handle the CSS functions.
         // This should mirror what's in PHP - SiteOrigin_Settings::css_functions
-        var match, replace, prepend, fargs;
+        var match, replace, prepend, fargs, color;
         do {
             match =  css.match(/\.([a-z\-]+) *\(([^\)]*)\) *;/);
             if( match === null ) {
@@ -93,10 +93,48 @@ jQuery( function($){
 		            catch( e ) {
 			            break;
 		            }
+		            color = tinycolor( fargs[0].trim() );
 
-		            var rgba = hexToRgb( fargs[0].trim() );
-		            rgba.push( parseFloat( fargs[1] ) );
-		            replace = 'rgba(' + rgba.join(',') + ')';
+		            color.setAlpha( parseFloat( fargs[1] )  );
+		            replace = color.toRgbString();
+		            break;
+
+	            case 'lighten':
+		            try {
+			            fargs = match[2].split(',');
+		            }
+		            catch( e ) {
+			            break;
+		            }
+		            color = tinycolor( fargs[0].trim() );
+		            fargs[1] = fargs[1].trim();
+		            if( fargs[1].indexOf('%') > -1 ) {
+			            fargs[1] = parseInt( fargs[1] );
+		            } else {
+			            fargs[1] = Math.floor( parseFloat( fargs[1] ) * 100 );
+		            }
+		            color.lighten( fargs[1] );
+		            replace = color.toHexString();
+
+		            break;
+
+	            case 'darken':
+		            try {
+			            fargs = match[2].split(',');
+		            }
+		            catch( e ) {
+			            break;
+		            }
+		            color = tinycolor( fargs[0].trim() );
+		            fargs[1] = fargs[1].trim();
+		            if( fargs[1].indexOf('%') > -1 ) {
+			            fargs[1] = parseInt( fargs[1] );
+		            } else {
+			            fargs[1] = Math.floor( parseFloat( fargs[1] ) * 100 );
+		            }
+		            color.darken( fargs[1] );
+		            replace = color.toHexString();
+
 		            break;
             }
 
