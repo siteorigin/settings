@@ -13,7 +13,9 @@ class SiteOrigin_Settings_Page_Settings {
 		$this->meta = array();
 		$this->settings = array();
 
-		add_action( 'add_meta_boxes', array($this, 'add_meta_box') );
+		add_action( 'init', array( $this, 'add_page_settings_support' ) );
+
+		add_action( 'add_meta_boxes', array($this, 'add_meta_box'), 10, 2 );
 		add_action( 'save_post', array($this, 'save_post') );
 
 		add_action( 'load-post.php', array($this, 'init') );
@@ -68,6 +70,11 @@ class SiteOrigin_Settings_Page_Settings {
 		}
 	}
 
+	function add_page_settings_support(){
+		add_post_type_support( 'page', 'so-page-settings' );
+		add_post_type_support( 'post', 'so-page-settings' );
+	}
+
 	/**
 	 * Get the settings post meta and add the default values.
 	 *
@@ -88,16 +95,17 @@ class SiteOrigin_Settings_Page_Settings {
 	/**
 	 * Add the meta box
 	 */
-	function add_meta_box(){
+	function add_meta_box( $post_type, $post ){
 
-		add_meta_box(
-			'siteorigin_page_settings',
-			SiteOrigin_Settings::single()->get_localization_term( 'meta_box' ),
-			array( $this, 'display_meta_box' ),
-			'page',
-			'side'
-		);
-
+		if( !empty( $post->post_type ) && post_type_supports( $post->post_type, 'so-page-settings' ) ) {
+			add_meta_box(
+				'siteorigin_page_settings',
+				SiteOrigin_Settings::single()->get_localization_term( 'meta_box' ),
+				array( $this, 'display_meta_box' ),
+				$post->post_type,
+				'side'
+			);
+		}
 	}
 
 	/**
