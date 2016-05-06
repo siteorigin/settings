@@ -77,8 +77,16 @@ class SiteOrigin_Settings {
 
 				// For the premium upgrade modal
 				'meta_box' => '',
-				'archives_section_title' => '',
-				'archives_section_description' => '',
+				'page_section_title' => '',
+				'page_section_description' => '',
+
+				// The various templates pages
+				'template_index' => '',
+				'template_search' => '',
+				'template_404' => '',
+				'template_author' => '',
+				'templates_post_type' => '',
+				'templates_taxonomy' => '',
 			) );
 		}
 		return $loc;
@@ -805,11 +813,11 @@ class SiteOrigin_Settings {
 	 *
 	 * @return bool
 	 */
-	function sanitize_bool($val){
+	static function sanitize_bool($val){
 		return (bool) $val;
 	}
 
-	function sanitize_float( $val ){
+	static function sanitize_float( $val ){
 		return floatval( $val );
 	}
 
