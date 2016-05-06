@@ -18,13 +18,8 @@
 			var $section = $( '#accordion-section-page_settings_' + message[0] + '_' + message[1] );
 			var $all_sections = $('[id^="accordion-section-page_settings_"]' );
 
-			if( $section.length === 0 ) {
-				$all_sections.show();
-			}
-			else {
-				hideSections = $all_sections.not( $section ).hide();
-				showSections = $section.show();
-			}
+			hideSections = $all_sections.not( $section ).hide();
+			showSections = $section.show();
 		} );
 	});
 } )( jQuery );
