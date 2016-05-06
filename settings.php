@@ -171,9 +171,6 @@ class SiteOrigin_Settings {
 
 		add_action( 'customize_preview_init', array( $this, 'enqueue_preview' ) );
 		add_action( 'wp_head', array( $this, 'display_custom_css' ), 11 );
-
-		add_action( 'wp_ajax_so_settings_premium_content', array( $this, 'premium_content_action' ) );
-		add_action( 'customize_controls_print_footer_scripts', array( $this, 'admin_footer' ) );
 	}
 
 	/**
@@ -864,37 +861,6 @@ class SiteOrigin_Settings {
 		global $wpdb;
 		$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url ));
 		return !empty($attachment[0]) ? $attachment[0] : false;
-	}
-
-	/**
-	 * Set the callback that generates the premium upgrade information.
-	 */
-	function premium_content_action( ){
-		do_action( 'siteorigin_settings_premium_content' );
-		exit();
-	}
-
-	/**
-	 * Display the premium upgrade modal
-	 */
-	function admin_footer(){
-		?>
-		<script id="so-premium-modal-template" type="text/template">
-			<div id="so-premium-modal">
-				<div class="so-modal-overlay"></div>
-				<div class="so-modal-titlebar">
-					<h3 class="so-modal-title"><?php echo esc_html( $this->get_localization_term( 'modal_title' ) ) ?></h3>
-					<div class="so-modal-close"><span class="so-modal-close-icon"></span></div>
-				</div>
-				<div class="so-modal-content">
-					<!-- Modal Content -->
-				</div>
-				<div class="so-modal-toolbar">
-					<button class="button-primary so-modal-close"><?php echo esc_html( $this->get_localization_term('close') ) ?></button>
-				<div>
-			</div>
-		</script>
-		<?php
 	}
 }
 
