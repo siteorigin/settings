@@ -29,11 +29,6 @@ class SiteOrigin_Settings {
 	 */
 	private $sections;
 
-	/**
-	 * @var array The localization strings
-	 */
-	public $loc;
-
 	function __construct(){
 		$this->add_actions();
 
@@ -63,11 +58,39 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * @param $loc
+	 * Get all localization terms
+	 *
+	 * @return mixed|void
 	 */
-	function set_localization($loc){
-		// All these strings must be properly localized by the theme
-		$this->loc = wp_parse_args( $loc, $this->loc );
+	function get_localization(){
+		static $loc = null;
+		if( is_null( $loc ) ) {
+			$loc = apply_filters( 'siteorigin_settings_localization', array(
+				'section_title' => '',          // __( 'Theme Settings', 'siteorigin' ),
+				'section_description' =>  '',   // __( 'Settings for your theme', 'siteorigin' ),
+				'premium_only' =>  '',          // __( 'Premium Only', 'siteorigin' ),
+				'premium_url' => '#',           // The URL where we'll send users for premium information
+
+				// For the controls
+				'variant' =>  '',               // __( 'Variant', 'siteorigin'),
+				'subset' =>  '',                // __( 'Subset', 'siteorigin'),
+
+				// For the premium upgrade modal
+				'meta_box' => '',
+				'page_section_title' => '',
+				'page_section_description' => '',
+
+				// The various templates pages
+				'template_index' => '',
+				'template_search' => '',
+				'template_template_date' => '',
+				'template_404' => '',
+				'template_author' => '',
+				'templates_post_type' => '',
+				'templates_taxonomy' => '',
+			) );
+		}
+		return $loc;
 	}
 
 	/**
@@ -78,7 +101,8 @@ class SiteOrigin_Settings {
 	 * @return string
 	 */
 	function get_localization_term( $id ){
-		return !empty($this->loc[$id]) ? $this->loc[$id] : '';
+		$loc = $this->get_localization();
+		return !empty( $loc[$id] ) ? $loc[$id] : '';
 	}
 
 	/**
@@ -171,9 +195,6 @@ class SiteOrigin_Settings {
 
 		add_action( 'customize_preview_init', array( $this, 'enqueue_preview' ) );
 		add_action( 'wp_head', array( $this, 'display_custom_css' ), 11 );
-
-		add_action( 'wp_ajax_so_settings_premium_content', array( $this, 'premium_content_action' ) );
-		add_action( 'customize_controls_print_footer_scripts', array( $this, 'admin_footer' ) );
 	}
 
 	/**
@@ -206,20 +227,6 @@ class SiteOrigin_Settings {
 		$theme = wp_get_theme();
 		$this->theme_name = $theme->get_template();
 		$this->defaults = apply_filters( 'siteorigin_settings_defaults', $this->defaults );
-		$this->loc = apply_filters('siteorigin_settings_localization', array(
-			'section_title' => '',          // __( 'Theme Settings', 'siteorigin' ),
-			'section_description' =>  '',   // __( 'Settings for your theme', 'siteorigin' ),
-			'premium_only' =>  '',          // __( 'Premium Only', 'siteorigin' ),
-			'premium_url' => '#',           // The URL where we'll send users for premium information
-
-			// For the controls
-			'variant' =>  '',               // __( 'Variant', 'siteorigin'),
-			'subset' =>  '',                // __( 'Subset', 'siteorigin'),
-
-			// For the premium upgrade modal
-			'modal_title' => '',                  // __( 'Premium Upgrade', 'siteorigin' ),
-			'close' => '',                  // __( 'Close', 'siteorigin' ),
-		) );
 	}
 
 	/**
@@ -416,8 +423,8 @@ class SiteOrigin_Settings {
 		// We'll use a single panel for theme settings
 		if( method_exists($wp_customize, 'add_panel') ) {
 			$wp_customize->add_panel( 'theme_settings', array(
-				'title' => $this->loc['section_title'],
-				'description' => $this->loc['section_description'],
+				'title' => $this->get_localization_term( 'section_title' ),
+				'description' => $this->get_localization_term( 'section_description' ),
 				'priority' => 10,
 			) );
 		}
@@ -807,11 +814,11 @@ class SiteOrigin_Settings {
 	 *
 	 * @return bool
 	 */
-	function sanitize_bool($val){
+	static function sanitize_bool($val){
 		return (bool) $val;
 	}
 
-	function sanitize_float( $val ){
+	static function sanitize_float( $val ){
 		return floatval( $val );
 	}
 
@@ -864,37 +871,6 @@ class SiteOrigin_Settings {
 		global $wpdb;
 		$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url ));
 		return !empty($attachment[0]) ? $attachment[0] : false;
-	}
-
-	/**
-	 * Set the callback that generates the premium upgrade information.
-	 */
-	function premium_content_action( ){
-		do_action( 'siteorigin_settings_premium_content' );
-		exit();
-	}
-
-	/**
-	 * Display the premium upgrade modal
-	 */
-	function admin_footer(){
-		?>
-		<script id="so-premium-modal-template" type="text/template">
-			<div id="so-premium-modal">
-				<div class="so-modal-overlay"></div>
-				<div class="so-modal-titlebar">
-					<h3 class="so-modal-title"><?php echo esc_html( $this->get_localization_term( 'modal_title' ) ) ?></h3>
-					<div class="so-modal-close"><span class="so-modal-close-icon"></span></div>
-				</div>
-				<div class="so-modal-content">
-					<!-- Modal Content -->
-				</div>
-				<div class="so-modal-toolbar">
-					<button class="button-primary so-modal-close"><?php echo esc_html( $this->get_localization_term('close') ) ?></button>
-				<div>
-			</div>
-		</script>
-		<?php
 	}
 }
 
