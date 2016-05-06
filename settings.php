@@ -83,6 +83,7 @@ class SiteOrigin_Settings {
 				// The various templates pages
 				'template_index' => '',
 				'template_search' => '',
+				'template_template_date' => '',
 				'template_404' => '',
 				'template_author' => '',
 				'templates_post_type' => '',

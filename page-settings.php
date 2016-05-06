@@ -69,6 +69,10 @@ class SiteOrigin_Settings_Page_Settings {
 				$type = 'template';
 				$id = '404';
 			}
+			else if( $wp_query->is_date() ) {
+				$type = 'template';
+				$id = 'date';
+			}
 			else if( $wp_query->is_post_type_archive() ) {
 				$type = 'archive';
 				$id = $wp_query->get( 'post_type' );
@@ -284,29 +288,17 @@ class SiteOrigin_Settings_Page_Settings {
 		}
 
 		// Add general page templates
-		$types = array(
-			array(
-				'group' => 'template',
-				'id' => 'home',
-				'title' => $loc['template_home']
-			),
-			array(
-				'group' => 'template',
-				'id' => 'search',
-				'title' => $loc['template_search']
-			),
-			array(
-				'group' => 'template',
-				'id' => '404',
-				'title' => $loc['template_404']
-			),
-			array(
-				'group' => 'template',
-				'id' => 'author',
-				'title' => $loc['template_author']
-			)
-		);
-
+		$types = array();
+		$templates = array( 'home', 'search', 'date', 'author', '404' );
+		foreach ( $templates as $template ) {
+			if( !empty( $loc['template_' . $template] ) ) {
+				$types[] = array(
+					'group' => 'template',
+					'id' => $template,
+					'title' => $loc['template_' . $template]
+				);
+			}
+		}
 
 		// Add public post types
 		$post_types = get_post_types( array( 'public' => true, 'has_archive' => true ), 'objects' );
