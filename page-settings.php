@@ -308,6 +308,8 @@ class SiteOrigin_Settings_Page_Settings {
 		$post_types = get_post_types( array( 'public' => true ), 'objects' );
 		foreach( $post_types as $post_type => $post_type_data ) {
 			if( empty( $post_type_data->label ) ) continue;
+			if( empty( $post_type_data->has_archive ) ) continue;
+
 			$types[] = array(
 				'group' => 'archive',
 				'id' => $post_type,
@@ -318,6 +320,8 @@ class SiteOrigin_Settings_Page_Settings {
 		$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
 		foreach( $taxonomies as $tax_slug => $taxonomy ) {
 			if( empty( $taxonomy->label ) ) continue;
+			if( empty( $taxonomy->publicly_queryable ) ) continue;
+
 			$types[] = array(
 				'group' => 'taxonomy',
 				'id' => $tax_slug,
