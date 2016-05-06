@@ -69,6 +69,10 @@ class SiteOrigin_Settings_Page_Settings {
 				$type = 'template';
 				$id = '404';
 			}
+			else if( $wp_query->is_post_type_archive() ) {
+				$type = 'archive';
+				$id = $wp_query->get( 'post_type' );
+			}
 			else {
 				$object = get_queried_object();
 				switch( get_class( $object ) ) {
