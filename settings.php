@@ -29,11 +29,6 @@ class SiteOrigin_Settings {
 	 */
 	private $sections;
 
-	/**
-	 * @var array The localization strings
-	 */
-	public $loc;
-
 	function __construct(){
 		$this->add_actions();
 
@@ -63,11 +58,30 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * @param $loc
+	 * Get all localization terms
+	 *
+	 * @return mixed|void
 	 */
-	function set_localization($loc){
-		// All these strings must be properly localized by the theme
-		$this->loc = wp_parse_args( $loc, $this->loc );
+	function get_localization(){
+		static $loc = null;
+		if( is_null( $loc ) ) {
+			$loc = apply_filters( 'siteorigin_settings_localization', array(
+				'section_title' => '',          // __( 'Theme Settings', 'siteorigin' ),
+				'section_description' =>  '',   // __( 'Settings for your theme', 'siteorigin' ),
+				'premium_only' =>  '',          // __( 'Premium Only', 'siteorigin' ),
+				'premium_url' => '#',           // The URL where we'll send users for premium information
+
+				// For the controls
+				'variant' =>  '',               // __( 'Variant', 'siteorigin'),
+				'subset' =>  '',                // __( 'Subset', 'siteorigin'),
+
+				// For the premium upgrade modal
+				'meta_box' => '',
+				'archives_section_title' => '',
+				'archives_section_description' => '',
+			) );
+		}
+		return $loc;
 	}
 
 	/**
@@ -78,7 +92,8 @@ class SiteOrigin_Settings {
 	 * @return string
 	 */
 	function get_localization_term( $id ){
-		return !empty($this->loc[$id]) ? $this->loc[$id] : '';
+		$loc = $this->get_localization();
+		return !empty( $loc[$id] ) ? $loc[$id] : '';
 	}
 
 	/**
@@ -203,20 +218,6 @@ class SiteOrigin_Settings {
 		$theme = wp_get_theme();
 		$this->theme_name = $theme->get_template();
 		$this->defaults = apply_filters( 'siteorigin_settings_defaults', $this->defaults );
-		$this->loc = apply_filters('siteorigin_settings_localization', array(
-			'section_title' => '',          // __( 'Theme Settings', 'siteorigin' ),
-			'section_description' =>  '',   // __( 'Settings for your theme', 'siteorigin' ),
-			'premium_only' =>  '',          // __( 'Premium Only', 'siteorigin' ),
-			'premium_url' => '#',           // The URL where we'll send users for premium information
-
-			// For the controls
-			'variant' =>  '',               // __( 'Variant', 'siteorigin'),
-			'subset' =>  '',                // __( 'Subset', 'siteorigin'),
-
-			// For the premium upgrade modal
-			'modal_title' => '',                  // __( 'Premium Upgrade', 'siteorigin' ),
-			'close' => '',                  // __( 'Close', 'siteorigin' ),
-		) );
 	}
 
 	/**
@@ -413,8 +414,8 @@ class SiteOrigin_Settings {
 		// We'll use a single panel for theme settings
 		if( method_exists($wp_customize, 'add_panel') ) {
 			$wp_customize->add_panel( 'theme_settings', array(
-				'title' => $this->loc['section_title'],
-				'description' => $this->loc['section_description'],
+				'title' => $this->get_localization_term( 'section_title' ),
+				'description' => $this->get_localization_term( 'section_description' ),
 				'priority' => 10,
 			) );
 		}
