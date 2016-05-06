@@ -11,7 +11,6 @@ class SiteOrigin_Settings_Page_Settings {
 
 	function __construct(){
 		$this->meta = array();
-		$this->settings = array();
 
 		add_action( 'init', array( $this, 'add_page_settings_support' ) );
 
@@ -243,7 +242,7 @@ class SiteOrigin_Settings_Page_Settings {
 
 		$settings = stripslashes_deep( $_POST['so_page_settings'] );
 
-		foreach( $this->settings as $id => $field ) {
+		foreach( $this->get_settings( 'post', $post_id ) as $id => $field ) {
 			switch( $field['type'] ) {
 				case 'select' :
 					if( !in_array( $settings[$id], array_keys( $field['options'] ) ) ) {
@@ -263,10 +262,6 @@ class SiteOrigin_Settings_Page_Settings {
 		}
 
 		update_post_meta( $post_id, 'siteorigin_page_settings', $settings );
-	}
-
-	function configure( $settings ){
-		$this->settings = $settings;
 	}
 
 	/**
