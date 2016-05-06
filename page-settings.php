@@ -24,6 +24,8 @@ class SiteOrigin_Settings_Page_Settings {
 
 		// Customizer integration
 		add_action( 'customize_register', array( $this, 'customize_register' ) );
+		add_action( 'customize_controls_enqueue_scripts', array( $this, 'enqueue_customizer' ) );
+		add_action( 'customize_preview_init', array( $this, 'customize_enqueue_preview' ) );
 	}
 
 	/**
@@ -55,53 +57,7 @@ class SiteOrigin_Settings_Page_Settings {
 		static $id = false;
 
 		if( $type === false && $id === false ) {
-			global $wp_query;
-
-			if( $wp_query->is_home() ) {
-				$type = 'template';
-				$id = 'home';
-			}
-			else if( $wp_query->is_search() ) {
-				$type = 'template';
-				$id = 'search';
-			}
-			else if( $wp_query->is_404() ) {
-				$type = 'template';
-				$id = '404';
-			}
-			else if( $wp_query->is_date() ) {
-				$type = 'template';
-				$id = 'date';
-			}
-			else if( $wp_query->is_post_type_archive() ) {
-				$type = 'archive';
-				$id = $wp_query->get( 'post_type' );
-			}
-			else {
-				$object = get_queried_object();
-				if( !empty( $object ) ) {
-					switch( get_class( $object ) ) {
-						case 'WP_Term':
-							$type = 'taxonomy';
-							$id = $object->taxonomy;
-							break;
-
-						case 'WP_Post':
-							$type = 'post';
-							$id = $object->ID;
-							break;
-
-						case 'WP_User':
-							$type = 'template';
-							$id = 'author';
-							break;
-					}
-				}
-				else {
-					$type = 'template';
-					$id = 'default';
-				}
-			}
+			list( $type, $id ) = self::get_current_page();
 		}
 
 		if( empty( $single->meta[ $type . '_' . $id ] ) ) {
@@ -128,6 +84,58 @@ class SiteOrigin_Settings_Page_Settings {
 
 	function get_settings_defaults( $type, $id ){
 		return apply_filters( 'siteorigin_page_settings_defaults', array(), $type, $id );
+	}
+
+	static function get_current_page(){
+		global $wp_query;
+
+		if( $wp_query->is_home() ) {
+			$type = 'template';
+			$id = 'home';
+		}
+		else if( $wp_query->is_search() ) {
+			$type = 'template';
+			$id = 'search';
+		}
+		else if( $wp_query->is_404() ) {
+			$type = 'template';
+			$id = '404';
+		}
+		else if( $wp_query->is_date() ) {
+			$type = 'template';
+			$id = 'date';
+		}
+		else if( $wp_query->is_post_type_archive() ) {
+			$type = 'archive';
+			$id = $wp_query->get( 'post_type' );
+		}
+		else {
+			$object = get_queried_object();
+			if( !empty( $object ) ) {
+				switch( get_class( $object ) ) {
+					case 'WP_Term':
+						$type = 'taxonomy';
+						$id = $object->taxonomy;
+						break;
+
+					case 'WP_Post':
+						$type = 'post';
+						$id = $object->ID;
+						break;
+
+					case 'WP_User':
+						$type = 'template';
+						$id = 'author';
+						break;
+				}
+			}
+			else {
+				$type = 'template';
+				$id = 'default';
+			}
+		}
+
+		return array( $type, $id );
 	}
 
 	/**
@@ -371,6 +379,35 @@ class SiteOrigin_Settings_Page_Settings {
 				);
 			}
 		}
+	}
+
+	function enqueue_customizer(){
+		wp_enqueue_script(
+			'siteorigin-page-template-settings',
+			get_stylesheet_directory_uri() . '/inc/settings/js/page-settings-admin' . SITEORIGIN_THEME_JS_PREFIX . '.js',
+			array( 'jquery', 'customize-controls' ),
+			SITEORIGIN_THEME_VERSION
+		);
+	}
+
+	/**
+	 *
+	 */
+	function customize_enqueue_preview(){
+		wp_enqueue_script(
+			'siteorigin-page-template-settings',
+			get_stylesheet_directory_uri() . '/inc/settings/js/page-settings' . SITEORIGIN_THEME_JS_PREFIX . '.js',
+			array( 'jquery', 'customize-preview' ),
+			SITEORIGIN_THEME_VERSION
+		);
+
+		add_action( 'wp_enqueue_scripts', array( $this, 'customize_preview_localize' ) );
+	}
+
+	function customize_preview_localize(){
+		wp_localize_script( 'siteorigin-page-template-settings', 'soTemplateSettings', array(
+			'page' => self::get_current_page(),
+		) );
 	}
 
 }
