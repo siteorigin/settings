@@ -79,28 +79,29 @@ class SiteOrigin_Settings_Page_Settings {
 			}
 			else {
 				$object = get_queried_object();
-				switch( get_class( $object ) ) {
-					case 'WP_Term':
-						$type = 'taxonomy';
-						$id = $object->taxonomy;
-						break;
+				if( !empty( $object ) ) {
+					switch( get_class( $object ) ) {
+						case 'WP_Term':
+							$type = 'taxonomy';
+							$id = $object->taxonomy;
+							break;
 
-					case 'WP_Post':
-						$type = 'post';
-						$id = $object->ID;
-						break;
+						case 'WP_Post':
+							$type = 'post';
+							$id = $object->ID;
+							break;
 
-					case 'WP_User':
-						$type = 'template';
-						$id = 'author';
-						break;
+						case 'WP_User':
+							$type = 'template';
+							$id = 'author';
+							break;
+					}
+				}
+				else {
+					$type = 'template';
+					$id = 'default';
 				}
 			}
-		}
-
-		if( empty( $type ) || empty( $id ) ) {
-			$type = 'template';
-			$id = 'default';
 		}
 
 		if( empty( $single->meta[ $type . '_' . $id ] ) ) {
