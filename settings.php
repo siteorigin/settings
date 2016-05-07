@@ -51,7 +51,7 @@ class SiteOrigin_Settings {
 		static $single;
 
 		if( empty($single) ) {
-			$single = new SiteOrigin_Settings();
+			$single = new self();
 		}
 
 		return $single;
