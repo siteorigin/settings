@@ -28,7 +28,7 @@ class SiteOrigin_Teaser_Control extends WP_Customize_Control {
 	 * Enqueue everything we need for this teaser
 	 */
 	public function enqueue (  ){
-		wp_enqueue_script( 'siteorigin-settings-teaser-control', get_template_directory_uri() . '/inc/settings/js/teaser-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery', 'customize-controls'  ) );
+		wp_enqueue_script( 'siteorigin-settings-teaser-control', get_template_directory_uri() . '/inc/settings/js/controls/teaser-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery', 'customize-controls'  ) );
 		wp_enqueue_style( 'siteorigin-settings-teaser-control', get_template_directory_uri() . '/inc/settings/css/teaser-control.css', array() );
 	}
 }
@@ -116,7 +116,7 @@ class SiteOrigin_Font_Control extends WP_Customize_Control {
 		wp_enqueue_style( 'siteorigin-settings-chosen', get_template_directory_uri() . '/inc/settings/chosen/chosen.min.css', array(), '1.4.2' );
 
 		// The main font controls
-		wp_enqueue_script( 'siteorigin-settings-font-control', get_template_directory_uri() . '/inc/settings/js/font-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery', 'customize-controls' ) );
+		wp_enqueue_script( 'siteorigin-settings-font-control', get_template_directory_uri() . '/inc/settings/js/controls/font-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery', 'customize-controls' ) );
 		wp_enqueue_style( 'siteorigin-settings-font-control', get_template_directory_uri() . '/inc/settings/css/font-control.css', array() );
 	}
 }
@@ -155,7 +155,7 @@ class SiteOrigin_Image_Select_Control extends WP_Customize_Control {
 	}
 
 	public function enqueue() {
-		wp_enqueue_script( 'siteorigin-settings-font-control', get_template_directory_uri() . '/inc/settings/js/image-select-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery', 'customize-controls' ) );
+		wp_enqueue_script( 'siteorigin-settings-font-control', get_template_directory_uri() . '/inc/settings/js/controls/image-select-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery', 'customize-controls' ) );
 		wp_enqueue_style( 'siteorigin-settings-font-control', get_template_directory_uri() . '/inc/settings/css/image-select-control.css', array() );
 	}
 
