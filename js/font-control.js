@@ -1,16 +1,14 @@
 
 /* globals jQuery, wp */
 
-jQuery( function($){
-
-    var api = wp.customize;
+( function( api, $ ) {
 
     var loadedFonts = {};
 
     /**
      * The font control object
      */
-    api.SoFontControl = api.Control.extend({
+    api.controlConstructor['siteorigin-font'] = api.Control.extend( {
         ready: function(){
             var control = this;
 
@@ -88,7 +86,7 @@ jQuery( function($){
 
             // This is some setup stuff that needs to happen after the section is expanded
             var chosen = null;
-            api.section( control.section() ).container
+	        api.section( control.section() ).container
                 .on( 'expanded', function() {
                     // Setup this field for the first time
                     if( chosen === null ){
@@ -162,9 +160,6 @@ jQuery( function($){
                     }
                 });
         }
-    });
+    } );
 
-    // Register this control object
-    api.controlConstructor['siteorigin-font'] = api.SoFontControl;
-
-} );
+} )( wp.customize, jQuery );

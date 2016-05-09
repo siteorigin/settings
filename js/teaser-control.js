@@ -1,13 +1,9 @@
 
 /* globals ajaxurl, wp */
 
-jQuery( function($){
+( function( api, $ ) {
 
-    var api = wp.customize;
-
-    var premiumModal;
-
-    api.SoTeaserControl = api.Control.extend( {
+	api.controlConstructor['siteorigin-teaser'] = api.Control.extend( {
         ready: function () {
             var control = this;
             var container = control.container;
@@ -18,5 +14,4 @@ jQuery( function($){
         }
     } );
 
-    api.controlConstructor['siteorigin-teaser'] = api.SoTeaserControl ;
-} );
+} )( wp.customize, jQuery );

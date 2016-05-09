@@ -1,8 +1,6 @@
-jQuery( function($){
+( function( api, $ ) {
 
-    var api = wp.customize;
-
-    api.SoImageSelectControl = api.Control.extend({
+	api.controlConstructor['siteorigin-image-select'] = api.Control.extend({
         ready: function () {
             var control = this;
             var container = control.container;
@@ -15,5 +13,4 @@ jQuery( function($){
         }
     });
 
-    api.controlConstructor['siteorigin-image-select'] = api.SoImageSelectControl ;
-} );
+} )( wp.customize, jQuery );
