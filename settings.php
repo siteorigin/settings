@@ -464,6 +464,9 @@ class SiteOrigin_Settings {
 					case 'range':
 						$sanitize_callback = array( $this, 'sanitize_float' );
 						break;
+					case 'widget':
+						$sanitize_callback = array( $this, 'sanitize_widget' );
+						break;
 					default:
 						$sanitize_callback = 'sanitize_text_field';
 						break;
@@ -519,6 +522,13 @@ class SiteOrigin_Settings {
 					);
 				}
 
+				if( $setting_args['type'] == 'widget' ) {
+					$control_args['widget_args'] = array(
+						'class' => !empty($setting_args['args']['widget_class']) ? $setting_args['args']['widget_class'] : false,
+						'bundle_widget' => !empty($setting_args['args']['bundle_widget']) ? $setting_args['args']['bundle_widget'] : false,
+					);
+				}
+
 				switch( $setting_args['type'] ) {
 					case 'media' :
 						$wp_customize->add_control(
@@ -563,6 +573,16 @@ class SiteOrigin_Settings {
 					case 'font' :
 						$wp_customize->add_control(
 							new SiteOrigin_Font_Control(
+								$wp_customize,
+								'theme_settings_' . $section_id . '_' . $setting_id,
+								$control_args
+							)
+						);
+						break;
+
+					case 'widget' :
+						$wp_customize->add_control(
+							new SiteOrigin_Widget_Setting_Control(
 								$wp_customize,
 								'theme_settings_' . $section_id . '_' . $setting_id,
 								$control_args
@@ -820,6 +840,32 @@ class SiteOrigin_Settings {
 
 	static function sanitize_float( $val ){
 		return floatval( $val );
+	}
+
+	/**
+	 * Sanitize a widget value.
+	 *
+	 * @param $widget
+	 *
+	 * @return array|mixed|object
+	 */
+	static function sanitize_widget( $widget ){
+		if( is_string( $widget ) ) {
+			$widget = json_decode( $widget );
+		}
+
+		if( !empty( $widget['panels_info']['widget']) && class_exists( $widget['panels_info']['widget'] ) ) {
+			$the_widget = new $widget['panels_info']['widget'];
+			if( is_a( $the_widget, 'WP_Widget' ) ) {
+				$info = $widget['panels_info'];
+				unset( $widget['panels_info'] );
+				$widget = $the_widget->update( $widget, $widget );
+				$widget['panels_info'] = $info;
+
+			}
+		}
+
+		return $widget;
 	}
 
 	/**
