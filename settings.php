@@ -449,8 +449,10 @@ class SiteOrigin_Settings {
 			foreach( $settings as $setting_id => $setting_args ) {
 				switch( $setting_args['type'] ) {
 					case 'url':
-					case 'media':
 						$sanitize_callback = 'esc_url_raw';
+						break;
+					case 'media':
+						$sanitize_callback = array( $this, 'sanitize_int' );
 						break;
 					case 'color':
 						$sanitize_callback = 'sanitize_hex_color';
@@ -532,10 +534,13 @@ class SiteOrigin_Settings {
 				switch( $setting_args['type'] ) {
 					case 'media' :
 						$wp_customize->add_control(
-							new WP_Customize_Image_Control(
+							new WP_Customize_Media_Control(
 								$wp_customize,
 								'theme_settings_' . $section_id . '_' . $setting_id,
-								$control_args
+								wp_parse_args( $control_args, array(
+									'section' => 'media',
+									'mime_type' => 'image',
+								) )
 							)
 						);
 						break;
@@ -825,6 +830,17 @@ class SiteOrigin_Settings {
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Sanitize an integer
+	 *
+	 * @param $val
+	 *
+	 * @return int
+	 */
+	static function sanitize_int( $val ){
+		return intval( $val );
 	}
 
 	/**
