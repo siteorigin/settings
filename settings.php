@@ -40,6 +40,8 @@ class SiteOrigin_Settings {
 		if( !empty( $_POST['wp_customize'] ) && $_POST['wp_customize'] == 'on' && is_customize_preview() ) {
 			add_filter( 'siteorigin_setting', array( $this, 'customizer_filter' ), 15, 2 );
 		}
+
+		spl_autoload_register( array( $this, '_autoload' ) );
 	}
 
 	/**
@@ -91,6 +93,19 @@ class SiteOrigin_Settings {
 			) );
 		}
 		return $loc;
+	}
+
+	function _autoload( $class_name ){
+		if( $class_name == 'SiteOrigin_Settings_CSS_Functions' ) {
+			include dirname( __FILE__ ) . '/inc/css_functions.php';
+		}
+		else if( $class_name == 'SiteOrigin_Settings_Value_Sanitize' ) {
+			include dirname( __FILE__ ) . '/inc/sanitize.php';
+		}
+		else if( strpos( $class_name, 'SiteOrigin_Setting_Control' ) === 0 ) {
+			$file = strtolower( str_replace( 'SiteOrigin_Setting_Control', '', $class_name ) );
+			include( dirname( __FILE__ ) . '/controls/' . $file . '.php' );
+		}
 	}
 
 	/**
@@ -406,15 +421,30 @@ class SiteOrigin_Settings {
 		}
 	}
 
+	static $control_classes = array(
+		'media' => 'WP_Customize_Media_Control',
+		'color' => 'WP_Customize_Color_Control',
+		'teaser' => 'SiteOrigin_Setting_Control_Teaser',
+		'image_select' => 'SiteOrigin_Setting_Control_Image_Select',
+		'font' => 'SiteOrigin_Setting_Control_Font',
+		'widget' => 'SiteOrigin_Setting_Control_Widget',
+	);
+
+	static $sanitize_callbacks = array(
+		'url' => 'esc_url_raw',
+		'color' => 'sanitize_hex_color',
+		'media' => array( 'SiteOrigin_Settings_Value_Sanitize', 'intval' ),
+		'checkbox' => array( 'SiteOrigin_Settings_Value_Sanitize', 'bool' ),
+		'range' => array( 'SiteOrigin_Settings_Value_Sanitize', 'float' ),
+		'widget' => array( 'SiteOrigin_Settings_Value_Sanitize', 'widget' ),
+	);
+
 	/**
 	 * Register everything for the customizer
 	 *
 	 * @param WP_Customize_Manager $wp_customize
 	 */
 	function customize_register( $wp_customize ){
-		// Include the extra control types
-		include_once dirname( __FILE__ ) . '/inc/controls.php';
-
 		// Let everything setup the settings
 		if( !did_action( 'siteorigin_settings_init' ) ) {
 			do_action( 'siteorigin_settings_init' );
@@ -447,42 +477,22 @@ class SiteOrigin_Settings {
 		// Finally, add the settings
 		foreach( $this->settings as $section_id => $settings ) {
 			foreach( $settings as $setting_id => $setting_args ) {
-				switch( $setting_args['type'] ) {
-					case 'url':
-						$sanitize_callback = 'esc_url_raw';
-						break;
-					case 'media':
-						$sanitize_callback = array( $this, 'sanitize_int' );
-						break;
-					case 'color':
-						$sanitize_callback = 'sanitize_hex_color';
-						break;
-					case 'font':
-						$sanitize_callback = 'sanitize_text_field';
-						break;
-					case 'checkbox':
-						$sanitize_callback = array($this, 'sanitize_bool');
-						break;
-					case 'range':
-						$sanitize_callback = array( $this, 'sanitize_float' );
-						break;
-					case 'widget':
-						$sanitize_callback = array( $this, 'sanitize_widget' );
-						break;
-					default:
-						$sanitize_callback = 'sanitize_text_field';
-						break;
-				}
 
+				// Setup the sanitize callback
+				$sanitize_callback = 'sanitize_text_field';
 				if( !empty( $setting_args['args']['sanitize_callback'] ) ) {
 					$sanitize_callback = $setting_args['args']['sanitize_callback'];
 				}
+				else if( !empty( self::$sanitize_callbacks[ $setting_args['type'] ] ) ) {
+					$sanitize_callback = self::$sanitize_callbacks[ $setting_args['type'] ];
+				}
 
-				if( isset( $old_settings[$section_id . '_' . $setting_id] ) ) {
+				// Get the default value
+				if( isset( $old_settings[ $section_id . '_' . $setting_id ] ) ) {
 					$default = $old_settings[$section_id . '_' . $setting_id];
 				}
 				else {
-					$default = isset( $this->defaults[$section_id . '_' . $setting_id] ) ? $this->defaults[$section_id . '_' . $setting_id] : '';
+					$default = isset( $this->defaults[ $section_id . '_' . $setting_id ] ) ? $this->defaults[ $section_id . '_' . $setting_id ] : '';
 				}
 
 				// Create the customizer setting
@@ -523,85 +533,36 @@ class SiteOrigin_Settings {
 						'step' => !empty($setting_args['args']['step']) ? $setting_args['args']['step'] : 0.1,
 					);
 				}
-
-				if( $setting_args['type'] == 'widget' ) {
+				else if( $setting_args['type'] == 'widget' ) {
 					$control_args['widget_args'] = array(
 						'class' => !empty($setting_args['args']['widget_class']) ? $setting_args['args']['widget_class'] : false,
 						'bundle_widget' => !empty($setting_args['args']['bundle_widget']) ? $setting_args['args']['bundle_widget'] : false,
 					);
 				}
+				else if( $setting_args['type'] == 'media' ) {
+					$control_args = wp_parse_args( $control_args, array(
+						'section' => 'media',
+						'mime_type' => 'image',
+					) );
+				}
 
-				switch( $setting_args['type'] ) {
-					case 'media' :
-						$wp_customize->add_control(
-							new WP_Customize_Media_Control(
-								$wp_customize,
-								'theme_settings_' . $section_id . '_' . $setting_id,
-								wp_parse_args( $control_args, array(
-									'section' => 'media',
-									'mime_type' => 'image',
-								) )
-							)
-						);
-						break;
+				$control_class = !empty( self::$control_classes[ $setting_args['type'] ] ) ? self::$control_classes[ $setting_args['type'] ] : false;
 
-					case 'color' :
-						$wp_customize->add_control(
-							new WP_Customize_Color_Control(
-								$wp_customize,
-								'theme_settings_' . $section_id . '_' . $setting_id,
-								$control_args
-							)
-						);
-						break;
-
-					case 'teaser' :
-						$wp_customize->add_control(
-							new SiteOrigin_Teaser_Control(
-								$wp_customize,
-								'theme_settings_' . $section_id . '_' . $setting_id,
-								$control_args
-							)
-						);
-						break;
-
-					case 'image_select':
-						$wp_customize->add_control(
-							new SiteOrigin_Image_Select_Control(
-								$wp_customize,
-								'theme_settings_' . $section_id . '_' . $setting_id,
-								$control_args
-							)
-						);
-						break;
-
-					case 'font' :
-						$wp_customize->add_control(
-							new SiteOrigin_Font_Control(
-								$wp_customize,
-								'theme_settings_' . $section_id . '_' . $setting_id,
-								$control_args
-							)
-						);
-						break;
-
-					case 'widget' :
-						$wp_customize->add_control(
-							new SiteOrigin_Widget_Setting_Control(
-								$wp_customize,
-								'theme_settings_' . $section_id . '_' . $setting_id,
-								$control_args
-							)
-						);
-						break;
-
-					default:
-						$control_args['type'] = $setting_args['type'];
-						$wp_customize->add_control(
+				if( !empty( $control_class ) ) {
+					$wp_customize->add_control(
+						new $control_class(
+							$wp_customize,
 							'theme_settings_' . $section_id . '_' . $setting_id,
 							$control_args
-						);
-						break;
+						)
+					);
+				}
+				else {
+					$control_args['type'] = $setting_args['type'];
+					$wp_customize->add_control(
+						'theme_settings_' . $section_id . '_' . $setting_id,
+						$control_args
+					);
 				}
 
 			}
@@ -751,137 +712,15 @@ class SiteOrigin_Settings {
 	 */
 	function css_functions($match) {
 		$function = $match[1];
-		$return = '';
 
-		if( !class_exists( 'SiteOrigin_Color' ) ) {
-			include dirname( __FILE__ ) . '/inc/color.php';
+		if( $function == 'single' ) return '';
+
+		$css_functions = SiteOrigin_Settings_CSS_Functions::single();
+		if( method_exists( $css_functions, $function ) ) {
+			return $css_functions->$function( $match );
 		}
 
-		// This should be refactored to use actual functions
-		switch( $function ) {
-			case 'font':
-				if( empty($match[2]) ) break;
-				$args = json_decode( trim($match[2]), true );
-				if( empty($args['font']) ) {
-					break;
-				}
-
-				if( $args['webfont'] ) {
-					// We need to import this too
-					$query = add_query_arg(array(
-						'family' => rawurlencode( $args['font'] ) . ':' . rawurlencode( $args['variant'] ),
-						'subset' => rawurlencode( $args['subset'] )
-					), '//fonts.googleapis.com/css');
-					$return .= '@import url(' . $query . '); ';
-				}
-
-				// Now lets add all the css styling
-				$return .= 'font-family: "' . esc_attr( $args['font'] ) . '", ' . $args['category'] . '; ';
-				if( strpos( $args['variant'], 'italic' ) !== false ) {
-					$weight = str_replace('italic', '', $args['variant']);
-					$return .= 'font-style: italic; ';
-				}
-				else {
-					$weight = $args['variant'];
-				}
-				if( empty($args['variant']) ) $args['variant'] = 'regular';
-				$return .= 'font-weight: ' . esc_attr( $weight) . '; ';
-
-				break;
-
-			case 'rgba':
-				if( empty( $match[2] ) ) break;
-				$args = explode( ',', $match[2] );
-				$rgb = SiteOrigin_Color::hex2rgb( trim( $args[0] ) );
-
-				$return = 'rgba(' . implode( ',', array_merge( $rgb, array( floatval( $args[1] ) ) ) ) . ')';
-				break;
-
-			case 'lighten' :
-				$args = explode( ',', $match[2] );
-				$rgb = SiteOrigin_Color::hex2rgb( trim( $args[0] ) );
-				$hsv = SiteOrigin_Color::rgb2hsv( $rgb );
-				if( strpos( $args[1], '%' ) !== false ) {
-					$percent = intval( trim($args[1]) ) / 100;
-				} else {
-					$percent = floatval( trim($args[1]) );
-				}
-
-				$hsv[2] += $percent;
-				$return = SiteOrigin_Color::rgb2hex( SiteOrigin_Color::hsv2rgb( $hsv ) );
-
-				break;
-
-			case 'darken' :
-				$args = explode( ',', $match[2] );
-				$rgb = SiteOrigin_Color::hex2rgb( trim( $args[0] ) );
-				$hsv = SiteOrigin_Color::rgb2hsv( $rgb );
-				if( strpos( $args[1], '%' ) !== false ) {
-					$percent = intval( trim($args[1]) ) / 100;
-				} else {
-					$percent = floatval( trim($args[1]) );
-				}
-
-				$hsv[2] -= $percent;
-				$return = SiteOrigin_Color::rgb2hex( SiteOrigin_Color::hsv2rgb( $hsv ) );
-
-				break;
-
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Sanitize an integer
-	 *
-	 * @param $val
-	 *
-	 * @return int
-	 */
-	static function sanitize_int( $val ){
-		return intval( $val );
-	}
-
-	/**
-	 * Sanitize a boolean value.
-	 *
-	 * @param $val
-	 *
-	 * @return bool
-	 */
-	static function sanitize_bool($val){
-		return (bool) $val;
-	}
-
-	static function sanitize_float( $val ){
-		return floatval( $val );
-	}
-
-	/**
-	 * Sanitize a widget value.
-	 *
-	 * @param $widget
-	 *
-	 * @return array|mixed|object
-	 */
-	static function sanitize_widget( $widget ){
-		if( is_string( $widget ) ) {
-			$widget = json_decode( $widget );
-		}
-
-		if( !empty( $widget['panels_info']['widget']) && class_exists( $widget['panels_info']['widget'] ) ) {
-			$the_widget = new $widget['panels_info']['widget'];
-			if( is_a( $the_widget, 'WP_Widget' ) ) {
-				$info = $widget['panels_info'];
-				unset( $widget['panels_info'] );
-				$widget = $the_widget->update( $widget, $widget );
-				$widget['panels_info'] = $info;
-
-			}
-		}
-
-		return $widget;
+		return '';
 	}
 
 	/**
@@ -958,33 +797,4 @@ function siteorigin_setting( $setting ){
  */
 function siteorigin_settings_set( $setting, $value ){
 	SiteOrigin_Settings::single()->set( $setting, $value );
-}
-
-class SiteOrigin_Settings_Value_Sanitize {
-	static function intval( $val ){
-		return intval( $val );
-	}
-
-	static function measurement( $val ){
-		$measurements = array_map('preg_quote', array(
-			'px',
-			'%',
-			'in',
-			'cm',
-			'mm',
-			'em',
-			'ex',
-			'pt',
-			'pc',
-		) );
-
-		if (preg_match('/([0-9\.,]+).*?(' . implode('|', $measurements) . ')/', $val, $match)) {
-			$return = $match[1] . $match[2];
-		}
-		else {
-			$return = '';
-		}
-
-		return $return;
-	}
 }
