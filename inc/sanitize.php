@@ -1,6 +1,6 @@
 <?php
 
-class SiteOrigin_Settings_Value_Sanitize {
+class SiteOrigin_Settings_Sanitize {
 	static function intval( $val ){
 		return intval( $val );
 	}

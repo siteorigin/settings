@@ -16,10 +16,10 @@ class SiteOrigin_Settings_Control_Teaser extends WP_Customize_Control {
 
 		?>
 		<a
-			href="<?php echo esc_url( SiteOrigin_Settings::single()->get_localization_term('premium_url') ) ?>"
+			href="<?php echo esc_url( SiteOrigin_Settings_Localization::get('premium_url') ) ?>"
 			class="button-primary so-premium-upgrade"
 			target="_blank">
-			<?php echo esc_html( SiteOrigin_Settings::single()->get_localization_term('premium_only') ) ?>
+			<?php echo esc_html( SiteOrigin_Settings_Localization::get('premium_only') ) ?>
 		</a>
 		<?php
 	}

@@ -34,7 +34,7 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 	function customize_register( $wp_customize ){
 		if( !current_theme_supports( 'siteorigin-template-settings' ) ) return;
 
-		$loc = SiteOrigin_Settings::single()->get_localization();
+		$loc = SiteOrigin_Settings_Localization::get();
 
 		// We'll use a single panel for theme settings
 		if( method_exists($wp_customize, 'add_panel') ) {

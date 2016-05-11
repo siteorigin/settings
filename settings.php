@@ -1,7 +1,5 @@
 <?php
 
-include dirname( __FILE__ ) . '/inc/webfonts.php';
-
 /**
 * Class SiteOrigin_Settings
  *
@@ -59,65 +57,15 @@ class SiteOrigin_Settings {
 		return $single;
 	}
 
-	/**
-	 * Get all localization terms
-	 *
-	 * @return mixed|void
-	 */
-	function get_localization(){
-		static $loc = null;
-		if( is_null( $loc ) ) {
-			$loc = apply_filters( 'siteorigin_settings_localization', array(
-				'section_title' => '',          // __( 'Theme Settings', 'siteorigin' ),
-				'section_description' =>  '',   // __( 'Settings for your theme', 'siteorigin' ),
-				'premium_only' =>  '',          // __( 'Premium Only', 'siteorigin' ),
-				'premium_url' => '#',           // The URL where we'll send users for premium information
-
-				// For the controls
-				'variant' =>  '',               // __( 'Variant', 'siteorigin'),
-				'subset' =>  '',                // __( 'Subset', 'siteorigin'),
-
-				// For the premium upgrade modal
-				'meta_box' => '',
-				'page_section_title' => '',
-				'page_section_description' => '',
-
-				// The various templates pages
-				'template_index' => '',
-				'template_search' => '',
-				'template_template_date' => '',
-				'template_404' => '',
-				'template_author' => '',
-				'templates_post_type' => '',
-				'templates_taxonomy' => '',
-			) );
-		}
-		return $loc;
-	}
-
 	function _autoload( $class_name ){
-		if( $class_name == 'SiteOrigin_Settings_CSS_Functions' ) {
-			include dirname( __FILE__ ) . '/inc/css_functions.php';
+		if( strpos( $class_name, 'SiteOrigin_Settings_Control_' ) === 0 ) {
+			$file = strtolower( str_replace( 'SiteOrigin_Settings_Control_', '', $class_name ) );
+			include( dirname( __FILE__ ) . '/inc/controls/' . $file . '.php' );
 		}
-		else if( $class_name == 'SiteOrigin_Settings_Value_Sanitize' ) {
-			include dirname( __FILE__ ) . '/inc/sanitize.php';
+		elseif ( strpos( $class_name, 'SiteOrigin_Settings_' ) === 0 ) {
+			$file = strtolower( str_replace( 'SiteOrigin_Settings_', '', $class_name ) );
+			include( dirname( __FILE__ ) . '/inc/' . $file . '.php' );
 		}
-		else if( strpos( $class_name, 'SiteOrigin_Setting_Control' ) === 0 ) {
-			$file = strtolower( str_replace( 'SiteOrigin_Setting_Control', '', $class_name ) );
-			include( dirname( __FILE__ ) . '/controls/' . $file . '.php' );
-		}
-	}
-
-	/**
-	 * Get a single localization term.
-	 *
-	 * @param $id
-	 *
-	 * @return string
-	 */
-	function get_localization_term( $id ){
-		$loc = $this->get_localization();
-		return !empty( $loc[$id] ) ? $loc[$id] : '';
 	}
 
 	/**
@@ -424,19 +372,19 @@ class SiteOrigin_Settings {
 	static $control_classes = array(
 		'media' => 'WP_Customize_Media_Control',
 		'color' => 'WP_Customize_Color_Control',
-		'teaser' => 'SiteOrigin_Setting_Control_Teaser',
-		'image_select' => 'SiteOrigin_Setting_Control_Image_Select',
-		'font' => 'SiteOrigin_Setting_Control_Font',
-		'widget' => 'SiteOrigin_Setting_Control_Widget',
+		'teaser' => 'SiteOrigin_Settings_Control_Teaser',
+		'image_select' => 'SiteOrigin_Settings_Control_Image_Select',
+		'font' => 'SiteOrigin_Settings_Control_Font',
+		'widget' => 'SiteOrigin_Settings_Control_Widget',
 	);
 
 	static $sanitize_callbacks = array(
 		'url' => 'esc_url_raw',
 		'color' => 'sanitize_hex_color',
-		'media' => array( 'SiteOrigin_Settings_Value_Sanitize', 'intval' ),
-		'checkbox' => array( 'SiteOrigin_Settings_Value_Sanitize', 'bool' ),
-		'range' => array( 'SiteOrigin_Settings_Value_Sanitize', 'float' ),
-		'widget' => array( 'SiteOrigin_Settings_Value_Sanitize', 'widget' ),
+		'media' => array( 'SiteOrigin_Settings_Sanitize', 'intval' ),
+		'checkbox' => array( 'SiteOrigin_Settings_Sanitize', 'bool' ),
+		'range' => array( 'SiteOrigin_Settings_Sanitize', 'float' ),
+		'widget' => array( 'SiteOrigin_Settings_Sanitize', 'widget' ),
 	);
 
 	/**
@@ -453,8 +401,8 @@ class SiteOrigin_Settings {
 		// We'll use a single panel for theme settings
 		if( method_exists($wp_customize, 'add_panel') ) {
 			$wp_customize->add_panel( 'theme_settings', array(
-				'title' => $this->get_localization_term( 'section_title' ),
-				'description' => $this->get_localization_term( 'section_description' ),
+				'title' => SiteOrigin_Settings_Localization::get( 'section_title' ),
+				'description' => SiteOrigin_Settings_Localization::get( 'section_description' ),
 				'priority' => 10,
 			) );
 		}

@@ -60,12 +60,12 @@ class SiteOrigin_Settings_Control_Font extends WP_Customize_Control {
 		</div>
 
 		<div class="field-wrapper">
-			<label><?php echo esc_html( SiteOrigin_Settings::single()->get_localization_term( 'variant') ) ?></label>
+			<label><?php echo esc_html( SiteOrigin_Settings_Localization::get( 'variant') ) ?></label>
 			<select class="font-variant"></select>
 		</div>
 
 		<div class="field-wrapper">
-			<label><?php echo esc_html( SiteOrigin_Settings::single()->get_localization_term( 'subset' ) ) ?></label>
+			<label><?php echo esc_html( SiteOrigin_Settings_Localization::get( 'subset' ) ) ?></label>
 			<select class="font-subset"></select>
 		</div>
 
