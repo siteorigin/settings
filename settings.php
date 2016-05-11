@@ -716,10 +716,20 @@ class SiteOrigin_Settings {
 	 * @return mixed
 	 */
 	static function get_image_id( $image_url ){
-		if( empty($image_url) ) return false;
-		global $wpdb;
-		$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url ));
-		return !empty($attachment[0]) ? $attachment[0] : false;
+		if( empty( $image_url ) ) return false;
+
+		$attachment_id = wp_cache_get( $image_url, 'siteorigin_image_id' );
+
+		if( $attachment_id === false ) {
+			global $wpdb;
+			$attachment = $wpdb->get_col(
+				$wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url )
+			);
+			$attachment_id = !empty($attachment[0]) ? $attachment[0] : 0;
+			wp_cache_set( $image_url, $attachment_id, 'siteorigin_image_id', 86400 );
+		}
+
+		return $attachment_id;
 	}
 }
 
