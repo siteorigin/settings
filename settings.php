@@ -39,6 +39,8 @@ class SiteOrigin_Settings {
 			add_filter( 'siteorigin_setting', array( $this, 'customizer_filter' ), 15, 2 );
 		}
 
+		add_action( 'after_setup_theme', array( $this, 'setup_page_settings' ) );
+
 		spl_autoload_register( array( $this, '_autoload' ) );
 	}
 
@@ -730,6 +732,12 @@ class SiteOrigin_Settings {
 		}
 
 		return $attachment_id;
+	}
+
+	function setup_page_settings(){
+		if( has_filter( 'siteorigin_page_settings' ) ) {
+			SiteOrigin_Settings_Page_Settings::single();
+		}
 	}
 }
 

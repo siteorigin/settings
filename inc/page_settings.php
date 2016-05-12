@@ -278,5 +278,3 @@ SiteOrigin_Settings_Page_Settings::single();
 function siteorigin_page_setting( $setting = false, $default = false ) {
 	return SiteOrigin_Settings_Page_Settings::single()->get( $setting, $default );
 }
-
-include dirname( __FILE__ ) . '/page-settings-customizer.php';

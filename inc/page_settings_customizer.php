@@ -7,8 +7,6 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 		add_action( 'customize_register', array( $this, 'customize_register' ) );
 		add_action( 'customize_controls_enqueue_scripts', array( $this, 'enqueue_customizer' ) );
 		add_action( 'customize_preview_init', array( $this, 'customize_enqueue_preview' ) );
-
-		$this->settings = SiteOrigin_Settings_Page_Settings::single();
 	}
 
 	/**
@@ -90,8 +88,8 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 			) );
 
 			// Now add the settings
-			$settings = $this->settings->get_settings( $type['group'], $type['id'] );
-			$defaults = $this->settings->get_settings_defaults( $type['group'], $type['id'] );
+			$settings = SiteOrigin_Settings_Page_Settings::single()->get_settings( $type['group'], $type['id'] );
+			$defaults = SiteOrigin_Settings_Page_Settings::single()->get_settings_defaults( $type['group'], $type['id'] );
 
 			foreach( $settings as $id => $setting ) {
 				$sanitize_callback = 'sanitize_text_field';
