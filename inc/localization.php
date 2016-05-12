@@ -31,7 +31,7 @@ class SiteOrigin_Settings_Localization {
 		$this->terms = apply_filters( 'siteorigin_settings_localization', $terms );
 	}
 
-	function single(){
+	static function single(){
 		static $single;
 		if( empty( $single ) ) {
 			$single = new self();

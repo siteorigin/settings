@@ -6,7 +6,7 @@ class SiteOrigin_Settings_CSS_Functions {
 		spl_autoload_register( array( $this, '_autoload' ) );
 	}
 
-	function single(){
+	static function single(){
 		static $single;
 		if( empty( $single ) ) {
 			$single = new self();
