@@ -24,9 +24,9 @@ class SiteOrigin_Settings_Control_Widget extends WP_Customize_Control {
 		if( !class_exists( $this->widget_args['class'] ) ) {
 			// Display the message prompting the user to install the widget plugin from WordPress.org
 			?><div class="so-settings-widget-form"><?php
-			_e('This field requires the Widgets Bundle plugin.', 'siteorigin');
+			echo SiteOrigin_Settings_Localization::get( 'requires_widgets_bundle' );
 			echo ' ';
-			printf( __( '<a href="%s">Install</a> the Widgets Bundle now.', 'siteorigin' ), 'https://wordpress.org/plugins/so-widgets-bundle/' );
+			printf( echo SiteOrigin_Settings_Localization::get( 'install_widgets_bundle' ), 'https://wordpress.org/plugins/so-widgets-bundle/' );
 			?></div>
 			<input type="hidden" class="widget-value" value="<?php esc_attr( $this->value()  ) ?>" />
 			<?php
@@ -48,21 +48,19 @@ class SiteOrigin_Settings_Control_Widget extends WP_Customize_Control {
 			$the_widget->number = 1;
 			ob_start();
 			$the_widget->form( $widget_values );
-			$form = '<p><a href="" class="button-secondary so-widget-close">' . __( 'Close', 'siteorigin' ) . '</a></p>' . ob_get_clean();
+			$form = '<p><a href="" class="button-secondary so-widget-close">' . SiteOrigin_Settings_Localization::get( 'close' ) . '</a></p>' . ob_get_clean();
 			// Convert the widget field naming into ones that Settings will use
 			$exp = preg_quote( $the_widget->get_field_name('____') );
 			$exp = str_replace('____', '(.*?)', $exp);
 			$form = preg_replace( '/'.$exp.'/', 'siteorigin_settings_widget['.preg_quote(1).'][$1]', $form );
-			$form .= '<p><a href="" class="button-secondary so-widget-close">' . __( 'Close', 'siteorigin' ) . '</a></p>';
+			$form .= '<p><a href="" class="button-secondary so-widget-close">' . SiteOrigin_Settings_Localization::get( 'close' ) . '</a></p>';
 
 			?>
 			<div class="so-settings-widget-form">
 				<div class="so-widget-form" data-widget-class="<?php echo esc_attr( $this->widget_args['class'] ) ?>">
 					<?php echo $form ?>
 				</div>
-
-				<a href="#" class="button-primary so-edit-widget"><?php _e('Edit Widget', 'siteorgin') ?></a>
-
+				<a href="#" class="button-primary so-edit-widget"><?php echo esc_html( SiteOrigin_Settings_Localization::get( 'edit_widget' ) ) ?></a>
 			</div>
 			<?php
 		}
