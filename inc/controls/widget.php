@@ -26,7 +26,7 @@ class SiteOrigin_Settings_Control_Widget extends WP_Customize_Control {
 			?><div class="so-settings-widget-form"><?php
 			echo SiteOrigin_Settings_Localization::get( 'requires_widgets_bundle' );
 			echo ' ';
-			printf( echo SiteOrigin_Settings_Localization::get( 'install_widgets_bundle' ), 'https://wordpress.org/plugins/so-widgets-bundle/' );
+			printf( SiteOrigin_Settings_Localization::get( 'install_widgets_bundle' ), 'https://wordpress.org/plugins/so-widgets-bundle/' );
 			?></div>
 			<input type="hidden" class="widget-value" value="<?php esc_attr( $this->value()  ) ?>" />
 			<?php
