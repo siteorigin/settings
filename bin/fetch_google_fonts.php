@@ -22,7 +22,7 @@ foreach( $fonts as $font ) {
 // Sort the keys, just in case
 ksort( $return );
 
-echo 'Writing fonts to: ' . realpath( dirname(__FILE__). '/../inc/fonts.php' ) . "\n";
+echo 'Writing fonts to: ' . realpath( dirname(__FILE__). '/../data/fonts.php' ) . "\n";
 $contents = "<?php\n\n";
 $contents .= 'return ' . str_replace('  ', "\t", var_export( $return, true ) ) . ';';
-file_put_contents( realpath( dirname(__FILE__). '/../inc/fonts.php' ), $contents );
+file_put_contents( realpath( dirname(__FILE__). '/../data/fonts.php' ), $contents );
