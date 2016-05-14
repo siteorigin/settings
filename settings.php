@@ -62,7 +62,7 @@ class SiteOrigin_Settings {
 	function _autoload( $class_name ){
 		if( strpos( $class_name, 'SiteOrigin_Settings_Control_' ) === 0 ) {
 			$file = strtolower( str_replace( 'SiteOrigin_Settings_Control_', '', $class_name ) );
-			include( dirname( __FILE__ ) . '/inc/controls/' . $file . '.php' );
+			include( dirname( __FILE__ ) . '/inc/control/' . $file . '.php' );
 		}
 		elseif ( strpos( $class_name, 'SiteOrigin_Settings_' ) === 0 ) {
 			$file = strtolower( str_replace( 'SiteOrigin_Settings_', '', $class_name ) );
