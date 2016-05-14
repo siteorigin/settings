@@ -9,15 +9,21 @@ class SiteOrigin_Settings_Localization {
 			'section_title'            => __( 'Theme Settings', 'siteorigin' ),
 			'section_description'      => __( 'Change settings for your theme.', 'siteorigin' ),
 			'premium_only'             => __( 'Available in Premium', 'siteorigin' ),
-			'premium_url'              => 'https://siteorigin.com/premium/?target=theme_north',
+			'premium_url'              => 'https://siteorigin.com/premium/',
+			'close'                    => __( 'Close', 'siteorigin' ),
+			'edit_widget'              => __( 'Edit Widget', 'siteorigin' ),
+
 			// For the controls
 			'variant'                  => __( 'Variant', 'siteorigin' ),
 			'subset'                   => __( 'Subset', 'siteorigin' ),
+
 			// For the settings metabox
 			'meta_box'                 => __( 'Page settings', 'siteorigin' ),
+
 			// For archives section
 			'page_section_title'       => __( 'Page Template Settings', 'siteorigin' ),
 			'page_section_description' => __( 'Change layouts for various pages on your site.', 'siteorigin' ),
+
 			// For all the different temples and template types
 			'template_home'            => __( 'Blog Page', 'siteorigin' ),
 			'template_search'          => __( 'Search Results', 'siteorigin' ),
@@ -26,6 +32,10 @@ class SiteOrigin_Settings_Localization {
 			'template_author'          => __( 'Author Archives', 'siteorigin' ),
 			'templates_post_type'      => __( 'Type', 'siteorigin' ),
 			'templates_taxonomy'       => __( 'Taxonomy', 'siteorigin' ),
+
+			// Widgets bundle field
+			'requires_widgets_bundle'  => __('This field requires the Widgets Bundle plugin.', 'siteorigin'),
+			'install_widgets_bundle'   => __( '<a href="%s">Install</a> the Widgets Bundle now.', 'siteorigin' ),
 		);
 
 		$this->terms = apply_filters( 'siteorigin_settings_localization', $terms );
