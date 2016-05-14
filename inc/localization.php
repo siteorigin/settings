@@ -39,7 +39,7 @@ class SiteOrigin_Settings_Localization {
 		return $single;
 	}
 
-	static function get( $term ) {
+	static function get( $term = false ) {
 		$loc = self::single();
 
 		if( empty( $term ) ) {

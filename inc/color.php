@@ -10,7 +10,7 @@
 /**
  * This is a very simple color conversion class. It just offers some static function for conversions.
  */
-class SiteOrigin_Color {
+class SiteOrigin_Settings_Color {
 	/**
 	 * @param mixed $input A color representation.
 	 *
@@ -335,7 +335,7 @@ class SiteOrigin_Color {
  * @copyright Copyright (c) 2011, Greg Priday
  * @license GPL <http://www.gnu.org/copyleft/gpl.html>
  */
-class SiteOrigin_Color_Object extends SiteOrigin_Color{
+class SiteOrigin_Settings_Color_Object extends SiteOrigin_Settings_Color{
 	private $changed;
 
 	/**
@@ -470,7 +470,7 @@ class SiteOrigin_Color_Object extends SiteOrigin_Color{
 	/**
 	 * Calculates the percieved difference between 2 colors.
 	 */
-	public static function distance(SiteOrigin_Color_Object $c1, SiteOrigin_Color_Object $c2){
+	public static function distance(SiteOrigin_Settings_Color_Object $c1, SiteOrigin_Settings_Color_Object $c2){
 		return sqrt(
 			pow($c1->lab[0]-$c2->lab[0],2) +
 			pow($c1->lab[1]-$c2->lab[1],2) +

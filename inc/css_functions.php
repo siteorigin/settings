@@ -3,7 +3,6 @@
 class SiteOrigin_Settings_CSS_Functions {
 
 	function __construct(){
-		spl_autoload_register( array( $this, '_autoload' ) );
 	}
 
 	static function single(){
@@ -13,12 +12,6 @@ class SiteOrigin_Settings_CSS_Functions {
 		}
 
 		return $single;
-	}
-
-	function _autoload( $class_name ){
-		if( $class_name == 'SiteOrigin_Color' ) {
-			include dirname( __FILE__ ) . '/color.php';
-		}
 	}
 
 	function font( $match ) {
@@ -57,15 +50,15 @@ class SiteOrigin_Settings_CSS_Functions {
 	function rgba( $match ) {
 		if( empty( $match[2] ) ) return '';
 		$args = explode( ',', $match[2] );
-		$rgb = SiteOrigin_Color::hex2rgb( trim( $args[0] ) );
+		$rgb = SiteOrigin_Settings_Color::hex2rgb( trim( $args[0] ) );
 
 		return 'rgba(' . implode( ',', array_merge( $rgb, array( floatval( $args[1] ) ) ) ) . ')';
 	}
 
 	function lighten( $match ) {
 		$args = explode( ',', $match[2] );
-		$rgb = SiteOrigin_Color::hex2rgb( trim( $args[0] ) );
-		$hsv = SiteOrigin_Color::rgb2hsv( $rgb );
+		$rgb = SiteOrigin_Settings_Color::hex2rgb( trim( $args[0] ) );
+		$hsv = SiteOrigin_Settings_Color::rgb2hsv( $rgb );
 		if( strpos( $args[1], '%' ) !== false ) {
 			$percent = intval( trim($args[1]) ) / 100;
 		} else {
@@ -73,13 +66,13 @@ class SiteOrigin_Settings_CSS_Functions {
 		}
 
 		$hsv[2] += $percent;
-		return SiteOrigin_Color::rgb2hex( SiteOrigin_Color::hsv2rgb( $hsv ) );
+		return SiteOrigin_Settings_Color::rgb2hex( SiteOrigin_Settings_Color::hsv2rgb( $hsv ) );
 	}
 
 	function darken( $match ) {
 		$args = explode( ',', $match[2] );
-		$rgb = SiteOrigin_Color::hex2rgb( trim( $args[0] ) );
-		$hsv = SiteOrigin_Color::rgb2hsv( $rgb );
+		$rgb = SiteOrigin_Settings_Color::hex2rgb( trim( $args[0] ) );
+		$hsv = SiteOrigin_Settings_Color::rgb2hsv( $rgb );
 		if( strpos( $args[1], '%' ) !== false ) {
 			$percent = intval( trim($args[1]) ) / 100;
 		} else {
@@ -87,7 +80,7 @@ class SiteOrigin_Settings_CSS_Functions {
 		}
 
 		$hsv[2] -= $percent;
-		return SiteOrigin_Color::rgb2hex( SiteOrigin_Color::hsv2rgb( $hsv ) );
+		return SiteOrigin_Settings_Color::rgb2hex( SiteOrigin_Settings_Color::hsv2rgb( $hsv ) );
 	}
 
 }
