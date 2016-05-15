@@ -67,7 +67,7 @@ class SiteOrigin_Settings_Control_Widget extends WP_Customize_Control {
 	}
 
 	public function enqueue() {
-		wp_enqueue_script( 'siteorigin-settings-widget-control', get_template_directory_uri() . '/inc/settings/js/controls/widget-setting-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery', 'customize-controls' ) );
-		wp_enqueue_style( 'siteorigin-settings-widget-control', get_template_directory_uri() . '/inc/settings/css/widget-setting-control.css', array() );
+		wp_enqueue_script( 'siteorigin-settings-widget-control', get_template_directory_uri() . '/inc/settings/js/control/widget-setting-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery', 'customize-controls' ) );
+		wp_enqueue_style( 'siteorigin-settings-widget-control', get_template_directory_uri() . '/inc/settings/css/control/widget-setting-control.css', array() );
 	}
 }
