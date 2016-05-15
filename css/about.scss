@@ -8,10 +8,11 @@
 	}
 
 	.about-header {
-		background-color: #e8e8e8;
+		background-color: #eaeaea;
 		margin: -10px -22px 20px -22px;
 		padding: 20px;
 		border-bottom: 1px solid #d0d0d0;
+		text-align: center;
 
 		h1 {
 			font-weight: 300;
@@ -33,11 +34,6 @@
 			top: -1.25em;
 		}
 
-		.button-primary {
-			position: absolute;
-			top: 8px;
-			right: 0px;
-		}
 	}
 
 	.about-video {
@@ -101,14 +97,95 @@
 			text-align: center;
 			margin-top: 25px;
 		}
+
+		.about-share {
+			text-align: center;
+			margin-top: 20px;
+
+			.about-share-title {
+				font-size: 0.9em;
+				line-height: 1em;
+				margin-bottom: 0.75em;
+				font-weight: bold;
+			}
+
+			a {
+				display: inline-block;
+				text-decoration: none;
+				border-radius: 3px;
+				margin-left: 2px;
+				padding: 5px;
+
+				&.about-share-facebook {
+					background: #4d70a8;
+
+					&:hover {
+						background: #5577af;
+					}
+				}
+
+				&.about-share-twitter {
+					background: #00bbf2;
+
+					&:hover {
+						background: #25c4fb;
+					}
+				}
+
+				&.about-share-googleplus {
+					background: #e3401d;
+
+					&:hover {
+						background: #ec4a23;
+					}
+				}
+
+				.dashicons {
+					color: #fff;
+					font-size: 18px;
+					width: 18px;
+					height: 18px;
+				}
+			}
+		}
 	}
 
 	.about-sections {
 
 		.about-section {
-			margin-bottom: 30px;
+			border-radius: 2px;
+			background: #fafafa;
+			padding: 30px 20px;
+			border: 1px solid #d8d8d8;
+			margin-bottom: 25px;
+
+			> *:first-child {
+				margin-top: 0;
+			}
+
+			> *:last-child {
+				margin-bottom: 0;
+			}
 		}
 
+	}
+
+	.about-siteorigin-logo{
+		margin-top: 60px;
+		text-align: center;
+
+		p {
+			line-height: 1em;
+			font-size: 0.7em;
+			color: #999;
+			margin-bottom: 8px;
+		}
+		
+		img {
+			opacity: 0.75;
+			height: 26px;
+			width: auto;
+		}
 	}
 
 }

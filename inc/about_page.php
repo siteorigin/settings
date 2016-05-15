@@ -83,6 +83,33 @@ class SiteOrigin_Settings_About_Page {
 
 	function get_share_link( $network ) {
 		$theme = wp_get_theme( get_template() );
+		$share_url = false;
+
+		switch( $network ) {
+			case 'google_plus' :
+				$share_url = add_query_arg( array(
+					'url' => urlencode( $theme->get( 'ThemeURI' ) )
+				), 'https://plus.google.com/share' );
+				break;
+
+			case 'twitter' :
+				$share_url = add_query_arg( array(
+					'status' => urlencode(
+						$theme->get( 'Name' ) .
+						' - ' .
+						__( 'Free WordPress Theme', 'siteorigin' ) . ' - ' .
+						$theme->get( 'ThemeURI' )
+					)
+				), 'https://twitter.com/home?' );
+				break;
+
+			case 'facebook' :
+				$share_url = add_query_arg( array(
+					'u' => urlencode( $theme->get( 'ThemeURI' ) )
+				), 'https://www.facebook.com/sharer/sharer.php' );
+		}
+
+		return $share_url;
 	}
 
 	function display_about_page(){
@@ -120,11 +147,6 @@ class SiteOrigin_Settings_About_Page {
 							<div class="version"><?php echo esc_html( $about['version'] ) ?></div>
 						</h1>
 					<?php endif; ?>
-
-<!--					<button class="button-primary">-->
-<!--						--><?php //_e( 'Share', 'siteorigin' ) ?>
-<!--					</button>-->
-
 				</div>
 			</div>
 
@@ -155,10 +177,27 @@ class SiteOrigin_Settings_About_Page {
 							?>
 						</div>
 
-						<?php if( ! empty( $about['video_description'] ) ) ?>
-						<div class="about-video-description">
-							<?php echo wp_kses_post( $about['video_description'] ) ?>
-						</div>
+						<?php if( ! empty( $about['video_description'] ) ) : ?>
+							<div class="about-video-description">
+								<?php echo wp_kses_post( $about['video_description'] ) ?>
+							</div>
+						<?php endif; ?>
+
+						<?php if( $theme->get( 'ThemeURI' ) ) : ?>
+							<div class="about-share">
+								<div class="about-share-title"><?php _e( 'Share This Theme', 'siteorigin' ) ?></div>
+
+								<a href="<?php echo esc_url( $this->get_share_link( 'facebook' ) ) ?>" class="about-share-facebook" target="_blank">
+									<span class="dashicons dashicons-facebook-alt"></span>
+								</a>
+								<a href="<?php echo esc_url( $this->get_share_link( 'twitter' ) ) ?>" class="about-share-twitter" target="_blank">
+									<span class="dashicons dashicons-twitter"></span>
+								</a>
+								<a href="<?php echo esc_url( $this->get_share_link( 'google_plus' ) ) ?>" class="about-share-googleplus" target="_blank">
+									<span class="dashicons dashicons-googleplus"></span>
+								</a>
+							</div>
+						<?php endif; ?>
 					</div>
 				</div>
 			<?php endif; ?>
@@ -172,6 +211,15 @@ class SiteOrigin_Settings_About_Page {
 					<?php endforeach; ?>
 				</div>
 			<?php endif; ?>
+
+			<div class="about-siteorigin-logo">
+				<p>
+					<?php _e( 'Proudly Created By', 'siteorigin' ) ?>
+				</p>
+				<a href="https://siteorigin.com/" target="_blank">
+					<img src="<?php echo get_template_directory_uri() ?>/inc/settings/css/images/siteorigin.png" />
+				</a>
+			</div>
 		</div>
 		<?php
 	}
