@@ -17,10 +17,10 @@ class SiteOrigin_Settings_Control_Font extends WP_Customize_Control {
 		static $fonts = false;
 		static $websafe = false;
 		if( empty($fonts) ) {
-			$fonts = include dirname(__FILE__) . '/../data/fonts.php';
+			$fonts = include dirname(__FILE__) . '/../../data/fonts.php';
 		}
 		if( empty($websafe) ) {
-			$websafe = include dirname(__FILE__) . '/../data/websafe.php';
+			$websafe = include dirname(__FILE__) . '/../../data/websafe.php';
 		}
 
 		?>
