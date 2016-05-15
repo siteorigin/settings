@@ -20,7 +20,7 @@ class SiteOrigin_Settings_Page_Settings {
 		// Page Builder integration
 		add_action( 'siteorigin_panels_create_home_page', array( $this, 'panels_save_home_page' ) );
 
-		if( is_admin() ) {
+		if( is_admin() || is_customize_preview() ) {
 			// Initialize Page Settings Customizer if we're in the admin.
 			SiteOrigin_Settings_Page_Settings_Customizer::single();
 		}
