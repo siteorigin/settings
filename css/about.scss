@@ -1,0 +1,114 @@
+#siteorigin-about-page {
+
+	.about-container {
+		box-sizing: border-box;
+		max-width: 640px;
+		margin: 0 auto;
+		position: relative;
+	}
+
+	.about-header {
+		background-color: #e8e8e8;
+		margin: -10px -22px 20px -22px;
+		padding: 20px;
+		border-bottom: 1px solid #d0d0d0;
+
+		h1 {
+			font-weight: 300;
+			font-size: 26px;
+			line-height: 1em;
+		}
+
+		.version {
+			font-weight: 300;
+			display: inline-block;
+			font-size: 12px;
+			position: relative;
+			padding: 3px 5px;
+			background: #fff;
+			line-height: 1em;
+			margin-left: 5px;
+			color: #0073aa;
+			border-radius: 2px;
+			top: -1.25em;
+		}
+
+		.button-primary {
+			position: absolute;
+			top: 8px;
+			right: 0px;
+		}
+	}
+
+	.about-video {
+		background-color: #f4f4f4;
+		margin: -20px -22px 20px -22px;
+		padding: 30px 22px;
+
+		margin-bottom: 30px;
+		border-bottom: 1px solid #e0e0e0;
+
+		.about-play-video {
+			top: 0;
+			left: 0;
+			width: 640px;
+			height: 360px;
+			position: absolute;
+			z-index: 2;
+			display: block;
+
+			svg {
+				position: absolute;
+				bottom: 15px;
+				left: 20px;
+				width: 80px;
+
+				.st0{
+					opacity:0.5;
+					fill: #000000;
+				}
+
+				.st1{
+					fill:#FFFFFF;
+				}
+			}
+
+			&:hover {
+				svg {
+					.st0 {
+						opacity: 0.75;
+						fill: #09adef;
+					}
+				}
+			}
+		}
+
+		.about-video-images {
+			width: 640px;
+			height: 360px;
+			display: block;
+
+			img {
+				top: 0;
+				left: 0;
+				width: 640px;
+				height: 360px;
+				position: absolute;
+			}
+		}
+
+		.about-video-description {
+			text-align: center;
+			margin-top: 25px;
+		}
+	}
+
+	.about-sections {
+
+		.about-section {
+			margin-bottom: 30px;
+		}
+
+	}
+
+}

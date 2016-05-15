@@ -39,7 +39,7 @@ class SiteOrigin_Settings {
 			add_filter( 'siteorigin_setting', array( $this, 'customizer_filter' ), 15, 2 );
 		}
 
-		add_action( 'after_setup_theme', array( $this, 'setup_page_settings' ) );
+		add_action( 'after_setup_theme', array( $this, 'load_settings_extras' ) );
 
 		spl_autoload_register( array( $this, '_autoload' ) );
 	}
@@ -734,9 +734,13 @@ class SiteOrigin_Settings {
 		return $attachment_id;
 	}
 
-	function setup_page_settings(){
+	function load_settings_extras(){
 		if( has_filter( 'siteorigin_page_settings' ) ) {
 			SiteOrigin_Settings_Page_Settings::single();
+		}
+
+		if( has_filter( 'siteorigin_about_page' ) ) {
+			SiteOrigin_Settings_About_Page::single();
 		}
 	}
 }
