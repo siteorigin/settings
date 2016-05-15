@@ -384,7 +384,7 @@ class SiteOrigin_Settings {
 		'url' => 'esc_url_raw',
 		'color' => 'sanitize_hex_color',
 		'media' => array( 'SiteOrigin_Settings_Sanitize', 'intval' ),
-		'checkbox' => array( 'SiteOrigin_Settings_Sanitize', 'bool' ),
+		'checkbox' => array( 'SiteOrigin_Settings_Sanitize', 'boolean' ),
 		'range' => array( 'SiteOrigin_Settings_Sanitize', 'float' ),
 		'widget' => array( 'SiteOrigin_Settings_Sanitize', 'widget' ),
 	);
