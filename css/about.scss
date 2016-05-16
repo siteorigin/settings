@@ -1,5 +1,8 @@
 #siteorigin-about-page {
 
+	margin-left: 0;
+	margin-right: 0;
+
 	.about-container {
 		box-sizing: border-box;
 		max-width: 640px;
@@ -9,7 +12,7 @@
 
 	.about-header {
 		background-color: #eaeaea;
-		margin: -10px -22px 20px -22px;
+		margin: -10px 0 20px -21px;
 		padding: 20px;
 		border-bottom: 1px solid #d0d0d0;
 		text-align: center;
@@ -38,10 +41,9 @@
 
 	.about-video {
 		background-color: #f4f4f4;
-		margin: -20px -22px 20px -22px;
+		margin: -20px 0 30px -21px;
 		padding: 30px 22px;
 
-		margin-bottom: 30px;
 		border-bottom: 1px solid #e0e0e0;
 
 		.about-play-video {
