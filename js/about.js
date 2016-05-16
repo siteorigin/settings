@@ -28,7 +28,6 @@ jQuery( function( $ ){
 			// Increase the wait time and trigger the next frame load
 			waitTime += 750;
 			waitTime = Math.min( waitTime, 8500 );
-			console.log( waitTime );
 
 			setTimeout( nextFrame, waitTime );
 		};
