@@ -109,13 +109,13 @@
 				line-height: 1em;
 				margin-bottom: 0.75em;
 				font-weight: bold;
+				color: #444;
 			}
 
 			a {
 				display: inline-block;
 				text-decoration: none;
 				border-radius: 3px;
-				margin-left: 2px;
 				padding: 5px;
 
 				&.about-share-facebook {
@@ -153,6 +153,8 @@
 	}
 
 	.about-sections {
+
+		margin-left: -21px;
 
 		.about-section {
 			border-radius: 2px;

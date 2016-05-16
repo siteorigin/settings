@@ -185,7 +185,9 @@ class SiteOrigin_Settings_About_Page {
 
 						<?php if( $theme->get( 'ThemeURI' ) ) : ?>
 							<div class="about-share">
-								<div class="about-share-title"><?php _e( 'Share This Theme', 'siteorigin' ) ?></div>
+								<div class="about-share-title">
+									<?php printf( __( 'If you like %s, please share it!', 'siteorigin' ), $theme->get( 'Name' ) ) ?>
+								</div>
 
 								<a href="<?php echo esc_url( $this->get_share_link( 'facebook' ) ) ?>" class="about-share-facebook" target="_blank">
 									<span class="dashicons dashicons-facebook-alt"></span>

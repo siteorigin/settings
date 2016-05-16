@@ -74,12 +74,12 @@
         font-size: 0.9em;
         line-height: 1em;
         margin-bottom: 0.75em;
-        font-weight: bold; }
+        font-weight: bold;
+        color: #444; }
       #siteorigin-about-page .about-video .about-share a {
         display: inline-block;
         text-decoration: none;
         border-radius: 3px;
-        margin-left: 2px;
         padding: 5px; }
         #siteorigin-about-page .about-video .about-share a.about-share-facebook {
           background: #4d70a8; }
@@ -98,16 +98,18 @@
           font-size: 18px;
           width: 18px;
           height: 18px; }
-  #siteorigin-about-page .about-sections .about-section {
-    border-radius: 2px;
-    background: #fafafa;
-    padding: 30px 20px;
-    border: 1px solid #d8d8d8;
-    margin-bottom: 25px; }
-    #siteorigin-about-page .about-sections .about-section > *:first-child {
-      margin-top: 0; }
-    #siteorigin-about-page .about-sections .about-section > *:last-child {
-      margin-bottom: 0; }
+  #siteorigin-about-page .about-sections {
+    margin-left: -21px; }
+    #siteorigin-about-page .about-sections .about-section {
+      border-radius: 2px;
+      background: #fafafa;
+      padding: 30px 20px;
+      border: 1px solid #d8d8d8;
+      margin-bottom: 25px; }
+      #siteorigin-about-page .about-sections .about-section > *:first-child {
+        margin-top: 0; }
+      #siteorigin-about-page .about-sections .about-section > *:last-child {
+        margin-bottom: 0; }
   #siteorigin-about-page .about-siteorigin-logo {
     margin-top: 60px;
     text-align: center; }
