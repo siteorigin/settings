@@ -378,6 +378,7 @@ class SiteOrigin_Settings {
 		'image_select' => 'SiteOrigin_Settings_Control_Image_Select',
 		'font' => 'SiteOrigin_Settings_Control_Font',
 		'widget' => 'SiteOrigin_Settings_Control_Widget',
+		'measurement' => 'SiteOrigin_Settings_Control_Measurement',
 	);
 
 	static $sanitize_callbacks = array(
@@ -387,6 +388,7 @@ class SiteOrigin_Settings {
 		'checkbox' => array( 'SiteOrigin_Settings_Sanitize', 'boolean' ),
 		'range' => array( 'SiteOrigin_Settings_Sanitize', 'float' ),
 		'widget' => array( 'SiteOrigin_Settings_Sanitize', 'widget' ),
+		'measurement' => array( 'SiteOrigin_Settings_Control_Measurement', 'sanitize_value' ),
 	);
 
 	/**
