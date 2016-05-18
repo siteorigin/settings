@@ -6,7 +6,7 @@ class SiteOrigin_Settings_Control_Widget extends WP_Customize_Control {
 
 	public $widget_args;
 
-	function render_content(  ){
+	function render_content( ){
 		if( empty( $this->widget_args['class'] ) ) return;
 
 		if ( ! empty( $this->label ) ) {

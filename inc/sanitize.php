@@ -25,7 +25,7 @@ class SiteOrigin_Settings_Sanitize {
 			'pc',
 		) );
 
-		if (preg_match('/([0-9\.,]+).*?(' . implode('|', $measurements) . ')/', $val, $match)) {
+		if (preg_match('/(-?[0-9\.,]+).*?(' . implode('|', $measurements) . ')/', $val, $match)) {
 			$return = $match[1] . $match[2];
 		}
 		else {
