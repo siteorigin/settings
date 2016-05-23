@@ -133,14 +133,16 @@ class SiteOrigin_Settings_About_Page {
 			<div class="about-header">
 				<div class="about-container">
 					<?php if ( ! empty( $about[ 'title_image' ] ) ) : ?>
-						<img
-							src="<?php echo esc_url( $about[ 'title_image' ] ) ?>"
-							title="<?php echo esc_attr( $about[ 'title' ] ) ?>"
-					        <?php if( ! empty( $about[ 'title_image_2x' ] ) ) : ?>
-					            srcset="<?php echo esc_url( $about[ 'title_image_2x' ] ) ?> 2x"
-					        <?php endif ?>
-					        />
-						<div class="version"><?php echo esc_html( $about['version'] ) ?></div>
+						<div class="title-image-wrapper">
+							<img
+								src="<?php echo esc_url( $about[ 'title_image' ] ) ?>"
+								title="<?php echo esc_attr( $about[ 'title' ] ) ?>"
+						        <?php if( ! empty( $about[ 'title_image_2x' ] ) ) : ?>
+						            srcset="<?php echo esc_url( $about[ 'title_image_2x' ] ) ?> 2x"
+						        <?php endif ?>
+						        />
+							<div class="version"><?php echo esc_html( $about['version'] ) ?></div>
+						</div>
 					<?php else : ?>
 						<h1>
 							<?php echo esc_html( $about[ 'title' ] ) ?>

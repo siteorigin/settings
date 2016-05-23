@@ -28,6 +28,15 @@
       color: #0073aa;
       border-radius: 2px;
       top: -1.25em; }
+    #siteorigin-about-page .about-header .title-image-wrapper {
+      display: inline-block;
+      position: relative; }
+      #siteorigin-about-page .about-header .title-image-wrapper img {
+        display: block; }
+      #siteorigin-about-page .about-header .title-image-wrapper .version {
+        position: absolute;
+        top: 0px;
+        left: 105%; }
   #siteorigin-about-page .about-video {
     background-color: #f4f4f4;
     margin: -20px 0 30px -21px;

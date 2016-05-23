@@ -37,6 +37,22 @@
 			top: -1.25em;
 		}
 
+
+		.title-image-wrapper {
+			display: inline-block;
+			position: relative;
+
+			img {
+				display: block;
+			}
+
+			.version {
+				position: absolute;
+				top: 0px;
+				left: 105%;
+			}
+		}
+
 	}
 
 	.about-video {
