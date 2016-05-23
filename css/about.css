@@ -67,12 +67,15 @@
       width: 640px;
       height: 360px;
       display: block; }
-      #siteorigin-about-page .about-video .about-video-images img {
+      #siteorigin-about-page .about-video .about-video-images .about-video-image {
         top: 0;
         left: 0;
         width: 640px;
         height: 360px;
-        position: absolute; }
+        position: absolute;
+        -webkit-background-size: cover;
+        background-size: cover;
+        background-position: center top; }
     #siteorigin-about-page .about-video .about-video-description {
       text-align: center;
       margin-top: 25px; }
@@ -112,7 +115,7 @@
     #siteorigin-about-page .about-sections .about-section {
       border-radius: 2px;
       background: #fafafa;
-      padding: 30px 20px;
+      padding: 30px;
       border: 1px solid #d8d8d8;
       margin-bottom: 25px; }
       #siteorigin-about-page .about-sections .about-section > *:first-child {

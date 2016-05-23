@@ -123,8 +123,10 @@ class SiteOrigin_Settings_About_Page {
 			'title_image_2x' => false,
 			'version' => $theme->get( 'Version' ),
 			'description' => $theme->get( 'Description' ),
-			'video_thumbnail' => false,
-			'video_url' => false,
+			'video_thumbnail' => array(
+				$theme->get_screenshot()
+			),
+			'video_url' => add_query_arg( 'autoplay', 1, $theme->get( 'ThemeURI' ) ),
 			'video_description' => false,
 		) );
 
@@ -174,14 +176,14 @@ class SiteOrigin_Settings_About_Page {
 							}
 
 							foreach( $images as $image ) {
-								?><img src="<?php echo esc_url( $image ) ?>" class="about-video-image" /> <?php
+								?><div style="background-image: url(<?php echo esc_url( $image ) ?>);" class="about-video-image"></div><?php
 							}
 							?>
 						</div>
 
-						<?php if( ! empty( $about['video_description'] ) ) : ?>
+						<?php if( ! empty( $about['description'] ) ) : ?>
 							<div class="about-video-description">
-								<?php echo wp_kses_post( $about['video_description'] ) ?>
+								<?php echo wp_kses_post( $about['description'] ) ?>
 							</div>
 						<?php endif; ?>
 
@@ -208,7 +210,7 @@ class SiteOrigin_Settings_About_Page {
 
 			<?php if( ! empty( $about['sections'] ) ) : ?>
 				<div class="about-sections">
-					<?php foreach( $about['sections'] as $section ) : ?>
+					<?php foreach( $about['sections'] as $section ) : if( is_string( $section ) ) $section = array( 'id' => $section ) ?>
 						<div class="about-section about-container">
 							<?php get_template_part( 'admin/about/page', $section['id'] ) ?>
 						</div>
