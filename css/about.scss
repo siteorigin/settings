@@ -114,6 +114,20 @@
 			}
 		}
 
+		.about-video-watch {
+			margin-top: 5px;
+			text-align: center;
+			font-weight: bold;
+
+			a {
+				text-decoration: none;
+
+				&:hover{
+					text-decoration: underline;
+				}
+			}
+		}
+
 		.about-video-description {
 			text-align: center;
 			margin-top: 25px;

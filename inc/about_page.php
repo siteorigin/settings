@@ -181,6 +181,10 @@ class SiteOrigin_Settings_About_Page {
 							?>
 						</div>
 
+						<div class="about-video-watch">
+							<a href="<?php echo esc_url( $about[ 'video_url' ] ) ?>" target="_blank"><?php _e( 'Watch The Video', 'siteorigin' ) ?></a>
+						</div>
+
 						<?php if( ! empty( $about['description'] ) ) : ?>
 							<div class="about-video-description">
 								<?php echo wp_kses_post( $about['description'] ) ?>

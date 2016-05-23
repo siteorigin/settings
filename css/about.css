@@ -76,6 +76,14 @@
         -webkit-background-size: cover;
         background-size: cover;
         background-position: center top; }
+    #siteorigin-about-page .about-video .about-video-watch {
+      margin-top: 5px;
+      text-align: center;
+      font-weight: bold; }
+      #siteorigin-about-page .about-video .about-video-watch a {
+        text-decoration: none; }
+        #siteorigin-about-page .about-video .about-video-watch a:hover {
+          text-decoration: underline; }
     #siteorigin-about-page .about-video .about-video-description {
       text-align: center;
       margin-top: 25px; }
