@@ -267,7 +267,7 @@ class SiteOrigin_Settings_Page_Settings {
 	 * @param $post_id
 	 */
 	function panels_save_home_page( $post_id ){
-		$settings = $this->get_post_meta( $post_id );
+		$settings = $this->get_settings_values( 'post', $post_id );
 		$settings = apply_filters( 'siteorigin_page_settings_panels_home_defaults', $settings );
 		update_post_meta( $post_id, 'siteorigin_page_settings', $settings );
 	}
