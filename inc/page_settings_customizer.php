@@ -95,7 +95,7 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 				$sanitize_callback = 'sanitize_text_field';
 				switch( $setting['type'] ) {
 					case 'checkbox':
-						$sanitize_callback = array( 'SiteOrigin_Settings', 'sanitize_bool' );
+						$sanitize_callback = array( 'SiteOrigin_Settings_Sanitize', 'boolean' );
 						break;
 				}
 
