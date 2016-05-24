@@ -156,7 +156,7 @@ class SiteOrigin_Settings_About_Page {
 				</div>
 
 				<?php if( !empty( $about[ 'newsletter_link' ] ) ) : ?>
-					<a href="<?php echo esc_url( $about[ 'newsletter_link' ] ) ?>" class="button-primary about-button-updates">
+					<a href="<?php echo esc_url( $about[ 'newsletter_link' ] ) ?>" class="button-primary about-button-updates" target="_blank">
 						<?php echo esc_html( $loc->get( 'get_updates' ) ) ?>
 					</a>
 				<?php endif; ?>
