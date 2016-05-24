@@ -5,50 +5,55 @@ class SiteOrigin_Settings_Localization {
 	public $terms;
 
 	function __construct() {
+		// These terms must all be passed through a siteorigin_settings_localization filter in your theme
+		// There, they must be passed through proper WordPress localization functions
+		// https://codex.wordpress.org/I18n_for_WordPress_Developers
+		// Copy the content from localization.txt into your theme and change the translation domain.
+
 		$terms = array(
-			'section_title'            => __( 'Theme Settings', 'siteorigin' ),
-			'section_description'      => __( 'Change settings for your theme.', 'siteorigin' ),
-			'premium_only'             => __( 'Available in Premium', 'siteorigin' ),
+			'section_title'            => 'Theme Settings',
+			'section_description'      => 'Change settings for your theme.',
+			'premium_only'             => 'Available in Premium',
 			'premium_url'              => 'https://siteorigin.com/premium/',
-			'close'                    => __( 'Close', 'siteorigin' ),
-			'edit_widget'              => __( 'Edit Widget', 'siteorigin' ),
+			'close'                    => 'Close',
+			'edit_widget'              => 'Edit Widget',
 
 			// For the controls
-			'variant'                  => __( 'Variant', 'siteorigin' ),
-			'subset'                   => __( 'Subset', 'siteorigin' ),
+			'variant'                  => 'Variant',
+			'subset'                   => 'Subset',
 
 			// For the settings metabox
-			'meta_box'                 => __( 'Page settings', 'siteorigin' ),
+			'meta_box'                 => 'Page settings',
 
 			// For archives section
-			'page_section_title'       => __( 'Page Template Settings', 'siteorigin' ),
-			'page_section_description' => __( 'Change layouts for various pages on your site.', 'siteorigin' ),
+			'page_section_title'       => 'Page Template Settings',
+			'page_section_description' => 'Change layouts for various pages on your site.',
 
 			// For all the different temples and template types
-			'template_home'            => __( 'Blog Page', 'siteorigin' ),
-			'template_search'          => __( 'Search Results', 'siteorigin' ),
-			'template_date'            => __( 'Date Archives', 'siteorigin' ),
-			'template_404'             => __( 'Not Found', 'siteorigin' ),
-			'template_author'          => __( 'Author Archives', 'siteorigin' ),
-			'templates_post_type'      => __( 'Type', 'siteorigin' ),
-			'templates_taxonomy'       => __( 'Taxonomy', 'siteorigin' ),
+			'template_home'            => 'Blog Page',
+			'template_search'          => 'Search Results',
+			'template_date'            => 'Date Archives',
+			'template_404'             => 'Not Found',
+			'template_author'          => 'Author Archives',
+			'templates_post_type'      => 'Type',
+			'templates_taxonomy'       => 'Taxonomy',
 
 			// Widgets bundle field
-			'requires_widgets_bundle'  => __('This field requires the Widgets Bundle plugin.', 'siteorigin'),
-			'install_widgets_bundle'   => __( '<a href="%s">Install</a> the Widgets Bundle now.', 'siteorigin' ),
+			'requires_widgets_bundle'  => 'This field requires the Widgets Bundle plugin.',
+			'install_widgets_bundle'   => '<a href="%s">Install</a> the Widgets Bundle now.',
 
 			// Everything for the about pages
-			'about_theme'              => __( 'About %s', 'siteorigin' ),
-			'get_updates'              => __( 'Get Updates', 'siteorigin' ),
-			'watch_video'              => __( 'Watch The Video', 'siteorigin' ),
-			'share_theme'              => __( 'If you like %s, please share it!', 'siteorigin' ),
-			'created_by'               => __( 'Proudly Created By', 'siteorigin' ),
-			'free_wordpress_theme'     => __( 'Free WordPress Theme', 'siteorigin' ),
+			'about_theme'              => 'About %s',
+			'get_updates'              => 'Get Updates',
+			'watch_video'              => 'Watch The Video',
+			'share_theme'              => 'If you like %s, please share it!',
+			'created_by'               => 'Proudly Created By',
+			'free_wordpress_theme'     => 'Free WordPress Theme',
 
 			// The message after activating the theme
-			'thanks_for_choosing'      => __( 'Thanks for choosing %s!', 'siteorigin' ),
-			'learn_more'               => __( 'You can learn more about it %shere%s, or head straight to the %scustomizer%s to start setting it up.', 'siteorigin' ),
-			'learn_button'             => __( 'Learn About %s', 'siteorigin' )
+			'thanks_for_choosing'      => 'Thanks for choosing %s!',
+			'learn_more'               => 'You can learn more about it %shere%s, or head straight to the %scustomizer%s to start setting it up.',
+			'learn_button'             => 'Learn About %s'
 		);
 
 		$this->terms = apply_filters( 'siteorigin_settings_localization', $terms );
