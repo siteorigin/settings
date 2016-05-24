@@ -4,7 +4,7 @@ class SiteOrigin_Settings_About_Page {
 
 	function __construct(){
 		add_action( 'load-themes.php', array( $this, 'activation_admin_notice' ) );
-		add_action( 'admin_menu', array( $this, 'add_menu_page' ), 5 );
+		add_action( 'admin_menu', array( $this, 'add_theme_page' ), 5 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
@@ -27,14 +27,15 @@ class SiteOrigin_Settings_About_Page {
 	function about_page_notice(){
 
 		$theme = wp_get_theme( get_template() );
+		$loc = SiteOrigin_Settings_Localization::single();
 
 		?>
 		<div class="updated notice is-dismissible">
 			<p>
-				<?php printf( esc_html__( 'Thanks for choosing %s!', 'siteorigin' ), $theme->get( 'Name' ) ); ?>
+				<?php echo esc_html( sprintf( $loc->get( 'thanks_for_choosing' ), $theme->get( 'Name' ) ) ); ?>
 				<?php
 				printf(
-					esc_html__( 'You can learn more about it %shere%s, or head straight to the %scustomizer%s to start setting it up.', 'siteorigin' ),
+					esc_html( $loc->get( 'learn_more' ) ),
 					'<a href="' . admin_url( 'themes.php?page=siteorigin-theme-about' ) . '">',
 					'</a>',
 					'<a href="' . admin_url( 'customize.php' ) . '">',
@@ -43,20 +44,22 @@ class SiteOrigin_Settings_About_Page {
 			</p>
 			<p>
 				<a href="<?php echo esc_url( admin_url( 'themes.php?page=siteorigin-theme-about' ) ); ?>" class="button-primary">
-					<?php printf( esc_html__( 'Learn About %s', 'siteorigin' ), $theme->get( 'Name' ) ); ?>
+					<?php echo esc_html( sprintf( $loc->get( 'learn_button' ), $theme->get( 'Name' ) ) ); ?>
 				</a>
 			</p>
 		</div>
 		<?php
 	}
 
-	function add_menu_page( ){
+	function add_theme_page( ){
 		$theme = wp_get_theme( get_template() );
 		$theme_name = $theme->get( 'Name' );
 
+		$about_text = SiteOrigin_Settings_Localization::get( 'about_theme' );
+
 		add_theme_page(
-			sprintf( __( 'About %s' ), $theme_name ),
-			sprintf( __( 'About %s' ), $theme_name ),
+			sprintf( $about_text, $theme_name ),
+			sprintf( $about_text, $theme_name ),
 			'edit_theme_options',
 			'siteorigin-theme-about',
 			array( $this, 'display_about_page' )
@@ -118,7 +121,7 @@ class SiteOrigin_Settings_About_Page {
 		$loc = SiteOrigin_Settings_Localization::single();
 		$theme = wp_get_theme( get_template() );
 		$about = apply_filters( 'siteorigin_about_page', array(
-			'title' => sprintf( __( 'About %s', 'siteorigin' ), $theme->get( 'Name' ) ),
+			'title' => sprintf( $loc->get( 'about_theme' ), $theme->get( 'Name' ) ),
 			'sections' => array(),
 			'title_image' => false,
 			'title_image_2x' => false,
