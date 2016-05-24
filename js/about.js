@@ -4,7 +4,7 @@ jQuery( function( $ ){
 	// Now turn the images into a slideshow
 	var $thumbs = $('.about-video .about-video-image');
 	if( $thumbs.length > 1 ) {
-		$thumbs.last().addClass('about-video-current');
+		$thumbs.first().addClass('about-video-current');
 		$thumbs.not('.about-video-current' ).hide();
 
 		var waitTime = 5000;
