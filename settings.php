@@ -741,7 +741,7 @@ class SiteOrigin_Settings {
 			SiteOrigin_Settings_Page_Settings::single();
 		}
 
-		if( has_filter( 'siteorigin_about_page' ) ) {
+		if( has_filter( 'siteorigin_about_page' ) && apply_filters( 'siteorigin_about_page_show', true ) ) {
 			SiteOrigin_Settings_About_Page::single();
 		}
 	}

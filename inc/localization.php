@@ -36,6 +36,13 @@ class SiteOrigin_Settings_Localization {
 			// Widgets bundle field
 			'requires_widgets_bundle'  => __('This field requires the Widgets Bundle plugin.', 'siteorigin'),
 			'install_widgets_bundle'   => __( '<a href="%s">Install</a> the Widgets Bundle now.', 'siteorigin' ),
+
+			// Everything for the about pages
+			'get_updates'              => __( 'Get Updates', 'siteorigin' ),
+			'watch_video'              => __( 'Watch The Video', 'siteorigin' ),
+			'share_theme'              => __( 'If you like %s, please share it!', 'siteorigin' ),
+			'created_by'               => __( 'Proudly Created By', 'siteorigin' ),
+			'free_wordpress_theme'     => __( 'Free WordPress Theme', 'siteorigin' ),
 		);
 
 		$this->terms = apply_filters( 'siteorigin_settings_localization', $terms );

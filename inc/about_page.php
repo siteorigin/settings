@@ -82,6 +82,7 @@ class SiteOrigin_Settings_About_Page {
 	}
 
 	function get_share_link( $network ) {
+		$loc = SiteOrigin_Settings_Localization::single();
 		$theme = wp_get_theme( get_template() );
 		$share_url = false;
 
@@ -97,7 +98,7 @@ class SiteOrigin_Settings_About_Page {
 					'status' => urlencode(
 						$theme->get( 'Name' ) .
 						' - ' .
-						__( 'Free WordPress Theme', 'siteorigin' ) . ' - ' .
+						SiteOrigin_Settings_Localization::get('free_wordpress_theme') . ' - ' .
 						$theme->get( 'ThemeURI' )
 					)
 				), 'https://twitter.com/home?' );
@@ -114,8 +115,8 @@ class SiteOrigin_Settings_About_Page {
 
 	function display_about_page(){
 
+		$loc = SiteOrigin_Settings_Localization::single();
 		$theme = wp_get_theme( get_template() );
-
 		$about = apply_filters( 'siteorigin_about_page', array(
 			'title' => sprintf( __( 'About %s', 'siteorigin' ), $theme->get( 'Name' ) ),
 			'sections' => array(),
@@ -128,6 +129,7 @@ class SiteOrigin_Settings_About_Page {
 			),
 			'video_url' => add_query_arg( 'autoplay', 1, $theme->get( 'ThemeURI' ) ),
 			'video_description' => false,
+			'newsletter_link' => 'https://siteorigin.com/#newsletter',
 		) );
 
 		?>
@@ -146,12 +148,18 @@ class SiteOrigin_Settings_About_Page {
 							<div class="version"><?php echo esc_html( $about['version'] ) ?></div>
 						</div>
 					<?php else : ?>
-						<h1>
+						<h1 class="title-image-wrapper">
 							<?php echo esc_html( $about[ 'title' ] ) ?>
 							<div class="version"><?php echo esc_html( $about['version'] ) ?></div>
 						</h1>
 					<?php endif; ?>
 				</div>
+
+				<?php if( !empty( $about[ 'newsletter_link' ] ) ) : ?>
+					<a href="<?php echo esc_url( $about[ 'newsletter_link' ] ) ?>" class="button-primary about-button-updates">
+						<?php echo esc_html( $loc->get( 'get_updates' ) ) ?>
+					</a>
+				<?php endif; ?>
 			</div>
 
 			<?php if( ! empty( $about[ 'video_thumbnail' ] ) ) : ?>
@@ -182,7 +190,9 @@ class SiteOrigin_Settings_About_Page {
 						</div>
 
 						<div class="about-video-watch">
-							<a href="<?php echo esc_url( $about[ 'video_url' ] ) ?>" target="_blank"><?php _e( 'Watch The Video', 'siteorigin' ) ?></a>
+							<a href="<?php echo esc_url( $about[ 'video_url' ] ) ?>" target="_blank">
+								<?php echo esc_html( $loc->get( 'watch_video' ) ) ?>
+							</a>
 						</div>
 
 						<?php if( ! empty( $about['description'] ) ) : ?>
@@ -194,7 +204,7 @@ class SiteOrigin_Settings_About_Page {
 						<?php if( $theme->get( 'ThemeURI' ) ) : ?>
 							<div class="about-share">
 								<div class="about-share-title">
-									<?php printf( __( 'If you like %s, please share it!', 'siteorigin' ), $theme->get( 'Name' ) ) ?>
+									<?php echo esc_html( sprintf( $loc->get( 'share_theme' ), $theme->get( 'Name' ) ) ) ?>
 								</div>
 
 								<a href="<?php echo esc_url( $this->get_share_link( 'facebook' ) ) ?>" class="about-share-facebook" target="_blank">
@@ -224,7 +234,7 @@ class SiteOrigin_Settings_About_Page {
 
 			<div class="about-siteorigin-logo">
 				<p>
-					<?php _e( 'Proudly Created By', 'siteorigin' ) ?>
+					<?php echo esc_html( $loc->get( 'created_by' ) ) ?>
 				</p>
 				<a href="https://siteorigin.com/" target="_blank">
 					<img src="<?php echo get_template_directory_uri() ?>/inc/settings/css/images/siteorigin.png" />

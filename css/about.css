@@ -9,34 +9,39 @@
   #siteorigin-about-page .about-header {
     background-color: #eaeaea;
     margin: -10px 0 20px -21px;
-    padding: 20px;
+    padding: 30px 20px;
     border-bottom: 1px solid #d0d0d0;
-    text-align: center; }
+    text-align: center;
+    position: relative; }
     #siteorigin-about-page .about-header h1 {
       font-weight: 300;
       font-size: 26px;
-      line-height: 1em; }
+      line-height: 1em;
+      margin: 0;
+      padding: 0; }
     #siteorigin-about-page .about-header .version {
       font-weight: 300;
       display: inline-block;
       font-size: 12px;
-      position: relative;
+      position: absolute;
       padding: 3px 5px;
       background: #fff;
       line-height: 1em;
       margin-left: 5px;
       color: #0073aa;
       border-radius: 2px;
-      top: -1.25em; }
+      top: -0.5em;
+      left: 105%; }
     #siteorigin-about-page .about-header .title-image-wrapper {
       display: inline-block;
       position: relative; }
       #siteorigin-about-page .about-header .title-image-wrapper img {
         display: block; }
-      #siteorigin-about-page .about-header .title-image-wrapper .version {
-        position: absolute;
-        top: 0px;
-        left: 105%; }
+    #siteorigin-about-page .about-header .about-button-updates {
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      margin-top: -14px; }
   #siteorigin-about-page .about-video {
     background-color: #f4f4f4;
     margin: -20px 0 30px -21px;

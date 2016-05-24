@@ -13,28 +13,32 @@
 	.about-header {
 		background-color: #eaeaea;
 		margin: -10px 0 20px -21px;
-		padding: 20px;
+		padding: 30px 20px;
 		border-bottom: 1px solid #d0d0d0;
 		text-align: center;
+		position: relative;
 
 		h1 {
 			font-weight: 300;
 			font-size: 26px;
 			line-height: 1em;
+			margin: 0;
+			padding: 0;
 		}
 
 		.version {
 			font-weight: 300;
 			display: inline-block;
 			font-size: 12px;
-			position: relative;
+			position: absolute;
 			padding: 3px 5px;
 			background: #fff;
 			line-height: 1em;
 			margin-left: 5px;
 			color: #0073aa;
 			border-radius: 2px;
-			top: -1.25em;
+			top: -0.5em;
+			left: 105%;
 		}
 
 
@@ -45,12 +49,13 @@
 			img {
 				display: block;
 			}
+		}
 
-			.version {
-				position: absolute;
-				top: 0px;
-				left: 105%;
-			}
+		.about-button-updates {
+			position: absolute;
+			top: 50%;
+			right: 20px;
+			margin-top: -14px;
 		}
 
 	}
@@ -241,7 +246,7 @@
 			color: #999;
 			margin-bottom: 8px;
 		}
-		
+
 		img {
 			opacity: 0.75;
 			height: 26px;
