@@ -405,8 +405,8 @@ class SiteOrigin_Settings {
 		// We'll use a single panel for theme settings
 		if( method_exists($wp_customize, 'add_panel') ) {
 			$wp_customize->add_panel( 'theme_settings', array(
-				'title' => SiteOrigin_Settings_Localization::get( 'section_title' ),
-				'description' => SiteOrigin_Settings_Localization::get( 'section_description' ),
+				'title' => __( 'Theme Settings', 'siteorigin' ),
+				'description' => __( 'Change settings for your theme.', 'siteorigin' ),
 				'priority' => 10,
 			) );
 		}

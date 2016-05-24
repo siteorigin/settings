@@ -16,10 +16,10 @@ class SiteOrigin_Settings_Control_Teaser extends WP_Customize_Control {
 
 		?>
 		<a
-			href="<?php echo esc_url( SiteOrigin_Settings_Localization::get('premium_url') ) ?>"
+			href="<?php echo esc_url( apply_filters( 'siteorigin_premium_url', 'https://siteorigin.com/premium/' ) ) ?>"
 			class="button-primary so-premium-upgrade"
 			target="_blank">
-			<?php echo esc_html( SiteOrigin_Settings_Localization::get('premium_only') ) ?>
+			<?php esc_html_e( 'Available in Premium', 'siteorigin' ) ?>
 		</a>
 		<?php
 	}

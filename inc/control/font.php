@@ -60,12 +60,12 @@ class SiteOrigin_Settings_Control_Font extends WP_Customize_Control {
 		</div>
 
 		<div class="field-wrapper">
-			<label><?php echo esc_html( SiteOrigin_Settings_Localization::get( 'variant') ) ?></label>
+			<label><?php esc_html_e( 'Variant', 'siteorigin' ) ?></label>
 			<select class="font-variant"></select>
 		</div>
 
 		<div class="field-wrapper">
-			<label><?php echo esc_html( SiteOrigin_Settings_Localization::get( 'subset' ) ) ?></label>
+			<label><?php esc_html_e( 'Subset', 'siteorigin' ) ?></label>
 			<select class="font-subset"></select>
 		</div>
 

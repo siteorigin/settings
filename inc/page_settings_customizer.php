@@ -32,28 +32,30 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 	function customize_register( $wp_customize ){
 		if( !current_theme_supports( 'siteorigin-template-settings' ) ) return;
 
-		$loc = SiteOrigin_Settings_Localization::get();
-
 		// We'll use a single panel for theme settings
 		if( method_exists($wp_customize, 'add_panel') ) {
 			$wp_customize->add_panel( 'page_settings', array(
-				'title' => $loc[ 'page_section_title' ],
-				'description' => $loc[ 'page_section_description' ],
+				'title' => __( 'Page Template Settings', 'siteorigin' ),
+				'description' => __( 'Change layouts for various pages on your site.', 'siteorigin' ),
 				'priority' => 11,
 			) );
 		}
 
 		// Add general page templates
 		$types = array();
-		$templates = array( 'home', 'search', 'date', 'author', '404' );
-		foreach ( $templates as $template ) {
-			if( !empty( $loc['template_' . $template] ) ) {
-				$types[] = array(
-					'group' => 'template',
-					'id' => $template,
-					'title' => $loc['template_' . $template]
-				);
-			}
+		$templates = array(
+			'home' => __( 'Blog Page', 'siteorigin' ),
+			'search' => __( 'Search Results', 'siteorigin' ),
+			'date' => __( 'Date Archives', 'siteorigin' ),
+			'author' => __( 'Author Archives', 'siteorigin' ),
+			'404' => _( 'Not Found', 'siteorigin' ),
+		);
+		foreach ( $templates as $template => $title ) {
+			$types[] = array(
+				'group' => 'template',
+				'id' => $template,
+				'title' => $title
+			);
 		}
 
 		// Add public post types
@@ -64,7 +66,7 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 			$types[] = array(
 				'group' => 'archive',
 				'id' => $post_type,
-				'title' => $loc['templates_post_type'] . ': ' . $post_type_data->label
+				'title' => __( 'Type', 'siteorigin' ) . ': ' . $post_type_data->label
 			);
 		}
 
@@ -75,7 +77,7 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 			$types[] = array(
 				'group' => 'taxonomy',
 				'id' => $tax_slug,
-				'title' => $loc['templates_taxonomy'] . ': ' . $taxonomy->label
+				'title' => __( 'Taxonomy', 'siteorigin' ) . ': ' . $taxonomy->label
 			);
 		}
 

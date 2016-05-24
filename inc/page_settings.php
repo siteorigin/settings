@@ -171,7 +171,7 @@ class SiteOrigin_Settings_Page_Settings {
 		if( !empty( $post->post_type ) && post_type_supports( $post->post_type, 'so-page-settings' ) ) {
 			add_meta_box(
 				'siteorigin_page_settings',
-				SiteOrigin_Settings_Localization::get( 'meta_box' ),
+				__( 'Page settings', 'siteorigin' ),
 				array( $this, 'display_post_meta_box' ),
 				$post->post_type,
 				'side'

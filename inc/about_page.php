@@ -25,17 +25,15 @@ class SiteOrigin_Settings_About_Page {
 	}
 
 	function about_page_notice(){
-
 		$theme = wp_get_theme( get_template() );
-		$loc = SiteOrigin_Settings_Localization::single();
 
 		?>
 		<div class="updated notice is-dismissible">
 			<p>
-				<?php echo esc_html( sprintf( $loc->get( 'thanks_for_choosing' ), $theme->get( 'Name' ) ) ); ?>
+				<?php echo esc_html( sprintf( __( 'Thanks for choosing %s!', 'siteorigin' ), $theme->get( 'Name' ) ) ); ?>
 				<?php
 				printf(
-					esc_html( $loc->get( 'learn_more' ) ),
+					esc_html__( 'You can learn more about it %shere%s, or head straight to the %scustomizer%s to start setting it up.', 'siteorigin' ),
 					'<a href="' . admin_url( 'themes.php?page=siteorigin-theme-about' ) . '">',
 					'</a>',
 					'<a href="' . admin_url( 'customize.php' ) . '">',
@@ -44,7 +42,7 @@ class SiteOrigin_Settings_About_Page {
 			</p>
 			<p>
 				<a href="<?php echo esc_url( admin_url( 'themes.php?page=siteorigin-theme-about' ) ); ?>" class="button-primary">
-					<?php echo esc_html( sprintf( $loc->get( 'learn_button' ), $theme->get( 'Name' ) ) ); ?>
+					<?php echo esc_html( sprintf( __( 'Learn About %s', 'siteorigin' ), $theme->get( 'Name' ) ) ); ?>
 				</a>
 			</p>
 		</div>
@@ -55,11 +53,9 @@ class SiteOrigin_Settings_About_Page {
 		$theme = wp_get_theme( get_template() );
 		$theme_name = $theme->get( 'Name' );
 
-		$about_text = SiteOrigin_Settings_Localization::get( 'about_theme' );
-
 		add_theme_page(
-			sprintf( $about_text, $theme_name ),
-			sprintf( $about_text, $theme_name ),
+			sprintf( __( 'About %s', 'siteorigin' ), $theme_name ),
+			sprintf( __( 'About %s', 'siteorigin' ), $theme_name ),
 			'edit_theme_options',
 			'siteorigin-theme-about',
 			array( $this, 'display_about_page' )
@@ -85,7 +81,6 @@ class SiteOrigin_Settings_About_Page {
 	}
 
 	function get_share_link( $network ) {
-		$loc = SiteOrigin_Settings_Localization::single();
 		$theme = wp_get_theme( get_template() );
 		$share_url = false;
 
@@ -101,10 +96,10 @@ class SiteOrigin_Settings_About_Page {
 					'status' => urlencode(
 						$theme->get( 'Name' ) .
 						' - ' .
-						SiteOrigin_Settings_Localization::get('free_wordpress_theme') . ' - ' .
+						__( 'Free WordPress Theme', 'siteorigin' ) . ' - ' .
 						$theme->get( 'ThemeURI' )
 					)
-				), 'https://twitter.com/home?' );
+				), 'https://twitter.com/home' );
 				break;
 
 			case 'facebook' :
@@ -118,10 +113,9 @@ class SiteOrigin_Settings_About_Page {
 
 	function display_about_page(){
 
-		$loc = SiteOrigin_Settings_Localization::single();
 		$theme = wp_get_theme( get_template() );
 		$about = apply_filters( 'siteorigin_about_page', array(
-			'title' => sprintf( $loc->get( 'about_theme' ), $theme->get( 'Name' ) ),
+			'title' => sprintf( __( 'About %s', 'siteorigin' ), $theme->get( 'Name' ) ),
 			'sections' => array(),
 			'title_image' => false,
 			'title_image_2x' => false,
@@ -160,7 +154,7 @@ class SiteOrigin_Settings_About_Page {
 
 				<?php if( !empty( $about[ 'newsletter_link' ] ) ) : ?>
 					<a href="<?php echo esc_url( $about[ 'newsletter_link' ] ) ?>" class="button-primary about-button-updates" target="_blank">
-						<?php echo esc_html( $loc->get( 'get_updates' ) ) ?>
+						<?php esc_html_e( 'Get Updates', 'siteorigin' ) ?>
 					</a>
 				<?php endif; ?>
 			</div>
@@ -194,7 +188,7 @@ class SiteOrigin_Settings_About_Page {
 
 						<div class="about-video-watch">
 							<a href="<?php echo esc_url( $about[ 'video_url' ] ) ?>" target="_blank">
-								<?php echo esc_html( $loc->get( 'watch_video' ) ) ?>
+								<?php esc_html_e( 'Watch The Video', 'siteorigin' ) ?>
 							</a>
 						</div>
 
@@ -207,7 +201,7 @@ class SiteOrigin_Settings_About_Page {
 						<?php if( $theme->get( 'ThemeURI' ) ) : ?>
 							<div class="about-share">
 								<div class="about-share-title">
-									<?php echo esc_html( sprintf( $loc->get( 'share_theme' ), $theme->get( 'Name' ) ) ) ?>
+									<?php echo esc_html( sprintf( __( 'If you like %s, please share it!', 'siteorigin' ), $theme->get( 'Name' ) ) ) ?>
 								</div>
 
 								<a href="<?php echo esc_url( $this->get_share_link( 'facebook' ) ) ?>" class="about-share-facebook" target="_blank">
@@ -237,7 +231,7 @@ class SiteOrigin_Settings_About_Page {
 
 			<div class="about-siteorigin-logo">
 				<p>
-					<?php echo esc_html( $loc->get( 'created_by' ) ) ?>
+					<?php echo esc_html( __( 'Proudly Created By', 'siteorigin' ) ) ?>
 				</p>
 				<a href="https://siteorigin.com/" target="_blank">
 					<img src="<?php echo get_template_directory_uri() ?>/inc/settings/css/images/siteorigin.png" />
