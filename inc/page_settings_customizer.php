@@ -48,7 +48,7 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 			'search' => __( 'Search Results', 'siteorigin' ),
 			'date' => __( 'Date Archives', 'siteorigin' ),
 			'author' => __( 'Author Archives', 'siteorigin' ),
-			'404' => _( 'Not Found', 'siteorigin' ),
+			'404' => __( 'Not Found', 'siteorigin' ),
 		);
 		foreach ( $templates as $template => $title ) {
 			$types[] = array(
