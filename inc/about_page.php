@@ -96,7 +96,7 @@ class SiteOrigin_Settings_About_Page {
 					'status' => urlencode(
 						$theme->get( 'Name' ) .
 						' - ' .
-						__( 'Free WordPress Theme', 'siteorigin' ) . ' - ' .
+						__( 'Free #WordPress Theme from @SiteOrigin', 'siteorigin' ) . ' - ' .
 						$theme->get( 'ThemeURI' )
 					)
 				), 'https://twitter.com/home' );
