@@ -40,7 +40,7 @@ class SiteOrigin_Settings {
 		}
 
 		add_action( 'after_setup_theme', array( $this, 'load_settings_extras' ) );
-		add_filter( 'siteorigin_premium_theme_affiliate_id', array( $this, 'contributor_affiliate_id' ) );
+		add_filter( 'siteorigin_premium_affiliate_id', array( $this, 'contributor_affiliate_id' ) );
 
 		spl_autoload_register( array( $this, '_autoload' ) );
 	}
@@ -756,7 +756,6 @@ class SiteOrigin_Settings {
 	static function get_premium_url( $featured_addon = false ){
 		// Let themes and plugins add their affiliate ID
 		$ref = apply_filters( 'siteorigin_premium_affiliate_id', false );
-		$ref = apply_filters( 'siteorigin_premium_theme_affiliate_id', $ref );
 
 		// Get the args we want to add to the URL
 		$args = array(
