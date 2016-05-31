@@ -34,7 +34,7 @@ class SiteOrigin_Settings_Control_Image_Select extends WP_Customize_Control {
 	}
 
 	public function enqueue() {
-		wp_enqueue_script( 'siteorigin-settings-font-control', get_template_directory_uri() . '/inc/settings/js/control/image-select-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery', 'customize-controls' ) );
-		wp_enqueue_style( 'siteorigin-settings-font-control', get_template_directory_uri() . '/inc/settings/css/control/image-select-control.css', array() );
+		wp_enqueue_script( 'siteorigin-settings-image-select-control', get_template_directory_uri() . '/inc/settings/js/control/image-select-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery', 'customize-controls' ) );
+		wp_enqueue_style( 'siteorigin-settings-image-select-control', get_template_directory_uri() . '/inc/settings/css/control/image-select-control.css', array() );
 	}
 }
