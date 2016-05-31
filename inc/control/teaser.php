@@ -3,6 +3,8 @@
 class SiteOrigin_Settings_Control_Teaser extends WP_Customize_Control {
 	public $type = 'siteorigin-teaser';
 
+	public $featured = false;
+
 	/**
 	 * Render the teaser control's content.
 	 */
@@ -16,7 +18,7 @@ class SiteOrigin_Settings_Control_Teaser extends WP_Customize_Control {
 
 		?>
 		<a
-			href="<?php echo esc_url( apply_filters( 'siteorigin_premium_url', 'https://siteorigin.com/premium/' ) ) ?>"
+			href="<?php echo esc_url( SiteOrigin_Settings::get_premium_url( $this->featured ) ) ?>"
 			class="button-primary so-premium-upgrade"
 			target="_blank">
 			<?php esc_html_e( 'Available in Premium', 'siteorigin' ) ?>

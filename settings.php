@@ -360,7 +360,6 @@ class SiteOrigin_Settings {
 	 * @param string|bool $after Add this field after another one
 	 */
 	function add_teaser( $section, $id, $type, $label, $args = array(), $after = false ) {
-		// Don't add any teasers if the user is already using Premium
 		if( apply_filters('siteorigin_settings_display_teaser', true, $section, $id) ) {
 			// The theme hasn't implemented this setting yet
 			$this->add_field( $section, $id, 'teaser', $label, $args, $after);
@@ -475,6 +474,10 @@ class SiteOrigin_Settings {
 					if( !empty($setting_args['args']['choices']) ) {
 						$control_args['choices'] = $setting_args['args']['choices'];
 					}
+				}
+
+				if( $setting_args['type'] == 'teaser' && ! empty( $setting_args['args']['featured'] ) ) {
+					$control_args['featured'] = $setting_args['args']['featured'];
 				}
 
 				// Arguments for the range field
@@ -744,6 +747,33 @@ class SiteOrigin_Settings {
 		if( has_filter( 'siteorigin_about_page' ) && apply_filters( 'siteorigin_about_page_show', true ) ) {
 			SiteOrigin_Settings_About_Page::single();
 		}
+	}
+
+	/**
+	 * Get the Premium upgrade URL
+	 */
+	static function get_premium_url( $featured_addon = false ){
+		// Let themes and plugins add their affiliate ID
+		$ref = apply_filters( 'siteorigin_premium_affiliate_id', false );
+		$ref = apply_filters( 'siteorigin_premium_theme_affiliate_id', $ref );
+
+		// Get the args we want to add to the URL
+		$args = array(
+			'ref' => $ref,
+			'featured_theme' => get_template(),
+			'featured_addon' => $featured_addon
+		);
+		foreach( $args as $k => $v ) {
+			if( empty( $v ) ) {
+				unset( $args[$k] );
+				continue;
+			}
+			$args[$k] = urlencode( $v );
+		}
+
+		$url = add_query_arg( $args, 'https://siteorigin.com/downloads/premium/' );
+
+		return $url;
 	}
 }
 

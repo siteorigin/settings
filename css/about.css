@@ -39,24 +39,31 @@
         display: block; }
     #siteorigin-about-page .about-header .top-area-tabs {
       position: absolute;
-      top: 6px;
+      top: 0;
       right: 40px;
       margin: 0;
       padding: 0; }
       #siteorigin-about-page .about-header .top-area-tabs li {
         float: left;
         display: block;
-        margin-right: 5px; }
+        margin-right: 5px;
+        margin-top: 7px; }
         #siteorigin-about-page .about-header .top-area-tabs li a {
           text-decoration: none;
           line-height: 1em;
-          padding: 6px 16px;
+          padding: 7px 16px 8px 16px;
           background-color: #fff;
           border: 1px solid #c0c0c0;
           border-top: 0;
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075); }
         #siteorigin-about-page .about-header .top-area-tabs li:last-child {
           margin-right: 0; }
+        #siteorigin-about-page .about-header .top-area-tabs li.about-highlight a {
+          font-weight: bold;
+          background-color: #f5d382;
+          border-color: #846a29;
+          color: #121212;
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.125); }
   #siteorigin-about-page .about-video {
     background-color: #f4f4f4;
     margin: -20px 0 30px -21px;

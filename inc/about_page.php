@@ -128,6 +128,7 @@ class SiteOrigin_Settings_About_Page {
 			'video_description' => false,
 			'newsletter_url' => 'https://siteorigin.com/#newsletter',
 			'tour_url' => '',
+			'premium_url' => SiteOrigin_Settings::get_premium_url( 'theme' ),
 		) );
 
 		?>
@@ -167,6 +168,14 @@ class SiteOrigin_Settings_About_Page {
 						<li>
 							<a href="<?php echo esc_url( $about[ 'newsletter_url' ] ) ?>" class="about-button-updates" target="_blank">
 								<?php esc_html_e( 'Get Updates', 'siteorigin' ) ?>
+							</a>
+						</li>
+					<?php endif; ?>
+
+					<?php if( !empty( $about[ 'premium_url' ] ) ) : ?>
+						<li class="about-highlight">
+							<a href="<?php echo esc_url( $about[ 'premium_url' ] ) ?>" class="about-button-updates" target="_blank">
+								<?php esc_html_e( 'Upgrade to Premium', 'siteorigin' ) ?>
 							</a>
 						</li>
 					<?php endif; ?>
