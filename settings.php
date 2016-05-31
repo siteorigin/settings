@@ -429,6 +429,7 @@ class SiteOrigin_Settings {
 		// Finally, add the settings
 		foreach( $this->settings as $section_id => $settings ) {
 			foreach( $settings as $setting_id => $setting_args ) {
+				$control_class = false;
 
 				// Setup the sanitize callback
 				$sanitize_callback = 'sanitize_text_field';
@@ -468,12 +469,16 @@ class SiteOrigin_Settings {
 				}
 
 				// Add different control args for the different field types
-				if( $setting_args['type'] == 'radio' || $setting_args['type'] == 'select' || $setting_args['type'] == 'image_select' ) {
+				if( $setting_args['type'] == 'radio' || $setting_args['type'] == 'select' || $setting_args['type'] == 'image_select' || $setting_args['type'] == 'text' ) {
 					if( !empty($setting_args['args']['options']) ) {
 						$control_args['choices'] = $setting_args['args']['options'];
 					}
 					if( !empty($setting_args['args']['choices']) ) {
 						$control_args['choices'] = $setting_args['args']['choices'];
+					}
+
+					if( $setting_args['type'] == 'text' ) {
+						$control_class = 'SiteOrigin_Settings_Control_Text_Select';
 					}
 				}
 
@@ -502,7 +507,9 @@ class SiteOrigin_Settings {
 					) );
 				}
 
-				$control_class = !empty( self::$control_classes[ $setting_args['type'] ] ) ? self::$control_classes[ $setting_args['type'] ] : false;
+				if( empty( $control_class ) ) {
+					$control_class = !empty( self::$control_classes[ $setting_args['type'] ] ) ? self::$control_classes[ $setting_args['type'] ] : false;
+				}
 
 				if( !empty( $control_class ) ) {
 					$wp_customize->add_control(
