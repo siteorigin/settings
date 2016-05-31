@@ -126,7 +126,8 @@ class SiteOrigin_Settings_About_Page {
 			),
 			'video_url' => add_query_arg( 'autoplay', 1, $theme->get( 'ThemeURI' ) ),
 			'video_description' => false,
-			'newsletter_link' => 'https://siteorigin.com/#newsletter',
+			'newsletter_url' => 'https://siteorigin.com/#newsletter',
+			'tour_url' => '',
 		) );
 
 		?>
@@ -152,11 +153,26 @@ class SiteOrigin_Settings_About_Page {
 					<?php endif; ?>
 				</div>
 
-				<?php if( !empty( $about[ 'newsletter_link' ] ) ) : ?>
-					<a href="<?php echo esc_url( $about[ 'newsletter_link' ] ) ?>" class="button-primary about-button-updates" target="_blank">
-						<?php esc_html_e( 'Get Updates', 'siteorigin' ) ?>
-					</a>
-				<?php endif; ?>
+				<ul class="top-area-tabs">
+
+					<?php if( !empty( $about[ 'tour_url' ] ) ) : ?>
+						<li>
+							<a href="<?php echo esc_url( $about[ 'tour_url' ] ) ?>" class="about-button-tour" target="_blank">
+								<?php esc_html_e( 'Take a Tour', 'siteorigin' ) ?>
+							</a>
+						</li>
+					<?php endif; ?>
+
+					<?php if( !empty( $about[ 'newsletter_url' ] ) ) : ?>
+						<li>
+							<a href="<?php echo esc_url( $about[ 'newsletter_url' ] ) ?>" class="about-button-updates" target="_blank">
+								<?php esc_html_e( 'Get Updates', 'siteorigin' ) ?>
+							</a>
+						</li>
+					<?php endif; ?>
+
+				</ul>
+
 			</div>
 
 			<?php if( ! empty( $about[ 'video_thumbnail' ] ) ) : ?>
@@ -240,5 +256,4 @@ class SiteOrigin_Settings_About_Page {
 		</div>
 		<?php
 	}
-
 }

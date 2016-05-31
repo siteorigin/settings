@@ -3,9 +3,11 @@
 	margin-left: 0;
 	margin-right: 0;
 
+	$about_container_width: 640px;
+
 	.about-container {
 		box-sizing: border-box;
-		max-width: 640px;
+		max-width: $about_container_width;
 		margin: 0 auto;
 		position: relative;
 	}
@@ -51,13 +53,36 @@
 			}
 		}
 
-		.about-button-updates {
+		.top-area-tabs {
 			position: absolute;
-			top: 50%;
-			right: 20px;
-			margin-top: -14px;
-		}
+			top: 6px;
+			right: 40px;
 
+			margin: 0;
+			padding: 0;
+
+			li {
+				float: left;
+				display: block;
+				margin-right: 5px;
+
+				a {
+					text-decoration: none;
+					line-height: 1em;
+					padding: 6px 16px;
+					background-color: #fff;
+
+					border: 1px solid #c0c0c0;
+					border-top: 0;
+
+					box-shadow: 0 1px 1px rgba( 0,0,0,0.075 );
+				}
+
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
 	}
 
 	.about-video {
@@ -70,8 +95,8 @@
 		.about-play-video {
 			top: 0;
 			left: 0;
-			width: 640px;
-			height: 360px;
+			width: $about_container_width;
+			height: $about_container_width / 1.777778;
 			position: absolute;
 			z-index: 2;
 			display: block;
@@ -103,15 +128,15 @@
 		}
 
 		.about-video-images {
-			width: 640px;
-			height: 360px;
+			width: $about_container_width;
+			height: $about_container_width / 1.777778;
 			display: block;
 
 			.about-video-image {
 				top: 0;
 				left: 0;
-				width: 640px;
-				height: 360px;
+				width: $about_container_width;
+				height: $about_container_width / 1.777778;
 				position: absolute;
 				-webkit-background-size: cover;
 				background-size: cover;
@@ -193,6 +218,11 @@
 	.about-sections {
 
 		margin-left: -21px;
+		padding: 0 20px;
+
+		.about-container {
+			max-width: 1024px;
+		}
 
 		.about-section {
 			border-radius: 2px;
