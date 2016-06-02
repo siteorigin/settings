@@ -477,7 +477,7 @@ class SiteOrigin_Settings {
 						$control_args['choices'] = $setting_args['args']['choices'];
 					}
 
-					if( $setting_args['type'] == 'text' ) {
+					if( $setting_args['type'] == 'text' && ! empty( $control_args['choices'] ) ) {
 						$control_class = 'SiteOrigin_Settings_Control_Text_Select';
 					}
 				}
