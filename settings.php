@@ -778,7 +778,7 @@ class SiteOrigin_Settings {
 			$args[$k] = urlencode( $v );
 		}
 
-		$url = add_query_arg( $args, 'https://siteorigin.com/downloads/premium/' );
+		$url = add_query_arg( $args, defined( 'SITEORIGIN_THEME_PREMIUM_URL' ) ? SITEORIGIN_THEME_PREMIUM_URL : 'https://siteorigin.com/downloads/premium/' );
 
 		return $url;
 	}
