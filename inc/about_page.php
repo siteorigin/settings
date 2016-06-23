@@ -128,6 +128,7 @@ class SiteOrigin_Settings_About_Page {
 			'video_description' => false,
 			'newsletter_url' => 'https://siteorigin.com/#newsletter',
 			'tour_url' => '',
+			'documentation_url' => '',
 			'premium_url' => SiteOrigin_Settings::get_premium_url( 'theme' ),
 		) );
 
@@ -167,7 +168,17 @@ class SiteOrigin_Settings_About_Page {
 					<?php if( !empty( $about[ 'newsletter_url' ] ) ) : ?>
 						<li>
 							<a href="<?php echo esc_url( $about[ 'newsletter_url' ] ) ?>" class="about-button-updates" target="_blank">
+								<span class="dashicons dashicons-email"></span>
 								<?php esc_html_e( 'Get Updates', 'siteorigin' ) ?>
+							</a>
+						</li>
+					<?php endif; ?>
+
+					<?php if( !empty( $about[ 'documentation_url' ] ) ) : ?>
+						<li>
+							<a href="<?php echo esc_url( $about[ 'documentation_url' ] ) ?>" class="about-button-docs" target="_blank">
+								<span class="dashicons dashicons-sos"></span>
+								<?php esc_html_e( 'Documentation', 'siteorigin' ) ?>
 							</a>
 						</li>
 					<?php endif; ?>
@@ -175,6 +186,7 @@ class SiteOrigin_Settings_About_Page {
 					<?php if( !empty( $about[ 'premium_url' ] ) ) : ?>
 						<li class="about-highlight">
 							<a href="<?php echo esc_url( $about[ 'premium_url' ] ) ?>" class="about-button-updates" target="_blank">
+								<span class="dashicons dashicons-star-filled"></span>
 								<?php esc_html_e( 'Upgrade to Premium', 'siteorigin' ) ?>
 							</a>
 						</li>

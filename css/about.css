@@ -9,7 +9,7 @@
   #siteorigin-about-page .about-header {
     background-color: #eaeaea;
     margin: -10px 0 20px -21px;
-    padding: 30px 20px;
+    padding: 50px 20px 35px 20px;
     border-bottom: 1px solid #d0d0d0;
     text-align: center;
     position: relative; }
@@ -56,6 +56,11 @@
           border: 1px solid #c0c0c0;
           border-top: 0;
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075); }
+          #siteorigin-about-page .about-header .top-area-tabs li a .dashicons {
+            margin: -1px 4px 0 -4px;
+            color: #666; }
+          #siteorigin-about-page .about-header .top-area-tabs li a:hover .dashicons {
+            color: #333; }
         #siteorigin-about-page .about-header .top-area-tabs li:last-child {
           margin-right: 0; }
         #siteorigin-about-page .about-header .top-area-tabs li.about-highlight a {
@@ -64,6 +69,9 @@
           border-color: #846a29;
           color: #121212;
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.125); }
+          #siteorigin-about-page .about-header .top-area-tabs li.about-highlight a .dashicons {
+            margin: -1px 4px 0 0;
+            color: #121212; }
   #siteorigin-about-page .about-video {
     background-color: #f4f4f4;
     margin: -20px 0 30px -21px;

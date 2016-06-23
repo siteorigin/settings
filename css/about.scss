@@ -15,7 +15,7 @@
 	.about-header {
 		background-color: #eaeaea;
 		margin: -10px 0 20px -21px;
-		padding: 30px 20px;
+		padding: 50px 20px 35px 20px;
 		border-bottom: 1px solid #d0d0d0;
 		text-align: center;
 		position: relative;
@@ -77,6 +77,15 @@
 					border-top: 0;
 
 					box-shadow: 0 1px 1px rgba( 0,0,0,0.075 );
+
+					.dashicons {
+						margin: -1px 4px 0 -4px;
+						color: #666;
+					}
+
+					&:hover .dashicons {
+						color: #333;
+					}
 				}
 
 				&:last-child {
@@ -90,6 +99,11 @@
 						border-color: #846a29;
 						color: #121212;
 						box-shadow: 0 1px 1px rgba( 0,0,0,0.125 );
+
+						.dashicons {
+							margin: -1px 4px 0 0;
+							color: #121212;
+						}
 					}
 				}
 			}
