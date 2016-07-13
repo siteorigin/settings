@@ -134,6 +134,45 @@ class SiteOrigin_Settings_About_Page {
 
 		?>
 		<div class="wrap" id="siteorigin-about-page">
+			<ul class="top-area-tabs">
+
+				<?php if( !empty( $about[ 'tour_url' ] ) ) : ?>
+					<li>
+						<a href="<?php echo esc_url( $about[ 'tour_url' ] ) ?>" class="about-button-tour" target="_blank">
+							<?php esc_html_e( 'Take a Tour', 'siteorigin' ) ?>
+						</a>
+					</li>
+				<?php endif; ?>
+
+				<?php if( !empty( $about[ 'newsletter_url' ] ) ) : ?>
+					<li>
+						<a href="<?php echo esc_url( $about[ 'newsletter_url' ] ) ?>" class="about-button-updates" target="_blank">
+							<span class="dashicons dashicons-email"></span>
+							<?php esc_html_e( 'Get Updates', 'siteorigin' ) ?>
+						</a>
+					</li>
+				<?php endif; ?>
+
+				<?php if( !empty( $about[ 'documentation_url' ] ) ) : ?>
+					<li>
+						<a href="<?php echo esc_url( $about[ 'documentation_url' ] ) ?>" class="about-button-docs" target="_blank">
+							<span class="dashicons dashicons-sos"></span>
+							<?php esc_html_e( 'Documentation', 'siteorigin' ) ?>
+						</a>
+					</li>
+				<?php endif; ?>
+
+				<?php if( !empty( $about[ 'premium_url' ] ) ) : ?>
+					<li class="about-highlight">
+						<a href="<?php echo esc_url( $about[ 'premium_url' ] ) ?>" class="about-button-updates" target="_blank">
+							<span class="dashicons dashicons-star-filled"></span>
+							<?php esc_html_e( 'Upgrade to Premium', 'siteorigin' ) ?>
+						</a>
+					</li>
+				<?php endif; ?>
+
+			</ul>
+			
 			<div class="about-header">
 				<div class="about-container">
 					<?php if ( ! empty( $about[ 'title_image' ] ) ) : ?>
@@ -154,46 +193,6 @@ class SiteOrigin_Settings_About_Page {
 						</h1>
 					<?php endif; ?>
 				</div>
-
-				<ul class="top-area-tabs">
-
-					<?php if( !empty( $about[ 'tour_url' ] ) ) : ?>
-						<li>
-							<a href="<?php echo esc_url( $about[ 'tour_url' ] ) ?>" class="about-button-tour" target="_blank">
-								<?php esc_html_e( 'Take a Tour', 'siteorigin' ) ?>
-							</a>
-						</li>
-					<?php endif; ?>
-
-					<?php if( !empty( $about[ 'newsletter_url' ] ) ) : ?>
-						<li>
-							<a href="<?php echo esc_url( $about[ 'newsletter_url' ] ) ?>" class="about-button-updates" target="_blank">
-								<span class="dashicons dashicons-email"></span>
-								<?php esc_html_e( 'Get Updates', 'siteorigin' ) ?>
-							</a>
-						</li>
-					<?php endif; ?>
-
-					<?php if( !empty( $about[ 'documentation_url' ] ) ) : ?>
-						<li>
-							<a href="<?php echo esc_url( $about[ 'documentation_url' ] ) ?>" class="about-button-docs" target="_blank">
-								<span class="dashicons dashicons-sos"></span>
-								<?php esc_html_e( 'Documentation', 'siteorigin' ) ?>
-							</a>
-						</li>
-					<?php endif; ?>
-
-					<?php if( !empty( $about[ 'premium_url' ] ) ) : ?>
-						<li class="about-highlight">
-							<a href="<?php echo esc_url( $about[ 'premium_url' ] ) ?>" class="about-button-updates" target="_blank">
-								<span class="dashicons dashicons-star-filled"></span>
-								<?php esc_html_e( 'Upgrade to Premium', 'siteorigin' ) ?>
-							</a>
-						</li>
-					<?php endif; ?>
-
-				</ul>
-
 			</div>
 
 			<?php if( ! empty( $about[ 'video_thumbnail' ] ) ) : ?>

@@ -12,6 +12,83 @@
 		position: relative;
 	}
 
+	.top-area-tabs {
+		position: fixed;
+		top: 32px;
+		right: 40px;
+		z-index: 10;
+
+		margin: 0;
+		padding: 0;
+
+		li {
+			float: left;
+			display: block;
+			margin-right: 5px;
+			margin-top: 7px;
+
+			a {
+				text-decoration: none;
+				line-height: 1em;
+				padding: 7px 16px 8px 16px;
+				background-color: #fff;
+
+				border: 1px solid #c0c0c0;
+				border-top: 0;
+
+				box-shadow: 0 1px 1px rgba( 0,0,0,0.075 );
+
+				.dashicons {
+					margin: -1px 4px 0 -4px;
+					color: #666;
+				}
+
+				&:hover .dashicons {
+					color: #333;
+				}
+			}
+
+			&:last-child {
+				margin-right: 0;
+			}
+
+			&.about-highlight {
+				a {
+					font-weight: bold;
+					background-color: #f5d382;
+					border-color: #846a29;
+					color: #121212;
+					box-shadow: 0 1px 1px rgba( 0,0,0,0.125 );
+
+					.dashicons {
+						margin: -1px 4px 0 0;
+						color: #121212;
+					}
+				}
+			}
+		}
+
+		@media screen and (max-width: 782px) {
+			display: block;
+			position: static;
+			overflow: auto;
+			margin: -10px 0 0 0;
+			background-color: #eaeaea;
+			text-align: center;
+			padding: 20px;
+
+			li {
+				margin: 0;
+				display: inline-block;
+				float: none;
+
+				a{
+					border-top: 1px solid #c0c0c0;
+				}
+			}
+		}
+	}
+
 	.about-header {
 		background-color: #eaeaea;
 		margin: -10px 0 20px -21px;
@@ -50,62 +127,6 @@
 
 			img {
 				display: block;
-			}
-		}
-
-		.top-area-tabs {
-			position: absolute;
-			top: 0;
-			right: 40px;
-
-			margin: 0;
-			padding: 0;
-
-			li {
-				float: left;
-				display: block;
-				margin-right: 5px;
-				margin-top: 7px;
-
-				a {
-					text-decoration: none;
-					line-height: 1em;
-					padding: 7px 16px 8px 16px;
-					background-color: #fff;
-
-					border: 1px solid #c0c0c0;
-					border-top: 0;
-
-					box-shadow: 0 1px 1px rgba( 0,0,0,0.075 );
-
-					.dashicons {
-						margin: -1px 4px 0 -4px;
-						color: #666;
-					}
-
-					&:hover .dashicons {
-						color: #333;
-					}
-				}
-
-				&:last-child {
-					margin-right: 0;
-				}
-
-				&.about-highlight {
-					a {
-						font-weight: bold;
-						background-color: #f5d382;
-						border-color: #846a29;
-						color: #121212;
-						box-shadow: 0 1px 1px rgba( 0,0,0,0.125 );
-
-						.dashicons {
-							margin: -1px 4px 0 0;
-							color: #121212;
-						}
-					}
-				}
 			}
 		}
 	}
