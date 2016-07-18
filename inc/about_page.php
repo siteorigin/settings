@@ -162,10 +162,19 @@ class SiteOrigin_Settings_About_Page {
 					</li>
 				<?php endif; ?>
 
+				<?php if( !empty( $about[ 'review' ] ) ) : ?>
+					<li>
+						<a href="<?php echo esc_url( sprintf( 'https://wordpress.org/support/view/theme-reviews/%s?filter=5', get_template() ) ) ?>" class="about-button-updates" target="_blank">
+							<span class="dashicons dashicons-star-filled"></span>
+							<?php esc_html_e( 'Write a Review', 'siteorigin' ) ?>
+						</a>
+					</li>
+				<?php endif; ?>
+
 				<?php if( !empty( $about[ 'premium_url' ] ) ) : ?>
 					<li class="about-highlight">
 						<a href="<?php echo esc_url( $about[ 'premium_url' ] ) ?>" class="about-button-updates" target="_blank">
-							<span class="dashicons dashicons-star-filled"></span>
+							<span class="dashicons dashicons-arrow-up-alt"></span>
 							<?php esc_html_e( 'Upgrade to Premium', 'siteorigin' ) ?>
 						</a>
 					</li>
