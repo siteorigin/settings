@@ -559,7 +559,8 @@ class SiteOrigin_Settings {
 	 * Display all the generated custom CSS.
 	 */
 	function display_custom_css(){
-		$css = apply_filters('siteorigin_settings_custom_css', '');
+		$settings = $this->get_all();
+		$css = apply_filters( 'siteorigin_settings_custom_css', '', $settings );
 
 		if( !empty($css) ) {
 
