@@ -1,4 +1,4 @@
-<?php
+de<?php
 
 class SiteOrigin_Settings_Control_Font extends WP_Customize_Control {
 	public $type = 'siteorigin-font';

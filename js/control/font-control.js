@@ -14,7 +14,8 @@
 
             var $f = control.container.find('select.font'),
                 $v = control.container.find('select.font-variant'),
-                $s = control.container.find('select.font-subset');
+                $s = control.container.find('select.font-subset' ),
+	            hasSetup = false;
 
             $f.change( function(){
                 var $fs = $(this).find('option:selected');
@@ -61,7 +62,10 @@
             } );
 
             var changeValue = function(){
-                var val = {};
+	            if( ! hasSetup ) {
+		            return;
+	            }
+	            var val = {};
                 val.font = $f.val();
                 val.webfont = $f.find('option:selected').data('webfont');
                 val.category = $f.find('option:selected').data('category');
@@ -158,6 +162,7 @@
                             });
                         chosen = true;
                     }
+			        hasSetup = true;
                 });
         }
     } );
