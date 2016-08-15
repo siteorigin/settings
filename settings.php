@@ -40,7 +40,6 @@ class SiteOrigin_Settings {
 		}
 
 		add_action( 'after_setup_theme', array( $this, 'load_settings_extras' ) );
-		add_filter( 'siteorigin_premium_affiliate_id', array( $this, 'contributor_affiliate_id' ) );
 
 		spl_autoload_register( array( $this, '_autoload' ) );
 	}
@@ -785,33 +784,6 @@ class SiteOrigin_Settings {
 		$url = add_query_arg( $args, defined( 'SITEORIGIN_THEME_PREMIUM_URL' ) ? SITEORIGIN_THEME_PREMIUM_URL : 'https://siteorigin.com/downloads/premium/' );
 
 		return $url;
-	}
-
-	/**
-	 * Add a random affiliate ID based on contributors file
-	 */
-	function contributor_affiliate_id( $aff ){
-		if( file_exists( get_template_directory() . '/inc/contributors.php' ) ) {
-			static $contributor = false;
-			if( empty( $contributor ) ) {
-				$contributors = include get_template_directory() . '/inc/contributors.php';
-				shuffle( $contributors );
-
-				$rand = rand( 0, 10000 ) / 100;
-				$sum = 0;
-
-				foreach ( $contributors as $c ) {
-					$sum += floatval( $c['percent'] );
-					if ( $sum >= $rand ) {
-						$contributor = $c[ 'email' ];
-						break;
-					}
-				}
-			}
-			$aff = $contributor;
-		}
-
-		return $aff;
 	}
 }
 
