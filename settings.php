@@ -414,6 +414,34 @@ class SiteOrigin_Settings {
 			) );
 		}
 
+		if( ! defined( 'SITEORIGIN_IS_PREMIUM' ) && ! defined( 'SITEORIGIN_PREMIUM_VERSION' ) ) {
+			$wp_customize->add_section( 'theme_settings_premium', array(
+				'title' => __( 'SiteOrigin Premium', 'siteorigin' ),
+				'priority' => 1,
+				'panel' => 'theme_settings',
+			) );
+
+			$wp_customize->add_setting( 'theme_settings_premium_message' , array(
+				'default' => '',
+				'transport' => 'refresh',
+				'capability' => 'edit_theme_options',
+				'type' => 'theme_mod',
+				'sanitize_callback' => 'sanitize_text_field',
+			) );
+
+			$wp_customize->add_control(
+				new SiteOrigin_Settings_Control_Premium(
+					$wp_customize,
+					'theme_settings_premium_message',
+					array(
+						'label' => __( 'SiteOrigin Premium', 'siteorigin' ),
+						'section'  => 'theme_settings_premium',
+						'settings' => 'theme_settings_premium_message',
+					)
+				)
+			);
+		}
+
 		// Add sections for what would have been tabs before
 		foreach( $this->sections as $id => $args ) {
 			$wp_customize->add_section( 'theme_settings_' . $id, array(
