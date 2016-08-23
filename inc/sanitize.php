@@ -79,7 +79,7 @@ class SiteOrigin_Settings_Sanitize {
 	 *
 	 * @return float
 	 */
-	static function float( $val ){
+	static function floatval( $val ){
 		return floatval( $val );
 	}
 }

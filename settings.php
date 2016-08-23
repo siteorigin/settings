@@ -389,7 +389,7 @@ class SiteOrigin_Settings {
 		'color' => 'sanitize_hex_color',
 		'media' => array( 'SiteOrigin_Settings_Sanitize', 'intval' ),
 		'checkbox' => array( 'SiteOrigin_Settings_Sanitize', 'boolean' ),
-		'range' => array( 'SiteOrigin_Settings_Sanitize', 'float' ),
+		'range' => array( 'SiteOrigin_Settings_Sanitize', 'floatval' ),
 		'widget' => array( 'SiteOrigin_Settings_Sanitize', 'widget' ),
 		'measurement' => array( 'SiteOrigin_Settings_Control_Measurement', 'sanitize_value' ),
 	);
