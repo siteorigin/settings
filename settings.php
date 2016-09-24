@@ -127,11 +127,13 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * Get all theme settings values currently in the database
+	 * Get all theme settings values currently in the database.
+	 *
+	 * @param bool $defaults Should we add the defaults.
 	 *
 	 * @return array|void
 	 */
-	function get_all( ){
+	function get_all( $defaults = false ){
 		$settings = get_theme_mods();
 		if( empty($settings) ) return array();
 
@@ -139,6 +141,10 @@ class SiteOrigin_Settings {
 			if( strpos( $k, 'theme_settings_' ) !== 0 ) {
 				unset($settings[$k]);
 			}
+		}
+
+		if( $defaults ) {
+			$settings = wp_parse_args( $settings, $this->defaults );
 		}
 
 		return $settings;
@@ -581,7 +587,7 @@ class SiteOrigin_Settings {
 		wp_enqueue_script( 'siteorigin-settings-tinycolor', get_stylesheet_directory_uri() . '/inc/settings/js/tinycolor' . SITEORIGIN_THEME_JS_PREFIX . '.js', array(), SITEORIGIN_THEME_VERSION );
 		wp_enqueue_script( 'siteorigin-settings-live-preview', get_stylesheet_directory_uri() . '/inc/settings/js/live' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery'), SITEORIGIN_THEME_VERSION );
 		wp_localize_script( 'siteorigin-settings-live-preview', 'soSettings', array(
-			'css' => apply_filters('siteorigin_settings_custom_css', ''),
+			'css' => apply_filters( 'siteorigin_settings_custom_css', '', $this->get_all( ) ),
 			'settings' => !empty($values) ? $values : false
 		) );
 	}
@@ -590,7 +596,7 @@ class SiteOrigin_Settings {
 	 * Display all the generated custom CSS.
 	 */
 	function display_custom_css(){
-		$settings = $this->get_all();
+		$settings = $this->get_all( );
 		$css = apply_filters( 'siteorigin_settings_custom_css', '', $settings );
 
 		if( !empty($css) ) {
