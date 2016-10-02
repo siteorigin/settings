@@ -420,7 +420,11 @@ class SiteOrigin_Settings {
 			) );
 		}
 
-		if( ! defined( 'SITEORIGIN_IS_PREMIUM' ) && ! defined( 'SITEORIGIN_PREMIUM_VERSION' ) ) {
+		if(
+			! defined( 'SITEORIGIN_IS_PREMIUM' ) &&
+			! defined( 'SITEORIGIN_PREMIUM_VERSION' )
+			&& defined( 'SITEORIGIN_THEME_PREMIUM_URL' )
+		) {
 			$wp_customize->add_section( 'theme_settings_premium', array(
 				'title' => __( 'SiteOrigin Premium', 'siteorigin' ),
 				'priority' => 1,
