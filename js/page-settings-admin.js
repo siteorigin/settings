@@ -16,7 +16,8 @@
 		api.previewer.bind( 'page-settings', function( message ) {
 			// accordion-section-page_settings_template_home
 			var $section = $( '#accordion-section-page_settings_' + message[0] + '_' + message[1] ),
-				$all_sections = $( '[id^="accordion-section-page_settings_"]' ),
+				$all_sections = $( '[id^="accordion-section-page_settings_"]' )
+					.not( '[id$="template_404"], [id$="template_search"]' ),
 				$open = $( '[id^="accordion-section-page_settings_"].open' );
 
 			if( $open.length ) {
