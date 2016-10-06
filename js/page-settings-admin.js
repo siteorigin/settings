@@ -20,13 +20,13 @@
 					.not( '[id$="template_404"], [id$="template_search"]' ),
 				$open = $( '[id^="accordion-section-page_settings_"].open' );
 
-			if( $open.length ) {
-				// We'll return to the Page Settings section
-				$( '#accordion-panel-page_settings .accordion-section-title' ).trigger( 'click' );
-			}
 
 			hideSections = $all_sections.not( $section ).hide();
 			showSections = $section.show();
+
+			if( hideSections.filter( '.open' ).length ) {
+				hideSections.filter( '.open' ).find( '.customize-section-back' ).click();
+			}
 		} );
 	});
 } )( jQuery );
