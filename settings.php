@@ -797,6 +797,10 @@ class SiteOrigin_Settings {
 			SiteOrigin_Settings_Page_Settings::single();
 		}
 
+		if( has_filter( 'siteorigin_settings_font_settings' ) ) {
+			SiteOrigin_Settings_Webfont_Manager::single();
+		}
+
 		if( is_admin() && has_filter( 'siteorigin_about_page' ) && apply_filters( 'siteorigin_about_page_show', true ) ) {
 			SiteOrigin_Settings_About_Page::single();
 		}
