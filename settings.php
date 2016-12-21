@@ -610,8 +610,8 @@ class SiteOrigin_Settings {
 				'settings' => $this->get_all(),
 			) ) );
 
-			if( $css_key !== get_theme_mod('custom_css_key') || ( defined('WP_DEBUG') && WP_DEBUG ) ) {
-				$css_lines = array_map("trim", preg_split("/[\r\n]+/", $css));
+			if( $css_key !== get_theme_mod( 'custom_css_key' ) || ( defined('WP_DEBUG') && WP_DEBUG ) ) {
+				$css_lines = array_map( "trim", preg_split("/[\r\n]+/", $css ) );
 				foreach( $css_lines as $i => & $line ) {
 					preg_match_all( '/\$\{([a-zA-Z0-9_]+)\}/', $line, $matches );
 					if( empty($matches[0]) ) continue;
