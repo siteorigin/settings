@@ -103,7 +103,7 @@ class SiteOrigin_Settings {
 		}
 		if( ! empty( $migrated_settings[ $setting ] ) ) {
 			// This setting is migrating from somewhere else
-			$raw_value = get_theme_mod( 'theme_setting' . $setting, null );
+			$raw_value = get_theme_mod( 'theme_settings_' . $setting, null );
 			if( is_null( $raw_value ) ) {
 				$value = get_theme_mod( 'theme_settings_' . $migrated_settings[ $setting ], $default );
 			}
