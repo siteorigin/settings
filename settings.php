@@ -94,8 +94,23 @@ class SiteOrigin_Settings {
 			$default = isset( $this->defaults[$setting] ) ? $this->defaults[$setting] : false;
 		}
 
+		// Handle setting migration
+		$value =  get_theme_mod( 'theme_settings_' . $setting, $default );
+		static $migrated_settings;
+		if( is_null( $migrated_settings ) ) {
+			// Migrated settings are used to split settings or change their keys
+			$migrated_settings = apply_filters( 'siteorigin_settings_migrated_settings', array(  ) );
+		}
+		if( ! empty( $migrated_settings[ $setting ] ) ) {
+			// This setting is migrating from somewhere else
+			$raw_value = get_theme_mod( 'theme_setting' . $setting, null );
+			if( is_null( $raw_value ) ) {
+				$value = get_theme_mod( 'theme_settings_' . $migrated_settings[ $setting ], $default );
+			}
+		}
+
 		// Return a filtered version of the setting
-		$value = apply_filters( 'siteorigin_setting', get_theme_mod( 'theme_settings_' . $setting, $default ), $setting );
+		$value = apply_filters( 'siteorigin_setting', $value, $setting );
 
 		return $value;
 	}
