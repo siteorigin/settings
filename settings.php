@@ -55,12 +55,7 @@ class SiteOrigin_Settings {
 	 */
 	static function single(){
 		static $single;
-
-		if( empty($single) ) {
-			$single = new self();
-		}
-
-		return $single;
+		return empty( $single ) ? $single = new self() : $single;
 	}
 
 	function _autoload( $class_name ){
