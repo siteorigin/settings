@@ -604,8 +604,8 @@ class SiteOrigin_Settings {
 			}
 		}
 
-		wp_enqueue_script( 'siteorigin-settings-tinycolor', get_stylesheet_directory_uri() . '/inc/settings/js/tinycolor' . SITEORIGIN_THEME_JS_PREFIX . '.js', array(), SITEORIGIN_THEME_VERSION );
-		wp_enqueue_script( 'siteorigin-settings-live-preview', get_stylesheet_directory_uri() . '/inc/settings/js/live' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery'), SITEORIGIN_THEME_VERSION );
+		wp_enqueue_script( 'siteorigin-settings-tinycolor', get_template_directory_uri() . '/inc/settings/js/tinycolor' . SITEORIGIN_THEME_JS_PREFIX . '.js', array(), SITEORIGIN_THEME_VERSION );
+		wp_enqueue_script( 'siteorigin-settings-live-preview', get_template_directory_uri() . '/inc/settings/js/live' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery'), SITEORIGIN_THEME_VERSION );
 		wp_localize_script( 'siteorigin-settings-live-preview', 'soSettings', array(
 			'css' => apply_filters( 'siteorigin_settings_custom_css', '', $this->get_all( ) ),
 			'settings' => !empty($values) ? $values : false
