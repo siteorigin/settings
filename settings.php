@@ -453,10 +453,12 @@ class SiteOrigin_Settings {
 		}
 
 		// Add sections for what would have been tabs before
+		$i = 0;
 		foreach( $this->sections as $id => $args ) {
+			$i++;
 			$wp_customize->add_section( 'theme_settings_' . $id, array(
 				'title' => $args['title'],
-				'priority' => ( $id * 5 ) + 10,
+				'priority' => ( $i * 5 ) + 10,
 				'panel' => 'theme_settings',
 			) );
 		}
