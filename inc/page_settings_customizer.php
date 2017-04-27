@@ -135,7 +135,7 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 
 		wp_enqueue_script(
 			'siteorigin-page-template-settings',
-			get_stylesheet_directory_uri() . '/inc/settings/js/page-settings-admin' . SITEORIGIN_THEME_JS_PREFIX . '.js',
+			get_template_directory_uri() . '/inc/settings/js/page-settings-admin' . SITEORIGIN_THEME_JS_PREFIX . '.js',
 			array( 'jquery', 'customize-controls' ),
 			SITEORIGIN_THEME_VERSION
 		);
@@ -149,7 +149,7 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 
 		wp_enqueue_script(
 			'siteorigin-page-template-settings',
-			get_stylesheet_directory_uri() . '/inc/settings/js/page-settings' . SITEORIGIN_THEME_JS_PREFIX . '.js',
+			get_template_directory_uri() . '/inc/settings/js/page-settings' . SITEORIGIN_THEME_JS_PREFIX . '.js',
 			array( 'jquery', 'customize-preview' ),
 			SITEORIGIN_THEME_VERSION
 		);

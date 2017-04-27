@@ -40,6 +40,7 @@ class SiteOrigin_Settings {
 		}
 
 		add_action( 'after_setup_theme', array( $this, 'load_settings_extras' ) );
+		add_action( 'after_setup_theme', array( $this, 'handle_migrations' ) );
 
 		spl_autoload_register( array( $this, '_autoload' ) );
 
@@ -55,12 +56,7 @@ class SiteOrigin_Settings {
 	 */
 	static function single(){
 		static $single;
-
-		if( empty($single) ) {
-			$single = new self();
-		}
-
-		return $single;
+		return empty( $single ) ? $single = new self() : $single;
 	}
 
 	function _autoload( $class_name ){
@@ -94,10 +90,30 @@ class SiteOrigin_Settings {
 			$default = isset( $this->defaults[$setting] ) ? $this->defaults[$setting] : false;
 		}
 
-		// Return a filtered version of the setting
-		$value = apply_filters( 'siteorigin_setting', get_theme_mod( 'theme_settings_' . $setting, $default ), $setting );
+		// Handle setting migration
+		return apply_filters( 'siteorigin_setting', get_theme_mod( 'theme_settings_' . $setting, $default ), $setting );
+	}
 
-		return $value;
+	/**
+	 * Handle migration of settings from one key to another
+	 */
+	function handle_migrations(){
+		$migrations = apply_filters( 'siteorigin_settings_migrated_settings', array(  ) );
+		if( empty( $migrations ) ) return;
+
+		$migration_key = md5( serialize( $migrations ) );
+		if( $migration_key !== get_theme_mod( 'migration_key' ) ) {
+			foreach( $migrations as $to => $from ) {
+				$raw_to = get_theme_mod( 'theme_settings_' . $to, null );
+				$raw_from = get_theme_mod( 'theme_settings_' . $from, null );
+
+				if( is_null( $raw_to ) && ! is_null( $raw_from ) ) {
+					set_theme_mod( 'theme_settings_' . $to, $raw_from );
+				}
+			}
+
+			set_theme_mod( 'migration_key', $migration_key );
+		}
 	}
 
 	/**
@@ -590,8 +606,8 @@ class SiteOrigin_Settings {
 			}
 		}
 
-		wp_enqueue_script( 'siteorigin-settings-tinycolor', get_stylesheet_directory_uri() . '/inc/settings/js/tinycolor' . SITEORIGIN_THEME_JS_PREFIX . '.js', array(), SITEORIGIN_THEME_VERSION );
-		wp_enqueue_script( 'siteorigin-settings-live-preview', get_stylesheet_directory_uri() . '/inc/settings/js/live' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery'), SITEORIGIN_THEME_VERSION );
+		wp_enqueue_script( 'siteorigin-settings-tinycolor', get_template_directory_uri() . '/inc/settings/js/tinycolor' . SITEORIGIN_THEME_JS_PREFIX . '.js', array(), SITEORIGIN_THEME_VERSION );
+		wp_enqueue_script( 'siteorigin-settings-live-preview', get_template_directory_uri() . '/inc/settings/js/live' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery'), SITEORIGIN_THEME_VERSION );
 		wp_localize_script( 'siteorigin-settings-live-preview', 'soSettings', array(
 			'css' => apply_filters( 'siteorigin_settings_custom_css', '', $this->get_all( ) ),
 			'settings' => !empty($values) ? $values : false
@@ -612,8 +628,8 @@ class SiteOrigin_Settings {
 				'settings' => $this->get_all(),
 			) ) );
 
-			if( $css_key !== get_theme_mod('custom_css_key') || ( defined('WP_DEBUG') && WP_DEBUG ) ) {
-				$css_lines = array_map("trim", preg_split("/[\r\n]+/", $css));
+			if( $css_key !== get_theme_mod( 'custom_css_key' ) || ( defined('WP_DEBUG') && WP_DEBUG ) ) {
+				$css_lines = array_map( "trim", preg_split("/[\r\n]+/", $css ) );
 				foreach( $css_lines as $i => & $line ) {
 					preg_match_all( '/\$\{([a-zA-Z0-9_]+)\}/', $line, $matches );
 					if( empty($matches[0]) ) continue;
@@ -797,6 +813,10 @@ class SiteOrigin_Settings {
 	function load_settings_extras(){
 		if( has_filter( 'siteorigin_page_settings' ) ) {
 			SiteOrigin_Settings_Page_Settings::single();
+		}
+
+		if( has_filter( 'siteorigin_settings_font_settings' ) ) {
+			SiteOrigin_Settings_Webfont_Manager::single();
 		}
 
 		if( is_admin() && has_filter( 'siteorigin_about_page' ) && apply_filters( 'siteorigin_about_page_show', true ) ) {

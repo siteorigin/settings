@@ -14,7 +14,7 @@ class SiteOrigin_Settings_Page_Settings {
 		add_action( 'init', array( $this, 'add_page_settings_support' ) );
 
 		// All the meta box stuff
-		add_action( 'add_meta_boxes', array($this, 'add_meta_box'), 10, 2 );
+		add_action( 'add_meta_boxes', array($this, 'add_meta_box'), 10 );
 		add_action( 'save_post', array($this, 'save_post') );
 
 		// Page Builder integration
@@ -164,16 +164,18 @@ class SiteOrigin_Settings_Page_Settings {
 	}
 
 	/**
-	 * Add the meta box
+	 * Add the meta box.
+	 *
+	 * @param $post_type
 	 */
-	function add_meta_box( $post_type, $post ){
+	function add_meta_box( $post_type ){
 
-		if( !empty( $post->post_type ) && post_type_supports( $post->post_type, 'so-page-settings' ) ) {
+		if( !empty( $post_type ) && post_type_supports( $post_type, 'so-page-settings' ) ) {
 			add_meta_box(
 				'siteorigin_page_settings',
 				__( 'Page settings', 'siteorigin' ),
 				array( $this, 'display_post_meta_box' ),
-				$post->post_type,
+				$post_type,
 				'side'
 			);
 		}

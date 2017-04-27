@@ -41,10 +41,10 @@ class SiteOrigin_Settings_CSS_Functions {
 		else {
 			$weight = $args['variant'];
 		}
-		if( empty($args['variant']) ) $args['variant'] = 'normal';
 
-		if( $args['variant'] == 'regular' ) $args['variant'] = 'normal';
-		$return .= 'font-weight: ' . esc_attr( $weight) . '; ';
+		if( empty( $weight ) ) $weight = 'normal';
+		if( $weight == 'regular' ) $weight = 'normal';
+		$return .= 'font-weight: ' . esc_attr( $weight ) . '; ';
 
 		return $return;
 	}
