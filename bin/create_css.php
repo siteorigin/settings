@@ -38,7 +38,7 @@ $files = rsearch( $temp_dir . '/sass/', '/.*\.scss/' );
 foreach( $files as $file ) {
 	$content = file_get_contents( $file );
 
-	// Replace the variables
+	// Replace the variables where they're defined.
 	foreach( $conf['variables'] as $setting_name => $sass_name ) {
 		$content = preg_replace(
 			'/\$' . preg_quote($sass_name) . ': [^;]*;/',
@@ -52,7 +52,7 @@ foreach( $files as $file ) {
 	foreach( $conf['variables'] as $setting_name => $sass_name ) {
 		$GLOBALS['sass_vars'][ '$' . $sass_name ] = $setting_name;
 	}
-
+	
 	foreach( $conf['variables'] as $setting_name => $sass_name ) {
 		$content = preg_replace_callback( '/([a-zA-Z_\-]+) *\(([^\)]*\$' . preg_quote( $sass_name ) . '[^\)]*)\)/', function ( $match ) {
 			$args = array_map( 'trim',  preg_split('/ *, */', $match[2] ) );
@@ -80,7 +80,7 @@ foreach( $conf['stylesheets'] as $s ) {
 	// Compile the SASS
 	exec('sass --style expanded ' . $temp_dir . '/sass/' . $s . '.scss ' . $temp_dir . '/sass/' . $s . '.css' );
 
-	// Remove any lines that aren't important
+	// Remove any lines that aren't relevant
 	$contents = file( $temp_dir . '/sass/' . $s . '.css' );
 	foreach( $contents as $i => $line ) {
 		if(
@@ -121,13 +121,21 @@ foreach( $conf['stylesheets'] as $s ) {
 		$args = json_decode( urldecode( $match[1] ) );
 
 		$function = array_shift( $args );
-		$return = '.' . $function . '( ';
+		$return = '';
+		if( $function !== 'calc' ) {
+			$return .= '.';
+		}
+		$return .= $function . '( ';
 		if( !empty( $args ) ) {
 			$return .= implode( ', ', $args );
 		}
 		$return .= ')';
 		return $return;
 	}, $css );
+	
+	foreach( $conf['variables'] as $setting_name => $sass_name ) {
+		$css = preg_replace( '/#\{\$' . preg_quote( $sass_name ) . '\}/', '${' . $setting_name . '}', $css );
+	}
 
 	if( trim($css) != '' ) {
 		$all_css .= "/* $s */\n\n";

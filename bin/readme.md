@@ -10,6 +10,8 @@ This is a script that helps you create custom CSS from your SCSS files. Please n
 
 Run the parser script using `./create_css.php` in the command line. It should have a chmod of 775. You should remove the `bin` folder in SiteOrigin Settings before distributing your theme. Use `./create_css.php free` to generate the CSS for the free version of your theme.
 
+On MacOS `./create_css.php | pbcopy` to copy to clipboard.
+
 ## Configuration File
 
 This file should be located at `inc/settings.conf.php` and is checked every time you run the settings parser. It tells the parser which files should be processed and how to translate the variables.
