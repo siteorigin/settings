@@ -47,7 +47,7 @@ class SiteOrigin_Settings_Upgrade {
 				<p>
 					<?php
 					printf(
-						__( "You're currently running the free version of %s, but you have a premium order number entered. %sDownload%s the premium version and %sread instructions%s on how to upgrade. %sDismiss%s this notice.", 'siteorigin' ),
+						__( 'You\'re currently running the free version of %1$s, but you have a premium order number entered. %2$sDownload%3$s the premium version and %4$sread instructions%5$s on how to upgrade. %6$sDismiss%7$s this notice.', 'siteorigin' ),
 						$theme->get( 'Name' ),
 						'<a href="' . esc_url( $download_url ) . '" target="_blank">',
 						'</a>',
