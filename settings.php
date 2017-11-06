@@ -691,7 +691,8 @@ class SiteOrigin_Settings {
 						}
 
 						// Clean up the arguments
-						$args['subset'] = array_unique($args['subset']);
+						$args['subset'] = array_unique( $args['subset'] );
+						$args['family'] = array_unique( $args['family'] );
 
 						$args['family'] = array_map( 'urlencode', $args['family'] );
 						$args['subset'] = array_map( 'urlencode', $args['subset'] );
