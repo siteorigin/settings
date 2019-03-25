@@ -78,6 +78,9 @@ class SiteOrigin_Settings_Page_Settings {
 	function add_page_settings_support(){
 		add_post_type_support( 'page', 'so-page-settings' );
 		add_post_type_support( 'post', 'so-page-settings' );
+		if ( post_type_exists( 'jetpack-portfolio' ) ) {
+			add_post_type_support( 'jetpack-portfolio', 'so-page-settings' );
+		}
 	}
 
 	function get_settings_defaults( $type, $id ){
