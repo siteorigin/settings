@@ -12,6 +12,10 @@ Run the parser script using `./create_css.php` in the command line. It should ha
 
 On MacOS `./create_css.php | pbcopy` to copy to clipboard.
 
+## Updating the Google Fonts Array
+
+In the `bin` directory add a file named `google-key.php`. Include your Google Fonts API key in that file. To update the array, run `./fetch_google_fonts.php` from the same directory.
+
 ## Configuration File
 
 This file should be located at `inc/settings.conf.php` and is checked every time you run the settings parser. It tells the parser which files should be processed and how to translate the variables.
