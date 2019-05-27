@@ -13,7 +13,7 @@ function get_data($url) {
 }
 
 // Add your Google webfont key here <https://developers.google.com/fonts/docs/developer_api?hl=en#APIKey>
-$key = file_get_contents( __DIR__ . '/google-key.php' );
+$key = trim( file_get_contents( __DIR__ . '/google-key.php' ) );
 $response = get_data( 'https://www.googleapis.com/webfonts/v1/webfonts?key=' . urlencode( $key ) );
 
 $fonts = json_decode( $response, true )['items'];
@@ -22,10 +22,11 @@ $return = array();
 foreach( $fonts as $font ) {
 	$family = $font['family'];
 	foreach( array_keys($font) as $key ) {
-		if( !in_array( $key, array('variants', 'subsets', 'category') ) )  {
+		if( ! in_array( $key, array('variants', 'subsets', 'category') ) )  {
 			unset( $font[$key] );
 		}
 	}
+	sort( $font['subsets'] );
 
 	$return[$family] = $font;
 }
