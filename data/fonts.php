@@ -9425,9 +9425,10 @@ return array (
 		'subsets' => 
 		array (
 			0 => 'cyrillic',
-			1 => 'latin',
-			2 => 'latin-ext',
-			3 => 'vietnamese',
+			1 => 'cyrillic-ext',
+			2 => 'latin',
+			3 => 'latin-ext',
+			4 => 'vietnamese',
 		),
 	),
 	'Over the Rainbow' => 
