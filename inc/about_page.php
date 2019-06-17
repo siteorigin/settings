@@ -85,11 +85,6 @@ class SiteOrigin_Settings_About_Page {
 		$share_url = false;
 
 		switch( $network ) {
-			case 'google_plus' :
-				$share_url = add_query_arg( array(
-					'url' => urlencode( $theme->get( 'ThemeURI' ) )
-				), 'https://plus.google.com/share' );
-				break;
 
 			case 'twitter' :
 				$share_url = add_query_arg( array(
@@ -259,9 +254,6 @@ class SiteOrigin_Settings_About_Page {
 								</a>
 								<a href="<?php echo esc_url( $this->get_share_link( 'twitter' ) ) ?>" class="about-share-twitter" target="_blank">
 									<span class="dashicons dashicons-twitter"></span>
-								</a>
-								<a href="<?php echo esc_url( $this->get_share_link( 'google_plus' ) ) ?>" class="about-share-googleplus" target="_blank">
-									<span class="dashicons dashicons-googleplus"></span>
 								</a>
 							</div>
 						<?php endif; ?>
