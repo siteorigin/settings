@@ -52,9 +52,15 @@ class SiteOrigin_Settings_CSS_Functions {
 	function rgba( $match ) {
 		if( empty( $match[2] ) ) return '';
 		$args = explode( ',', $match[2] );
-		$rgb = SiteOrigin_Settings_Color::hex2rgb( trim( $args[0] ) );
 
-		return 'rgba(' . implode( ',', array_merge( $rgb, array( floatval( $args[1] ) ) ) ) . ');';
+		$rgb = trim( $args[0] );
+		// If no color is set, $rgb will be empty
+		if ( empty ( $rgb ) ) {
+			return 'transparent';
+		}
+
+		$rgb = SiteOrigin_Settings_Color::hex2rgb( trim( $args[0] ) );
+		return 'rgba(' . implode( ',', array_merge( $rgb, array( floatval( $args[1] ) ) ) ) . ')';
 	}
 
 	function lighten( $match ) {
