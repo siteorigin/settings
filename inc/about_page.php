@@ -276,7 +276,7 @@ class SiteOrigin_Settings_About_Page {
 					<?php echo esc_html( __( 'Proudly Created By', 'siteorigin' ) ) ?>
 				</p>
 				<a href="https://siteorigin.com/" target="_blank">
-					<img src="<?php echo get_template_directory_uri() ?>/inc/settings/css/images/siteorigin.png" />
+					<img src="<?php echo esc_url( get_template_directory_uri() ) ?>/inc/settings/css/images/siteorigin.png" />
 				</a>
 			</div>
 		</div>
