@@ -173,14 +173,13 @@ class SiteOrigin_Settings_Page_Settings {
 	 */
 	function add_meta_box( $post_type ){
 		// Don't add meta box to WooCommerce Shop page.
-		if ( class_exists( 'WooCommerce' ) ) {
-			$screen = get_current_screen();
-			if ( ! empty( $screen ) && $screen->id == 'page' ) {
-				$wc_shop_id = get_option( 'woocommerce_shop_page_id' );
-				if ( $wc_shop_id == $_GET['post'] ) {
-					return;
-				}
-			}
+		$screen = get_current_screen();
+		if (
+		    class_exists( 'WooCommerce' ) &&
+		    ! empty( $screen ) && $screen->id == 'page' &&
+		    get_option( 'woocommerce_shop_page_id' ) == $_GET['post']
+		) {
+		    return;
 		}
 
 		if( !empty( $post_type ) && post_type_supports( $post_type, 'so-page-settings' ) ) {
