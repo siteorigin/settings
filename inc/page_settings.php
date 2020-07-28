@@ -49,6 +49,11 @@ class SiteOrigin_Settings_Page_Settings {
 	 * @return null
 	 */
 	static function get( $key = false, $default = null ) {
+		// Prevent issues with other queries overriding the main queries settings.
+		if ( ! is_main_query() ) {
+			return;
+		}
+
 		$single = self::single();
 
 		static $type = false;
