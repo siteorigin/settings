@@ -54,7 +54,7 @@ class SiteOrigin_Settings_Page_Settings {
 		static $type = false;
 		static $id = false;
 
-		if( $type === false && $id === false ) {
+		if( is_main_query() && $type === false && $id === false ) {
 			list( $type, $id ) = self::get_current_page();
 		}
 
