@@ -822,6 +822,32 @@ class SiteOrigin_Settings {
 			SiteOrigin_Settings_About_Page::single();
 		}
 	}
+
+	/**
+	 * Get the Premium upgrade URL
+	 */
+	static function get_premium_url( $featured_addon = false ){
+		// Let themes and plugins add their affiliate ID
+		$ref = apply_filters( 'siteorigin_premium_affiliate_id', false );
+
+		// Get the args we want to add to the URL
+		$args = array(
+			'ref' => $ref,
+			'featured_theme' => get_template(),
+			'featured_addon' => $featured_addon
+		);
+		foreach( $args as $k => $v ) {
+			if( empty( $v ) ) {
+				unset( $args[$k] );
+				continue;
+			}
+			$args[$k] = urlencode( $v );
+		}
+
+		$url = add_query_arg( $args, defined( 'SITEORIGIN_THEME_PREMIUM_URL' ) ? SITEORIGIN_THEME_PREMIUM_URL : 'https://siteorigin.com/downloads/premium/' );
+
+		return $url;
+	}
 }
 
 // Setup the single
