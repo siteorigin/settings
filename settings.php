@@ -827,12 +827,9 @@ class SiteOrigin_Settings {
 	 * Get the Premium upgrade URL
 	 */
 	static function get_premium_url( $featured_addon = false ){
-		// Let themes and plugins add their affiliate ID
-		$ref = apply_filters( 'siteorigin_premium_affiliate_id', false );
 
 		// Get the args we want to add to the URL
 		$args = array(
-			'ref' => $ref,
 			'featured_theme' => get_template(),
 			'featured_addon' => $featured_addon
 		);
