@@ -121,7 +121,7 @@ class SiteOrigin_Settings_About_Page {
 			),
 			'video_url' => add_query_arg( 'autoplay', 1, $theme->get( 'ThemeURI' ) ),
 			'video_description' => false,
-			'newsletter_url' => 'https://siteorigin.com/#newsletter',
+			'newsletter_url' => '',
 			'tour_url' => '',
 			'documentation_url' => '',
 			'premium_url' => SiteOrigin_Settings::get_premium_url( 'theme' ),
