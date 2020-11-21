@@ -117,10 +117,12 @@
                                                 offset < results.outerHeight() + 30
                                             ) {
                                                 match = $$.attr('style').match(/font-family: ([^,]+),.*;/);
-                                                font = match[1].replace(/'/g, '').trim();
-                                                if( typeof loadedFonts[font] === 'undefined' ) {
-                                                    loadFonts.push(font);
-                                                    loadedFonts[font] = true;
+                                               if ( match ) {
+                                                    font = match[1].replace( /'/g, '' ).trim();
+                                                    if ( typeof loadedFonts[font] === 'undefined' ) {
+                                                        loadFonts.push( font );
+                                                        loadedFonts[font] = true;
+                                                    }
                                                 }
                                             }
                                         } );
