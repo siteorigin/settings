@@ -17,7 +17,7 @@
                 $s = control.container.find('select.font-subset' ),
 	            hasSetup = false;
 
-            $f.change( function(){
+            $f.on( 'change', function(){
                 var $fs = $(this).find('option:selected');
                 $v.empty().val('');
                 $s.empty().val('');
@@ -75,17 +75,17 @@
                 control.setting.set( JSON.stringify(val) );
             };
 
-            control.container.find('select').change(changeValue);
+            control.container.find( 'select' ).on( 'change', changeValue);
 
             // Now, lets set everything up to start
             if( control.setting() !== '' ) {
                 var vals = JSON.parse( control.setting() );
-                $f.val( vals.font).change();
+                $f.val( vals.font ).trigger( 'change' );
                 $v.val( vals.variant );
                 $s.val( vals.subset );
             }
             else {
-                $f.change();
+                $f.trigger( 'change' );
             }
 
             // This is some setup stuff that needs to happen after the section is expanded
