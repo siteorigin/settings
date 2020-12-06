@@ -5,8 +5,8 @@
             var control = this;
             var container = control.container;
 
-            container.find('.image-options li').click( function(){
-                container.find('select').val( $(this).data('key')).change();
+            container.find( '.image-options li' ).on( 'click', function() {
+                container.find( 'select' ).val( $( this ).data( 'key' ) ).trigger( 'change' );
                 container.find('li').removeClass('active');
                 $(this).addClass('active');
             } );

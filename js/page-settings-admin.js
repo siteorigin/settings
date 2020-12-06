@@ -25,7 +25,7 @@
 			showSections = $section.show();
 
 			if( hideSections.filter( '.open' ).length ) {
-				hideSections.filter( '.open' ).find( '.customize-section-back' ).click();
+				hideSections.filter( '.open' ).find( '.customize-section-back' ).trigger( 'click' );
 			}
 		} );
 	});

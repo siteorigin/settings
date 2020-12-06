@@ -14,8 +14,8 @@
 				console.log( control.setting.get() );
 			};
 
-			container.find('.amount').keyup( updateValue );
-			container.find('.measurement').change( updateValue );
+			container.find('.amount').on( 'keyup', updateValue );
+			container.find( '.measurement' ).trigger( 'change', updateValue );
 		},
 	} );
 

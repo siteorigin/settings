@@ -10,7 +10,7 @@
 
 			container.find( '.so-widget-form' ).hide();
 
-			container.find('.so-edit-widget, .so-widget-form .so-widget-close').click( function( e ){
+			container.find( '.so-edit-widget, .so-widget-form .so-widget-close' ).on( 'click', function( e ) {
 				e.preventDefault();
 
 				// We can show a modal here at some point, for now we just direct users to SiteOrigin

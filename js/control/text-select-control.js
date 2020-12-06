@@ -5,7 +5,7 @@
 			var control = this;
 			var container = control.container;
 
-			container.find('select').change( function(){
+			container.find( 'select' ).on( 'change', function() {
 				var $$ = $(this);
 				container.find( 'input[type=text]' ).val( $$.val() );
 			} );
