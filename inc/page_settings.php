@@ -177,6 +177,7 @@ class SiteOrigin_Settings_Page_Settings {
 		if (
 		    class_exists( 'WooCommerce' ) &&
 		    ! empty( $screen ) && $screen->id == 'page' &&
+		    isset( $_GET['post'] ) &&
 		    get_option( 'woocommerce_shop_page_id' ) == $_GET['post']
 		) {
 		    return;
