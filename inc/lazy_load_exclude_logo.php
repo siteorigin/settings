@@ -36,7 +36,7 @@ class SiteOrigin_Settings_Lazy_load_Exclude_Logo {
 				$attr['data-no-lazy'] = 1;
 			}
 			// WP 5.5
-			$attr['loading'] = false;
+			$attr['loading'] = 'eager';
 		}
 		return $attr;
 	}
