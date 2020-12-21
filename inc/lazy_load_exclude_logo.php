@@ -2,15 +2,15 @@
 /**
  * Exclude Logo from Lazy Load plugins.
  */
-class SiteOrigin_Settings_Lazy_load_Exclude_Logo {
+class SiteOrigin_Settings_Lazy_Load_Exclude_Logo {
 
-	function __construct(){
+	function __construct() {
 		add_filter( 'wp_get_attachment_image_attributes', array( $this, 'exclude_logo' ), 10, 2 );
 	}
 
-	static function single(){
+	static function single() {
 		static $single;
-		if( empty( $single ) ) {
+		if ( empty( $single ) ) {
 			$single = new self();
 		}
 		return $single;

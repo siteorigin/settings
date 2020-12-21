@@ -823,7 +823,7 @@ class SiteOrigin_Settings {
 		}
 
 		if ( ! is_admin() && has_filter( 'siteorigin_settings_lazy_load_exclude_logo' ) ) {
-			SiteOrigin_Settings_Lazy_load_Exclude_Logo::single();
+			SiteOrigin_Settings_Lazy_Load_Exclude_Logo::single();
 		}
 	}
 
