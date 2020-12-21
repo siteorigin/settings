@@ -17,7 +17,11 @@ class SiteOrigin_Settings_Lazy_Load_Exclude_Logo {
 	}
 
 	public function exclude_logo( $attr, $attachment ) {
-		$custom_logo_id = siteorigin_setting( 'branding_logo' );
+		$logo_setting = apply_filters( 'siteorigin_settings_lazy_load_exclude_logo_setting', 'branding_logo' );
+		if ( ! empty( $logo_setting ) ) {
+			$custom_logo_id = siteorigin_setting( $logo_setting );
+		}
+
 		if ( empty( $custom_logo_id ) ) {
 			$custom_logo_id = get_theme_mod( 'custom_logo' );
 		}
