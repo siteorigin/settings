@@ -821,6 +821,11 @@ class SiteOrigin_Settings {
 		if( is_admin() && has_filter( 'siteorigin_about_page' ) && apply_filters( 'siteorigin_about_page_show', true ) ) {
 			SiteOrigin_Settings_About_Page::single();
 		}
+
+		// Add 404page Page Settings Compatibility.
+		if ( function_exists( 'pp_404_is_active' ) ) {
+			add_filter( 'siteorigin_page_settings_get_query_bypass', 'pp_404_is_active' );
+		}
 	}
 
 	/**
