@@ -821,6 +821,10 @@ class SiteOrigin_Settings {
 		if( is_admin() && has_filter( 'siteorigin_about_page' ) && apply_filters( 'siteorigin_about_page_show', true ) ) {
 			SiteOrigin_Settings_About_Page::single();
 		}
+
+		if ( ! is_admin() && has_filter( 'siteorigin_settings_lazy_load_exclude_logo' ) ) {
+			SiteOrigin_Settings_Lazy_Load_Exclude_Logo::single();
+		}
 	}
 
 	/**
