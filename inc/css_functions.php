@@ -60,7 +60,7 @@ class SiteOrigin_Settings_CSS_Functions {
 		}
 
 		$rgb = SiteOrigin_Settings_Color::hex2rgb( trim( $args[0] ) );
-		return 'rgba(' . implode( ',', array_merge( $rgb, array( floatval( $args[1] ) ) ) ) . ')';
+		return 'rgba(' . implode( ',', array_merge( $rgb, array( floatval( $args[1] ) ) ) ) . ');';
 	}
 
 	function lighten( $match ) {
