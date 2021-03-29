@@ -63,7 +63,13 @@ class SiteOrigin_Settings_Webfont_Manager {
 
 		wp_enqueue_style(
 			'siteorigin-google-web-fonts',
-			add_query_arg('family', implode( '|', $family ), '//fonts.googleapis.com/css')
+			add_query_arg(
+				array(
+				    'family' => implode( '|', $family ),
+				    'display' => 'block',
+				),
+				'//fonts.googleapis.com/css'
+			)
 		);
 	}
 
