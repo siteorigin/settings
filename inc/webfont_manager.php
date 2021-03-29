@@ -20,13 +20,15 @@ class SiteOrigin_Settings_Webfont_Manager {
 		return $single;
 	}
 
-	function add_font( $name, $weights = array() ) {
+	function add_font( $name, $weights = array(), $subset = 'latin' ) {
 		if( empty( $this->fonts[$name] ) ) {
-			$this->fonts[$name] = $weights;
-		}
-		else {
-			$this->fonts[$name] = array_merge( $this->fonts[$name], $weights );
-			$this->fonts[$name] = array_unique( $this->fonts[$name] );
+			$this->fonts[ $name ] = array(
+				'variants' => $weights,
+				'subset' => $subset,
+			);
+		} else {
+			$this->fonts[ $name ] = array_merge( $this->fonts[$name], $weights );
+			$this->fonts[ $name ] = array_unique( $this->fonts[$name] );
 		}
 	}
 
@@ -40,10 +42,11 @@ class SiteOrigin_Settings_Webfont_Manager {
 			$settings = SiteOrigin_Settings::single();
 			foreach( $default_font_settings as $setting => $webfont ) {
 				$value = json_decode( $settings->get( $setting ), true );
-
-				if( empty($value) || empty($value['font']) ) {
-					// We need to enqueue the default fonts
-					$this->add_font( $webfont['name'], $webfont['weights'] );
+				if ( empty( $value ) || empty( $value['font'] ) ) {
+					// No font set, load default.
+					$this->add_font( $webfont['name'], $webfont['weights'], 'all' );
+				} else {
+					$this->add_font( $value['font'], array( $value['variant'] ), $value['subset'] );
 				}
 			}
 		}
@@ -51,14 +54,21 @@ class SiteOrigin_Settings_Webfont_Manager {
 		if( empty( $this->fonts ) ) return;
 
 		$family = array();
-		foreach($this->fonts as $name => $weights) {
-
-			if( !empty($weights) ) {
-				$family[] = $name . ':' . implode(',', $weights);
-			}
-			else {
+		$subset = array();
+		foreach($this->fonts as $name => $font ) {
+			if ( ! empty( $font['variants'] ) ) {
+				$family[] = $name . ':' . implode( ',', $font['variants'] );
+			} else {
 				$family[] = $name;
 			}
+			if ( ! empty( $font['subset'] ) ) {
+				$subset[ $font['subset'] ] = $font['subset'];
+			}
+		}
+
+		// If all is set, load all subsets.
+		if ( isset( $subset['all'] ) ) {
+			$subset = array();
 		}
 
 		wp_enqueue_style(
@@ -66,6 +76,7 @@ class SiteOrigin_Settings_Webfont_Manager {
 			add_query_arg(
 				array(
 				    'family' => implode( '|', $family ),
+				    'subset' => implode( ',', $subset ),
 				    'display' => 'block',
 				),
 				'//fonts.googleapis.com/css'
