@@ -23,16 +23,6 @@ class SiteOrigin_Settings_CSS_Functions {
 			return '';
 		}
 
-		if( $args['webfont'] ) {
-			// We need to import this too
-			$query = add_query_arg(array(
-				'family' => rawurlencode( $args['font'] ) . ':' . rawurlencode( $args['variant'] ),
-				'subset' => rawurlencode( $args['subset'] )
-			), '//fonts.googleapis.com/css');
-			$return .= '@import url(' . $query . '); ';
-		}
-
-		// Now lets add all the css styling
 		$return .= 'font-family: "' . esc_attr( $args['font'] ) . '", ' . $args['category'] . '; ';
 		if( strpos( $args['variant'], 'italic' ) !== false ) {
 			$weight = str_replace('italic', '', $args['variant']);
