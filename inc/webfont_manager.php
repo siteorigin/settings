@@ -27,8 +27,13 @@ class SiteOrigin_Settings_Webfont_Manager {
 				'subset' => $subset,
 			);
 		} else {
-			$this->fonts[ $name ] = array_merge( $this->fonts[$name], $weights );
-			$this->fonts[ $name ] = array_unique( $this->fonts[$name] );
+			if ( isset( $this->fonts[ $name ]['variants'] ) ) {
+				$this->fonts[ $name ]['variants'] = array_merge( $this->fonts[ $name ]['variants'], $weights );
+				$this->fonts[ $name ]['variants'] = array_unique( $this->fonts[ $name ]['variants'] );
+			} else {
+				$this->fonts[ $name ]['variants'] = $weights;
+			}
+			$this->fonts[ $name ] = array_unique( $this->fonts[ $name ] );
 		}
 	}
 
