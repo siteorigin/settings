@@ -33,7 +33,7 @@ class SiteOrigin_Settings_Webfont_Manager {
 			} else {
 				$this->fonts[ $name ]['variants'] = $weights;
 			}
-			$this->fonts[ $name ] = array_unique( $this->fonts[ $name ] );
+			$this->fonts[ $name ] = array_unique( $this->fonts[ $name ], SORT_REGULAR );
 		}
 	}
 
