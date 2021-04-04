@@ -16,6 +16,7 @@ class SiteOrigin_Settings_Page_Settings {
 		// All the meta box stuff
 		add_action( 'add_meta_boxes', array($this, 'add_meta_box'), 10 );
 		add_action( 'save_post', array($this, 'save_post') );
+		add_action( 'admin_enqueue_scripts', array( $this, 'register_css' ) );
 
 		// Page Builder integration
 		add_action( 'siteorigin_panels_create_home_page', array( $this, 'panels_save_home_page' ) );
@@ -201,6 +202,8 @@ class SiteOrigin_Settings_Page_Settings {
 		$settings = $this->get_settings( 'post', $post->ID );
 		$values = $this->get_settings_values( 'post', $post->ID );
 
+		wp_enqueue_style( 'siteorigin-settings-metabox' );
+
 		do_action( 'siteorigin_settings_before_page_settings_meta_box', $post );
 
 		foreach( $settings as $id => $field ) {
@@ -276,6 +279,15 @@ class SiteOrigin_Settings_Page_Settings {
 		}
 
 		update_post_meta( $post_id, 'siteorigin_page_settings', $settings );
+	}
+
+	function register_css() {
+		wp_enqueue_style(
+			'siteorigin-settings-metabox',
+			get_template_directory_uri() . '/inc/settings/css/page-settings.css',
+			array( ),
+			SITEORIGIN_THEME_VERSION
+		);
 	}
 
 	/**
