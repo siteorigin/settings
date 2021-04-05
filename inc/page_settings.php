@@ -285,7 +285,7 @@ class SiteOrigin_Settings_Page_Settings {
 		wp_enqueue_style(
 			'siteorigin-settings-metabox',
 			get_template_directory_uri() . '/inc/settings/css/page-settings.css',
-			array( ),
+			array(),
 			SITEORIGIN_THEME_VERSION
 		);
 	}
