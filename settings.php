@@ -825,6 +825,11 @@ class SiteOrigin_Settings {
 		if ( ! is_admin() && has_filter( 'siteorigin_settings_lazy_load_exclude_logo' ) ) {
 			SiteOrigin_Settings_Lazy_Load_Exclude_Logo::single();
 		}
+		
+		// Disable WP 5.8+ Widget Area.
+		if ( apply_filters( 'siteorigin_settings_disable_new_widget_area', true ) ) {
+			remove_theme_support( 'widgets-block-editor' );
+		}
 
 		// Add 404page Page Settings Compatibility.
 		if ( function_exists( 'pp_404_is_active' ) ) {
