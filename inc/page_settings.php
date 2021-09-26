@@ -15,7 +15,7 @@ class SiteOrigin_Settings_Page_Settings {
 
 		// All the meta box stuff
 		add_action( 'add_meta_boxes', array($this, 'add_meta_box'), 10 );
-		add_action( 'save_post', array($this, 'save_post') );
+		add_action( 'save_post', array($this, 'save_post'), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_css' ) );
 
 		// Page Builder integration
@@ -198,9 +198,9 @@ class SiteOrigin_Settings_Page_Settings {
 	/**
 	 * Display the Meta Box
 	 */
-	function display_post_meta_box( $post ){
-		$settings = $this->get_settings( 'post', $post->ID );
-		$values = $this->get_settings_values( 'post', $post->ID );
+	function display_post_meta_box( $post ) {
+		$settings = $this->get_settings( $post->post_type, $post->ID );
+		$values = $this->get_settings_values( $post->post_type, $post->ID );
 
 		wp_enqueue_style( 'siteorigin-settings-metabox' );
 
@@ -252,14 +252,15 @@ class SiteOrigin_Settings_Page_Settings {
 	 *
 	 * @param $post_id
 	 */
-	function save_post( $post_id ){
+	function save_post( $post_id, $post ) {
 		if( !current_user_can( 'edit_post', $post_id ) ) return;
 		if( empty($_POST['_so_page_settings_nonce']) || !wp_verify_nonce( $_POST['_so_page_settings_nonce'], 'save_page_settings' ) ) return;
 		if( empty($_POST['so_page_settings']) ) return;
 
 		$settings = stripslashes_deep( $_POST['so_page_settings'] );
+		$post_type = ! wp_is_post_revision( $post_id ) ? $post->post_type : get_post_type( $post->post_parent );
 
-		foreach( $this->get_settings( 'post', $post_id ) as $id => $field ) {
+		foreach( $this->get_settings( $post_type, $post_id ) as $id => $field ) {
 			switch( $field['type'] ) {
 				case 'select' :
 					if( !in_array( $settings[$id], array_keys( $field['options'] ) ) ) {
