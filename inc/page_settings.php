@@ -157,7 +157,7 @@ class SiteOrigin_Settings_Page_Settings {
 				break;
 
 			default:
-				$values = get_theme_mod( 'page_settings_' . $type . '_' . $id );
+				$values = get_post_meta( $id, 'siteorigin_page_settings', true );
 				break;
 		}
 
