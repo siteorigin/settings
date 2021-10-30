@@ -152,10 +152,11 @@ class SiteOrigin_Settings_Page_Settings {
 		$defaults = $this->get_settings_defaults( $type, $id );
 
 		switch( $type ) {
-			case 'post':
-				$values = get_post_meta( $id, 'siteorigin_page_settings', true );
+			case 'archive':
+				$values = get_theme_mod( 'page_settings_' . $type . '_' . $id );
 				break;
 
+			case 'post':
 			default:
 				$values = get_post_meta( $id, 'siteorigin_page_settings', true );
 				break;
