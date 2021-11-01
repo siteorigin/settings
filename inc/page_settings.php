@@ -153,6 +153,8 @@ class SiteOrigin_Settings_Page_Settings {
 
 		switch( $type ) {
 			case 'archive':
+			case 'template':
+			case 'taxonomy':
 				$values = get_theme_mod( 'page_settings_' . $type . '_' . $id );
 				break;
 
