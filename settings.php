@@ -97,6 +97,7 @@ class SiteOrigin_Settings {
 		$migrations = apply_filters( 'siteorigin_settings_migrated_settings', array(  ) );
 		if( empty( $migrations ) ) return;
 
+		$wpml_current_language = $this->wpml_language_override();
 		$migration_key = md5( serialize( $migrations ) );
 		if( $migration_key !== get_theme_mod( 'migration_key' ) ) {
 			foreach( $migrations as $to => $from ) {
@@ -110,6 +111,7 @@ class SiteOrigin_Settings {
 
 			set_theme_mod( 'migration_key', $migration_key );
 		}
+		$this->wpml_language_override( $wpml_current_language );
 	}
 
 	/**
@@ -163,14 +165,32 @@ class SiteOrigin_Settings {
 	}
 
 	/**
+	 * Check for WPML and Override Language.
+	 *
+	 * @param $action
+	 */
+	function wpml_language_override( $current_lang = false ) {
+		if ( class_exists( 'sitepress' ) ) {
+			if ( ! $current_lang ) {
+				$current_lang = apply_filters( 'wpml_current_language', NULL );
+				do_action( 'wpml_switch_language', apply_filters( 'wpml_default_language', null ) );
+				return $current_lang;
+			} else {
+				do_action( 'wpml_switch_language', $current_lang );
+			}
+		}
+	}
+	/**
 	 * Set a theme setting value. Simple wrapper for set theme mod.
 	 *
 	 * @param $setting
 	 * @param $value
 	 */
 	function set( $setting, $value ) {
+		$wpml_current_language = $this->wpml_language_override();
 		set_theme_mod( 'theme_settings_' . $setting, $value );
 		set_theme_mod( 'custom_css_key', false );
+		$this->wpml_language_override( $wpml_current_language );
 	}
 
 	/**
@@ -708,8 +728,10 @@ class SiteOrigin_Settings {
 				} while( $count > 0 );
 				$css = trim($css);
 
+				$wpml_current_language = $this->wpml_language_override();
 				set_theme_mod( 'custom_css', $css );
 				set_theme_mod( 'custom_css_key', $css_key );
+				$this->wpml_language_override( $wpml_current_language );
 			}
 			else {
 				$css = get_theme_mod('custom_css');
