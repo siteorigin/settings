@@ -1,22 +1,21 @@
 <?php
 
-
 class SiteOrigin_Settings_Webfont_Manager {
 
 	private $fonts;
 	private $websafe;
 
-	function __construct(){
+	function __construct() {
 		$this->fonts = array();
-		$this->websafe = include dirname(__FILE__) . '/../data/websafe.php';
+		$this->websafe = include dirname( __FILE__ ) . '/../data/websafe.php';
 
-		add_action( 'wp_enqueue_scripts', array($this, 'enqueue') );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
 	}
 
 	static function single() {
 		static $single;
 
-		if( empty($single) ) {
+		if ( empty( $single ) ) {
 			$single = new SiteOrigin_Settings_Webfont_Manager();
 		}
 		return $single;
@@ -27,7 +26,7 @@ class SiteOrigin_Settings_Webfont_Manager {
 		if ( ! empty( $this->websafe[ $name ] ) ) {
 			return;
 		}
-		if( empty( $this->fonts[$name] ) ) {
+		if ( empty( $this->fonts[$name] ) ) {
 			$this->fonts[ $name ] = array(
 				'variants' => $weights,
 				'subset' => $subset,
@@ -43,13 +42,13 @@ class SiteOrigin_Settings_Webfont_Manager {
 		}
 	}
 
-	function remove_font( $name ){
+	function remove_font( $name ) {
 		unset( $this->fonts[$name] );
 	}
 
 	function enqueue() {
 		$default_font_settings = apply_filters( 'siteorigin_settings_font_settings', array() );
-		if( !empty($default_font_settings) ) {
+		if ( !empty($default_font_settings) ) {
 			$settings = SiteOrigin_Settings::single();
 			foreach( $default_font_settings as $setting => $webfont ) {
 				$value = json_decode( $settings->get( $setting ), true );
@@ -62,11 +61,11 @@ class SiteOrigin_Settings_Webfont_Manager {
 			}
 		}
 
-		if( empty( $this->fonts ) ) return;
+		if ( empty( $this->fonts ) ) return;
 
 		$family = array();
 		$subset = array();
-		foreach($this->fonts as $name => $font ) {
+		foreach ( $this->fonts as $name => $font ) {
 			if ( ! empty( $font['variants'] ) ) {
 				$family[] = $name . ':' . implode( ',', $font['variants'] );
 			} else {
@@ -86,9 +85,9 @@ class SiteOrigin_Settings_Webfont_Manager {
 			'siteorigin-google-web-fonts',
 			add_query_arg(
 				array(
-				    'family' => implode( '|', $family ),
-				    'subset' => implode( ',', $subset ),
-				    'display' => 'block',
+					'family' => implode( '|', $family ),
+					'subset' => implode( ',', $subset ),
+					'display' => 'block',
 				),
 				'//fonts.googleapis.com/css'
 			)
