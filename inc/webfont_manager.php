@@ -4,9 +4,11 @@
 class SiteOrigin_Settings_Webfont_Manager {
 
 	private $fonts;
+	private $websafe;
 
 	function __construct(){
 		$this->fonts = array();
+		$this->websafe = include dirname(__FILE__) . '/../data/websafe.php';
 
 		add_action( 'wp_enqueue_scripts', array($this, 'enqueue') );
 	}
@@ -21,6 +23,10 @@ class SiteOrigin_Settings_Webfont_Manager {
 	}
 
 	function add_font( $name, $weights = array(), $subset = 'latin' ) {
+		// This is a websafe font? If so, don't add it.
+		if ( ! empty( $this->websafe[ $name ] ) ) {
+			return;
+		}
 		if( empty( $this->fonts[$name] ) ) {
 			$this->fonts[ $name ] = array(
 				'variants' => $weights,
