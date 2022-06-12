@@ -27,7 +27,7 @@ class SiteOrigin_Settings_Control_Teaser extends WP_Customize_Control {
 	}
 
 	/**
-	 * Enqueue everything we need for this teaser
+	 * Enqueue everything we need for this teaser.
 	 */
 	public function enqueue (  ){
 		wp_enqueue_script( 'siteorigin-settings-teaser-control', get_template_directory_uri() . '/inc/settings/js/control/teaser-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery', 'customize-controls'  ) );

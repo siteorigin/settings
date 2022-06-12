@@ -17,7 +17,7 @@ class SiteOrigin_Settings_Control_Measurement extends WP_Customize_Control {
 		'rem'
 	);
 
-	public function render_content( ){
+	public function render_content() {
 		$value = $this->value();
 
 		if ( ! empty( $this->label ) ) {
@@ -45,9 +45,9 @@ class SiteOrigin_Settings_Control_Measurement extends WP_Customize_Control {
 		$amount = '';
 		$measurement = '';
 
-		if( ! empty( $value ) ) {
+		if ( ! empty( $value ) ) {
 			$measurements = array_map('preg_quote', self::$measurements );
-			if( preg_match( '/(-?[0-9\.,]+).*?(' . implode('|', $measurements) . ')/', $value, $match ) ) {
+			if ( preg_match( '/(-?[0-9\.,]+).*?(' . implode('|', $measurements) . ')/', $value, $match ) ) {
 				$amount = $match[1];
 				$measurement = $match[2];
 			}

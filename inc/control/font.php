@@ -75,14 +75,14 @@ class SiteOrigin_Settings_Control_Font extends WP_Customize_Control {
 	}
 
 	/**
-	 * Enqueue all the scripts and styles we need
+	 * Enqueue all the scripts and styles we need.
 	 */
 	public function enqueue() {
-		// We'll use chosen for the font selector
+		// We'll use chosen for the font selector.
 		wp_enqueue_script( 'siteorigin-settings-chosen', get_template_directory_uri() . '/inc/settings/chosen/chosen.jquery' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery'), '1.4.2' );
 		wp_enqueue_style( 'siteorigin-settings-chosen', get_template_directory_uri() . '/inc/settings/chosen/chosen.min.css', array(), '1.4.2' );
 
-		// The main font controls
+		// The main font controls.
 		wp_enqueue_script( 'siteorigin-settings-font-control', get_template_directory_uri() . '/inc/settings/js/control/font-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery', 'customize-controls' ) );
 		wp_enqueue_style( 'siteorigin-settings-font-control', get_template_directory_uri() . '/inc/settings/css/control/font-control.css', array() );
 	}

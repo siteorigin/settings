@@ -4,7 +4,7 @@ class SiteOrigin_Settings_Control_Premium extends WP_Customize_Control {
 	public $type = 'siteorigin-premium-notification';
 
 	/**
-	 * Render the font selector
+	 * Render the font selector.
 	 */
 	public function render_content(){
 		$theme = wp_get_theme();
@@ -27,7 +27,7 @@ class SiteOrigin_Settings_Control_Premium extends WP_Customize_Control {
 	}
 
 	/**
-	 * Enqueue all the scripts and styles we need
+	 * Enqueue all the scripts and styles we need.
 	 */
 	public function enqueue() {
 	}
