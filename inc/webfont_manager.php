@@ -7,7 +7,7 @@ class SiteOrigin_Settings_Webfont_Manager {
 
 	function __construct() {
 		$this->fonts = array();
-		$this->websafe = include dirname( __FILE__ ) . '/../data/websafe.php';
+		$this->websafe = apply_filters( 'siteorigin_settings_websafe', include dirname( __FILE__ ) . '/../data/websafe.php' );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
 	}

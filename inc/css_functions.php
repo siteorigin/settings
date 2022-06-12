@@ -23,7 +23,7 @@ class SiteOrigin_Settings_CSS_Functions {
 			return '';
 		}
 
-		$return .= 'font-family: "' . esc_attr( $args['font'] ) . '", ' . $args['category'] . '; ';
+		$return .= 'font-family: "' . esc_attr( $args['font'] ) . '"' . ( ! empty( $args['category'] ) ? ', ' . $args['category'] : '' ) .'; ';
 		if( strpos( $args['variant'], 'italic' ) !== false ) {
 			$weight = str_replace('italic', '', $args['variant']);
 			$return .= 'font-style: italic; ';
