@@ -19,8 +19,8 @@ class SiteOrigin_Settings_Control_Font extends WP_Customize_Control {
 		if( empty($fonts) ) {
 			$fonts = include dirname(__FILE__) . '/../../data/fonts.php';
 		}
-		if ( empty( $websafe ) ) {
-			$websafe = apply_filters( 'siteorigin_settings_websafe', include dirname( __FILE__ ) . '/../../data/websafe.php' );
+		if( empty($websafe) ) {
+			$websafe = include dirname(__FILE__) . '/../../data/websafe.php';
 		}
 
 		?>
@@ -34,14 +34,10 @@ class SiteOrigin_Settings_Control_Font extends WP_Customize_Control {
 						<option
 							value="<?php echo esc_attr($name) ?>"
 							data-variants="<?php echo esc_attr( implode( ',', $attr['variants'] ) ) ?>"
-							<?php if ( ! empty( $attr['subsets'] ) ) : ?>
-								data-subsets="<?php echo esc_attr( implode( ',', $attr['subsets'] ) ); ?>"
-							<?php endif; ?>
-							<?php if ( ! empty( $attr['category'] ) ) : ?>
-								data-category="<?php echo esc_attr( $attr['category'] ); ?>"
-							<?php endif; ?>
+							data-subsets="<?php echo esc_attr( implode( ',', $attr['subsets'] ) ) ?>"
+							data-category="<?php echo esc_attr($attr['category']) ?>"
 							data-webfont="false"
-							style="font-family: '<?php echo esc_attr($name) ?>', <?php echo ! empty( $attr['category'] ) ? esc_attr( $attr['category'] ) : ''; ?>, __websafe">
+							style="font-family: '<?php echo esc_attr($name) ?>', <?php echo esc_attr($attr['category']) ?>, __websafe">
 							<?php echo esc_html($name) ?>
 						</option>
 					<?php endforeach; ?>
@@ -64,12 +60,12 @@ class SiteOrigin_Settings_Control_Font extends WP_Customize_Control {
 		</div>
 
 		<div class="field-wrapper">
-			<label><?php esc_html_e( 'Variant', 'siteorigin' ); ?></label>
+			<label><?php esc_html_e( 'Variant', 'siteorigin' ) ?></label>
 			<select class="font-variant"></select>
 		</div>
 
 		<div class="field-wrapper">
-			<label><?php esc_html_e( 'Subset', 'siteorigin' ); ?></label>
+			<label><?php esc_html_e( 'Subset', 'siteorigin' ) ?></label>
 			<select class="font-subset"></select>
 		</div>
 
