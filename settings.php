@@ -681,7 +681,7 @@ class SiteOrigin_Settings {
 					$webfont_imports = array();
 
 					for( $i = 0; $i < count($matches[0]); $i++ ) {
-						if( strpos('//fonts.googleapis.com/css', $matches[1][$i]) !== -1 ) {
+						if ( strpos( '//fonts.googleapis.com/css', $matches[1][ $i ] ) !== -1 ) {
 							if ( ! in_array( $matches[1][ $i ], $webfont_imports ) ) {
 								$webfont_imports[] = $matches[1][$i];
 							}
@@ -717,7 +717,7 @@ class SiteOrigin_Settings {
 						$args['family'] = implode('|', $args['family']);
 						$args['subset'] = implode(',', $args['subset']);
 
-						$import = '@import url(' . add_query_arg( $args, '//fonts.googleapis.com/css' ) . ');';
+						$import = '@import url(' . esc_url( add_query_arg( $args, apply_filters( 'siteorigin_web_font_url', 'https://fonts.googleapis.com/css' ) ) ) . ');';
 						$css = $import . "\n" . $css;
 					}
 				}
