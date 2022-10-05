@@ -89,7 +89,7 @@ class SiteOrigin_Settings_Webfont_Manager {
 					'subset' => implode( ',', $subset ),
 					'display' => 'block',
 				),
-				'//fonts.googleapis.com/css'
+				esc_url( apply_filters( 'siteorigin_web_font_url', 'https://fonts.googleapis.com/css' ) )
 			)
 		);
 	}
