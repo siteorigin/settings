@@ -1,20 +1,9 @@
 #!/usr/bin/php -q
 <?php
 
-function get_data($url) {
-	$ch = curl_init();
-	$timeout = 5;
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-	$data = curl_exec($ch);
-	curl_close($ch);
-	return $data;
-}
-
 // Add your Google webfont key here <https://developers.google.com/fonts/docs/developer_api?hl=en#APIKey>
 $key = trim( file_get_contents( __DIR__ . '/google-key.php' ) );
-$response = get_data( 'https://www.googleapis.com/webfonts/v1/webfonts?key=' . urlencode( $key ) );
+$response = file_get_contents( 'https://www.googleapis.com/webfonts/v1/webfonts?key=' . urlencode( $key ) );
 
 $fonts = json_decode( $response, true )['items'];
 $return = array();
