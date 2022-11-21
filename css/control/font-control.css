@@ -21,3 +21,15 @@
     z-index: 1100; }
   .customize-control-siteorigin-font .chosen-container {
     position: absolute; }
+  .customize-control-siteorigin-font .chosen-search::after {
+    background: url('../../chosen/chosen-sprite.png') no-repeat 100% -20px;
+    content: ' ';
+    display: block;
+    height: 19px;
+    position: absolute;
+    right: 4px;
+    top: 9px;
+    width: 19px; }
+
+  .customize-control-siteorigin-font .chosen-search input[type="text"] {
+    background: none !important; }
