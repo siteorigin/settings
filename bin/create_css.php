@@ -5,7 +5,7 @@ include dirname( __FILE__ ) . '/inc/recursive_copy.php';
 
 // PHP 8 Compatibility function required by cssmin.
 // https://www.php.net/manual/en/function.each.php#126076
-function each( $array ){
+function each( $array  ){
 	$key = key( $array );
 	$value = current( $array );
 	$each = is_null( $key ) ? false : array(
