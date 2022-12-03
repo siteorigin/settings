@@ -59,15 +59,19 @@ class SiteOrigin_Settings_Page_Settings {
 			list( $type, $id ) = self::get_current_page();
 		}
 
+		// If we're unable to detect a valid type, or id, return the default.
+		if ( is_array( $type ) || is_array( $id ) ) {
+			return $default;
+		}
+
 		if( empty( $single->meta[ $type . '_' . $id ] ) ) {
 			$single->meta[ $type . '_' . $id ] = $single->get_settings_values( $type, $id );
 		}
 
 		// Return the value
-		if( empty( $key ) ) {
+		if ( empty( $key ) ) {
 			return $single->meta[ $type . '_' . $id ];
-		}
-		else {
+		} else {
 			return isset( $single->meta[ $type . '_' . $id ][ $key ] ) ? $single->meta[ $type . '_' . $id ][ $key ] : $default;
 		}
 	}
@@ -150,18 +154,22 @@ class SiteOrigin_Settings_Page_Settings {
 	 */
 	function get_settings_values( $type, $id ){
 		$defaults = $this->get_settings_defaults( $type, $id );
+		$values = false;
 
-		switch( $type ) {
-			case 'archive':
-			case 'template':
-			case 'taxonomy':
-				$values = get_theme_mod( 'page_settings_' . $type . '_' . $id );
-				break;
+		// If $type or $id is an array, we can't detect values.
+		if ( ! is_array( $type ) && ! is_array( $id ) ) {
+			switch( $type ) {
+				case 'archive':
+				case 'template':
+				case 'taxonomy':
+					$values = get_theme_mod( 'page_settings_' . $type . '_' . $id );
+					break;
 
-			case 'post':
-			default:
-				$values = get_post_meta( $id, 'siteorigin_page_settings', true );
-				break;
+				case 'post':
+				default:
+					$values = get_post_meta( $id, 'siteorigin_page_settings', true );
+					break;
+			}
 		}
 
 		if( empty($values) ) $values = array();
