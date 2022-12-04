@@ -20,7 +20,7 @@
   .customize-control-siteorigin-font .chosen-drop {
     z-index: 1100; }
   .customize-control-siteorigin-font .chosen-container {
-    position: absolute; }
+    width: 100%; }
   .customize-control-siteorigin-font .chosen-search::after {
     background: url('../../chosen/chosen-sprite.png') no-repeat 100% -20px;
     content: ' ';
