@@ -6,21 +6,24 @@ class SiteOrigin_Settings_Control_Font extends WP_Customize_Control {
 	/**
 	 * Render the font selector
 	 */
-	public function render_content(){
+	public function render_content() {
 		if ( ! empty( $this->label ) ) {
 			?><span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span><?php
 		}
+
 		if ( ! empty( $this->description ) ) {
 			?><span class="description customize-control-description"><?php echo $this->description; ?></span><?php
 		}
 
 		static $fonts = false;
 		static $websafe = false;
-		if( empty($fonts) ) {
-			$fonts = include dirname(__FILE__) . '/../../data/fonts.php';
+
+		if ( empty( $fonts ) ) {
+			$fonts = include __DIR__ . '/../../data/fonts.php';
 		}
+
 		if ( empty( $websafe ) ) {
-			$websafe = apply_filters( 'siteorigin_settings_websafe', include dirname( __FILE__ ) . '/../../data/websafe.php' );
+			$websafe = apply_filters( 'siteorigin_settings_websafe', include __DIR__ . '/../../data/websafe.php' );
 		}
 
 		?>
@@ -30,35 +33,35 @@ class SiteOrigin_Settings_Control_Font extends WP_Customize_Control {
 				<option value="" data-webfont="false"></option>
 
 				<optgroup label="Web Safe">
-					<?php foreach( $websafe as $name => $attr ) : ?>
+					<?php foreach ( $websafe as $name => $attr ) { ?>
 						<option
-							value="<?php echo esc_attr($name) ?>"
-							data-variants="<?php echo esc_attr( implode( ',', $attr['variants'] ) ) ?>"
-							<?php if ( ! empty( $attr['subsets'] ) ) : ?>
+							value="<?php echo esc_attr( $name ); ?>"
+							data-variants="<?php echo esc_attr( implode( ',', $attr['variants'] ) ); ?>"
+							<?php if ( ! empty( $attr['subsets'] ) ) { ?>
 								data-subsets="<?php echo esc_attr( implode( ',', $attr['subsets'] ) ); ?>"
-							<?php endif; ?>
-							<?php if ( ! empty( $attr['category'] ) ) : ?>
+							<?php } ?>
+							<?php if ( ! empty( $attr['category'] ) ) { ?>
 								data-category="<?php echo esc_attr( $attr['category'] ); ?>"
-							<?php endif; ?>
+							<?php } ?>
 							data-webfont="false"
-							style="font-family: '<?php echo esc_attr($name) ?>', <?php echo ! empty( $attr['category'] ) ? esc_attr( $attr['category'] ) : ''; ?>, __websafe">
-							<?php echo esc_html($name) ?>
+							style="font-family: '<?php echo esc_attr( $name ); ?>', <?php echo ! empty( $attr['category'] ) ? esc_attr( $attr['category'] ) : ''; ?>, __websafe">
+							<?php echo esc_html( $name ); ?>
 						</option>
-					<?php endforeach; ?>
+					<?php } ?>
 				</optgroup>
 
 				<optgroup label="Google Webfonts">
-					<?php foreach( $fonts as $name => $attr ) : ?>
+					<?php foreach ( $fonts as $name => $attr ) { ?>
 						<option
-							value="<?php echo esc_attr($name) ?>"
-							data-variants="<?php echo esc_attr( implode( ',', $attr['variants'] ) ) ?>"
-							data-subsets="<?php echo esc_attr( implode( ',', $attr['subsets'] ) ) ?>"
-							data-category="<?php echo esc_attr($attr['category']) ?>"
+							value="<?php echo esc_attr( $name ); ?>"
+							data-variants="<?php echo esc_attr( implode( ',', $attr['variants'] ) ); ?>"
+							data-subsets="<?php echo esc_attr( implode( ',', $attr['subsets'] ) ); ?>"
+							data-category="<?php echo esc_attr( $attr['category'] ); ?>"
 							data-webfont="true"
-							style="font-family: '<?php echo esc_attr($name) ?>', <?php echo esc_attr($attr['category']) ?>">
-							<?php echo esc_html($name) ?>
+							style="font-family: '<?php echo esc_attr( $name ); ?>', <?php echo esc_attr( $attr['category'] ); ?>">
+							<?php echo esc_html( $name ); ?>
 						</option>
-					<?php endforeach; ?>
+					<?php } ?>
 				</optgroup>
 			</select>
 		</div>
@@ -83,7 +86,7 @@ class SiteOrigin_Settings_Control_Font extends WP_Customize_Control {
 	 */
 	public function enqueue() {
 		// We'll use chosen for the font selector.
-		wp_enqueue_script( 'siteorigin-settings-chosen', get_template_directory_uri() . '/inc/settings/chosen/chosen.jquery' . SITEORIGIN_THEME_JS_PREFIX . '.js', array('jquery'), '1.4.2' );
+		wp_enqueue_script( 'siteorigin-settings-chosen', get_template_directory_uri() . '/inc/settings/chosen/chosen.jquery' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery' ), '1.4.2' );
 		wp_enqueue_style( 'siteorigin-settings-chosen', get_template_directory_uri() . '/inc/settings/chosen/chosen.min.css', array(), '1.4.2' );
 
 		// The main font controls.

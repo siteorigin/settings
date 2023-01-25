@@ -8,10 +8,11 @@ $response = file_get_contents( 'https://www.googleapis.com/webfonts/v1/webfonts?
 $fonts = json_decode( $response, true )['items'];
 $return = array();
 
-foreach( $fonts as $font ) {
+foreach ( $fonts as $font ) {
 	$family = $font['family'];
-	foreach( array_keys($font) as $key ) {
-		if( ! in_array( $key, array('variants', 'subsets', 'category') ) )  {
+
+	foreach ( array_keys( $font ) as $key ) {
+		if ( ! in_array( $key, array( 'variants', 'subsets', 'category' ) ) ) {
 			unset( $font[$key] );
 		}
 	}
@@ -23,7 +24,7 @@ foreach( $fonts as $font ) {
 // Sort the keys, just in case
 ksort( $return );
 
-echo 'Writing fonts to: ' . realpath( dirname(__FILE__). '/../data/fonts.php' ) . "\n";
+echo 'Writing fonts to: ' . realpath( __DIR__ . '/../data/fonts.php' ) . "\n";
 $contents = "<?php\n\n";
-$contents .= 'return ' . str_replace('  ', "\t", var_export( $return, true ) ) . ';';
-file_put_contents( realpath( dirname(__FILE__). '/../data/fonts.php' ), $contents );
+$contents .= 'return ' . str_replace( '  ', "\t", var_export( $return, true ) ) . ';';
+file_put_contents( realpath( __DIR__ . '/../data/fonts.php' ), $contents );

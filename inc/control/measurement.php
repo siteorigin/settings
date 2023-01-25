@@ -1,10 +1,9 @@
 <?php
 
 class SiteOrigin_Settings_Control_Measurement extends WP_Customize_Control {
-
 	public $type = 'siteorigin-measurement';
 
-	static $measurements = array(
+	public static $measurements = array(
 		'px',
 		'%',
 		'in',
@@ -14,7 +13,7 @@ class SiteOrigin_Settings_Control_Measurement extends WP_Customize_Control {
 		'ex',
 		'pt',
 		'pc',
-		'rem'
+		'rem',
 	);
 
 	public function render_content() {
@@ -23,6 +22,7 @@ class SiteOrigin_Settings_Control_Measurement extends WP_Customize_Control {
 		if ( ! empty( $this->label ) ) {
 			?><span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span><?php
 		}
+
 		if ( ! empty( $this->description ) ) {
 			?><span class="description customize-control-description"><?php echo $this->description; ?></span><?php
 		}
@@ -30,24 +30,25 @@ class SiteOrigin_Settings_Control_Measurement extends WP_Customize_Control {
 		list( $amount, $measurement ) = self::sanitize_value( $value, false );
 		?>
 		<div class="measurement-fields">
-			<input type="text" class="amount" value="<?php echo esc_attr( $amount ) ?>" />
+			<input type="text" class="amount" value="<?php echo esc_attr( $amount ); ?>" />
 			<select class="measurement">
-				<?php foreach ( self::$measurements as $m ):?>
-					<option value="<?php echo esc_html( $m ) ?>" <?php selected( $m, $measurement ) ?>><?php echo esc_html( $m ) ?></option>
-				<?php endforeach?>
+				<?php foreach ( self::$measurements as $m ) { ?>
+					<option value="<?php echo esc_html( $m ); ?>" <?php selected( $m, $measurement ); ?>><?php echo esc_html( $m ); ?></option>
+				<?php }?>
 			</select>
 		</div>
 		<?php
 
 	}
 
-	static function sanitize_value( $value, $join = true ) {
+	public static function sanitize_value( $value, $join = true ) {
 		$amount = '';
 		$measurement = '';
 
 		if ( ! empty( $value ) ) {
-			$measurements = array_map('preg_quote', self::$measurements );
-			if ( preg_match( '/(-?[0-9\.,]+).*?(' . implode('|', $measurements) . ')/', $value, $match ) ) {
+			$measurements = array_map( 'preg_quote', self::$measurements );
+
+			if ( preg_match( '/(-?[0-9\.,]+).*?(' . implode( '|', $measurements ) . ')/', $value, $match ) ) {
 				$amount = $match[1];
 				$measurement = $match[2];
 			}
@@ -60,5 +61,4 @@ class SiteOrigin_Settings_Control_Measurement extends WP_Customize_Control {
 		wp_enqueue_script( 'siteorigin-settings-measurement-control', get_template_directory_uri() . '/inc/settings/js/control/measurement-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery', 'customize-controls' ) );
 		wp_enqueue_style( 'siteorigin-settings-measurement-control', get_template_directory_uri() . '/inc/settings/css/control/measurement-control.css', array() );
 	}
-
 }
