@@ -34,7 +34,7 @@ class SiteOrigin_Settings {
 		$this->sections = array();
 		$this->loc = array();
 
-		if ( !empty( $_POST['wp_customize'] ) && $_POST['wp_customize'] == 'on' && is_customize_preview() ) {
+		if ( ! empty( $_POST['wp_customize'] ) && $_POST['wp_customize'] == 'on' && is_customize_preview() ) {
 			add_filter( 'siteorigin_setting', array( $this, 'customizer_filter' ), 15, 2 );
 		}
 
@@ -244,24 +244,24 @@ class SiteOrigin_Settings {
 	 */
 	public function configure( $settings ) {
 		foreach ( $settings as $section_id => $section ) {
-			$this->add_section( $section_id, !empty( $section['title'] ) ? $section['title'] : '' );
-			$fields = !empty( $section['fields'] ) ? $section['fields'] : array();
+			$this->add_section( $section_id, ! empty( $section['title'] ) ? $section['title'] : '' );
+			$fields = ! empty( $section['fields'] ) ? $section['fields'] : array();
 
 			foreach ( $fields as $field_id => $field ) {
 				$args = array_merge(
-					!empty( $field['args'] ) ? $field['args'] : array(),
+					! empty( $field['args'] ) ? $field['args'] : array(),
 					$field
 				);
 				unset( $args['label'] );
 				unset( $args['type'] );
 				unset( $args['teaser'] );
 
-				if ( !empty( $field['teaser'] ) ) {
+				if ( ! empty( $field['teaser'] ) ) {
 					$this->add_teaser(
 						$section_id,
 						$field_id,
 						$field['type'],
-						!empty( $field['label'] ) ? $field['label'] : '',
+						! empty( $field['label'] ) ? $field['label'] : '',
 						$args
 					);
 				} else {
@@ -269,7 +269,7 @@ class SiteOrigin_Settings {
 						$section_id,
 						$field_id,
 						$field['type'],
-						!empty( $field['label'] ) ? $field['label'] : '',
+						! empty( $field['label'] ) ? $field['label'] : '',
 						$args
 					);
 				}
@@ -495,9 +495,9 @@ class SiteOrigin_Settings {
 				// Setup the sanitize callback
 				$sanitize_callback = 'sanitize_text_field';
 
-				if ( !empty( $setting_args['args']['sanitize_callback'] ) ) {
+				if ( ! empty( $setting_args['args']['sanitize_callback'] ) ) {
 					$sanitize_callback = $setting_args['args']['sanitize_callback'];
-				} elseif ( !empty( self::$sanitize_callbacks[ $setting_args['type'] ] ) ) {
+				} elseif ( ! empty( self::$sanitize_callbacks[ $setting_args['type'] ] ) ) {
 					$sanitize_callback = self::$sanitize_callbacks[ $setting_args['type'] ];
 				}
 
@@ -524,17 +524,17 @@ class SiteOrigin_Settings {
 					'settings' => 'theme_settings_' . $section_id . '_' . $setting_id,
 				);
 
-				if ( !empty( $setting_args['args']['description'] ) ) {
+				if ( ! empty( $setting_args['args']['description'] ) ) {
 					$control_args['description'] = $setting_args['args']['description'];
 				}
 
 				// Add different control args for the different field types
 				if ( $setting_args['type'] == 'radio' || $setting_args['type'] == 'select' || $setting_args['type'] == 'image_select' || $setting_args['type'] == 'text' ) {
-					if ( !empty( $setting_args['args']['options'] ) ) {
+					if ( ! empty( $setting_args['args']['options'] ) ) {
 						$control_args['choices'] = $setting_args['args']['options'];
 					}
 
-					if ( !empty( $setting_args['args']['choices'] ) ) {
+					if ( ! empty( $setting_args['args']['choices'] ) ) {
 						$control_args['choices'] = $setting_args['args']['choices'];
 					}
 
@@ -550,14 +550,14 @@ class SiteOrigin_Settings {
 				// Arguments for the range field
 				if ( $setting_args['type'] == 'range' ) {
 					$control_args['input_attrs'] = array(
-						'min' => !empty( $setting_args['args']['min'] ) ? $setting_args['args']['min'] : 0,
-						'max' => !empty( $setting_args['args']['max'] ) ? $setting_args['args']['max'] : 100,
-						'step' => !empty( $setting_args['args']['step'] ) ? $setting_args['args']['step'] : 0.1,
+						'min' => ! empty( $setting_args['args']['min'] ) ? $setting_args['args']['min'] : 0,
+						'max' => ! empty( $setting_args['args']['max'] ) ? $setting_args['args']['max'] : 100,
+						'step' => ! empty( $setting_args['args']['step'] ) ? $setting_args['args']['step'] : 0.1,
 					);
 				} elseif ( $setting_args['type'] == 'widget' ) {
 					$control_args['widget_args'] = array(
-						'class' => !empty( $setting_args['args']['widget_class'] ) ? $setting_args['args']['widget_class'] : false,
-						'bundle_widget' => !empty( $setting_args['args']['bundle_widget'] ) ? $setting_args['args']['bundle_widget'] : false,
+						'class' => ! empty( $setting_args['args']['widget_class'] ) ? $setting_args['args']['widget_class'] : false,
+						'bundle_widget' => ! empty( $setting_args['args']['bundle_widget'] ) ? $setting_args['args']['bundle_widget'] : false,
 					);
 				} elseif ( $setting_args['type'] == 'media' ) {
 					$control_args = wp_parse_args( $control_args, array(
@@ -567,10 +567,10 @@ class SiteOrigin_Settings {
 				}
 
 				if ( empty( $control_class ) ) {
-					$control_class = !empty( self::$control_classes[ $setting_args['type'] ] ) ? self::$control_classes[ $setting_args['type'] ] : false;
+					$control_class = ! empty( self::$control_classes[ $setting_args['type'] ] ) ? self::$control_classes[ $setting_args['type'] ] : false;
 				}
 
-				if ( !empty( $control_class ) ) {
+				if ( ! empty( $control_class ) ) {
 					$wp_customize->add_control(
 						new $control_class(
 							$wp_customize,
@@ -609,7 +609,7 @@ class SiteOrigin_Settings {
 		wp_enqueue_script( 'siteorigin-settings-live-preview', get_template_directory_uri() . '/inc/settings/js/live' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery' ), SITEORIGIN_THEME_VERSION );
 		wp_localize_script( 'siteorigin-settings-live-preview', 'soSettings', array(
 			'css' => apply_filters( 'siteorigin_settings_custom_css', '', $this->get_all( ) ),
-			'settings' => !empty( $values ) ? $values : false,
+			'settings' => ! empty( $values ) ? $values : false,
 		) );
 	}
 
@@ -620,7 +620,7 @@ class SiteOrigin_Settings {
 		$settings = $this->get_all( );
 		$css = apply_filters( 'siteorigin_settings_custom_css', '', $settings );
 
-		if ( !empty( $css ) ) {
+		if ( ! empty( $css ) ) {
 			$css_key = md5( json_encode( array(
 				'css' => $css,
 				'settings' => $this->get_all(),
@@ -664,7 +664,7 @@ class SiteOrigin_Settings {
 				// Finally, we'll combine all imports and put them at the top of the file
 				preg_match_all( '/@import url\(([^\)]+)\);/', $css, $matches );
 
-				if ( !empty( $matches[0] ) ) {
+				if ( ! empty( $matches[0] ) ) {
 					$webfont_imports = array();
 
 					for ( $i = 0; $i < count( $matches[0] ); $i++ ) {
@@ -676,7 +676,7 @@ class SiteOrigin_Settings {
 						}
 					}
 
-					if ( !empty( $webfont_imports ) ) {
+					if ( ! empty( $webfont_imports ) ) {
 						$args = array(
 							'family' => array(),
 							'subset' => array(),
@@ -691,11 +691,11 @@ class SiteOrigin_Settings {
 							}
 							parse_str( $url['query'], $query );
 
-							if ( !empty( $query['family'] ) ) {
+							if ( ! empty( $query['family'] ) ) {
 								$args['family'][] = $query['family'];
 							}
 
-							$args['subset'][] = !empty( $query['subset'] ) ? $query['subset'] : 'latin';
+							$args['subset'][] = ! empty( $query['subset'] ) ? $query['subset'] : 'latin';
 						}
 
 						// Clean up the arguments
@@ -726,7 +726,7 @@ class SiteOrigin_Settings {
 				$css = get_theme_mod( 'custom_css' );
 			}
 
-			if ( !empty( $css ) ) {
+			if ( ! empty( $css ) ) {
 				?>
 				<style type="text/css" id="<?php echo esc_attr( $this->theme_name ); ?>-settings-custom" data-siteorigin-settings="true">
 					<?php echo strip_tags( $css ); ?>
@@ -769,11 +769,11 @@ class SiteOrigin_Settings {
 		$child_parts = glob( get_stylesheet_directory() . '/' . $parts . '*.php' );
 
 		$files = array_unique( array_merge(
-			!empty( $parent_parts ) ? $parent_parts : array(),
-			!empty( $child_parts ) ? $child_parts : array()
+			! empty( $parent_parts ) ? $parent_parts : array(),
+			! empty( $child_parts ) ? $child_parts : array()
 		) );
 
-		if ( !empty( $files ) ) {
+		if ( ! empty( $files ) ) {
 			foreach ( $files as $file ) {
 				$p = pathinfo( $file );
 				$filename = explode( '-', $p['filename'], 2 );
@@ -809,7 +809,7 @@ class SiteOrigin_Settings {
 			$attachment = $wpdb->get_col(
 				$wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url )
 			);
-			$attachment_id = !empty( $attachment[0] ) ? $attachment[0] : 0;
+			$attachment_id = ! empty( $attachment[0] ) ? $attachment[0] : 0;
 			wp_cache_set( $image_url, $attachment_id, 'siteorigin_image_id', 86400 );
 		}
 

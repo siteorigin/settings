@@ -27,7 +27,7 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 	 * Register all the archives in the customizer
 	 */
 	public function customize_register( $wp_customize ) {
-		if ( !current_theme_supports( 'siteorigin-template-settings' ) ) {
+		if ( ! current_theme_supports( 'siteorigin-template-settings' ) ) {
 			return;
 		}
 
@@ -119,7 +119,7 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 				$control_args = array(
 					'label' => $setting['label'],
 					'type' => $setting['type'],
-					'description' => !empty( $setting['description'] ) ? $setting['description'] : false,
+					'description' => ! empty( $setting['description'] ) ? $setting['description'] : false,
 					'section'  => 'page_settings_' . $type['group'] . '_' . $type['id'],
 					'settings' => 'page_settings_' . $type['group'] . '_' . $type['id'] . '[' . $id . ']',
 				);
@@ -137,7 +137,7 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 	}
 
 	public function enqueue_customizer() {
-		if ( !current_theme_supports( 'siteorigin-template-settings' ) ) {
+		if ( ! current_theme_supports( 'siteorigin-template-settings' ) ) {
 			return;
 		}
 
@@ -150,7 +150,7 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 	}
 
 	public function customize_enqueue_preview() {
-		if ( !current_theme_supports( 'siteorigin-template-settings' ) ) {
+		if ( ! current_theme_supports( 'siteorigin-template-settings' ) ) {
 			return;
 		}
 

@@ -112,7 +112,7 @@ class SiteOrigin_Settings_Page_Settings {
 		} else {
 			$object = get_queried_object();
 
-			if ( !empty( $object ) ) {
+			if ( ! empty( $object ) ) {
 				switch( get_class( $object ) ) {
 					case 'WP_Term':
 						$type = 'taxonomy';
@@ -187,7 +187,7 @@ class SiteOrigin_Settings_Page_Settings {
 			return;
 		}
 
-		if ( !empty( $post_type ) && post_type_supports( $post_type, 'so-page-settings' ) ) {
+		if ( ! empty( $post_type ) && post_type_supports( $post_type, 'so-page-settings' ) ) {
 			add_meta_box(
 				'siteorigin_page_settings',
 				__( 'Page settings', 'siteorigin' ),
@@ -240,7 +240,7 @@ class SiteOrigin_Settings_Page_Settings {
 					break;
 			}
 
-			if ( !empty( $field['description'] ) ) {
+			if ( ! empty( $field['description'] ) ) {
 				?><p class="description"><?php echo esc_html( $field['description'] ); ?></p><?php
 			}
 		}

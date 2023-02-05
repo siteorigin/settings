@@ -131,44 +131,44 @@ class SiteOrigin_Settings_About_Page {
 		<div class="wrap" id="siteorigin-about-page">
 			<ul class="top-area-tabs">
 
-				<?php if ( !empty( $about[ 'tour_url' ] ) ) { ?>
+				<?php if ( ! empty( $about['tour_url'] ) ) { ?>
 					<li>
-						<a href="<?php echo esc_url( $about[ 'tour_url' ] ); ?>" class="about-button-tour" target="_blank">
+						<a href="<?php echo esc_url( $about['tour_url'] ); ?>" class="about-button-tour" target="_blank">
 							<?php esc_html_e( 'Take a Tour', 'siteorigin' ); ?>
 						</a>
 					</li>
 				<?php } ?>
 
-				<?php if ( !empty( $about[ 'newsletter_url' ] ) ) { ?>
+				<?php if ( ! empty( $about['newsletter_url'] ) ) { ?>
 					<li>
-						<a href="<?php echo esc_url( $about[ 'newsletter_url' ] ); ?>" class="about-button-updates" target="_blank">
+						<a href="<?php echo esc_url( $about['newsletter_url'] ); ?>" class="about-button-updates" target="_blank">
 							<span class="dashicons dashicons-email"></span>
 							<?php esc_html_e( 'Get Updates', 'siteorigin' ); ?>
 						</a>
 					</li>
 				<?php } ?>
 
-				<?php if ( !empty( $about[ 'documentation_url' ] ) ) { ?>
+				<?php if ( ! empty( $about['documentation_url'] ) ) { ?>
 					<li>
-						<a href="<?php echo esc_url( $about[ 'documentation_url' ] ); ?>" class="about-button-docs" target="_blank">
+						<a href="<?php echo esc_url( $about['documentation_url'] ); ?>" class="about-button-docs" target="_blank">
 							<span class="dashicons dashicons-sos"></span>
 							<?php esc_html_e( 'Documentation', 'siteorigin' ); ?>
 						</a>
 					</li>
 				<?php } ?>
 
-				<?php if ( !empty( $about[ 'review_url' ] ) ) { ?>
+				<?php if ( ! empty( $about['review_url'] ) ) { ?>
 					<li>
-						<a href="<?php echo esc_url( $about[ 'review_url' ] ); ?>" class="about-button-updates" target="_blank">
+						<a href="<?php echo esc_url( $about['review_url'] ); ?>" class="about-button-updates" target="_blank">
 							<span class="dashicons dashicons-star-filled"></span>
 							<?php esc_html_e( 'Write a Review', 'siteorigin' ); ?>
 						</a>
 					</li>
 				<?php } ?>
 
-				<?php if ( ! empty( $about[ 'premium_url' ] ) && ! class_exists( 'SiteOrigin_Premium' ) ) { ?>
+				<?php if ( ! empty( $about['premium_url'] ) && ! class_exists( 'SiteOrigin_Premium' ) ) { ?>
 					<li class="about-highlight">
-						<a href="<?php echo esc_url( $about[ 'premium_url' ] ); ?>" class="about-button-updates" target="_blank">
+						<a href="<?php echo esc_url( $about['premium_url'] ); ?>" class="about-button-updates" target="_blank">
 							<span class="dashicons dashicons-arrow-up-alt"></span>
 							<?php esc_html_e( 'Upgrade to Premium', 'siteorigin' ); ?>
 						</a>
@@ -179,31 +179,31 @@ class SiteOrigin_Settings_About_Page {
 			
 			<div class="about-header">
 				<div class="about-container">
-					<?php if ( ! empty( $about[ 'title_image' ] ) ) { ?>
+					<?php if ( ! empty( $about['title_image'] ) ) { ?>
 						<div class="title-image-wrapper">
 							<img
-								src="<?php echo esc_url( $about[ 'title_image' ] ); ?>"
-								title="<?php echo esc_attr( $about[ 'title' ] ); ?>"
-								<?php if ( ! empty( $about[ 'title_image_2x' ] ) ) { ?>
-									srcset="<?php echo esc_url( $about[ 'title_image_2x' ] ); ?> 2x"
+								src="<?php echo esc_url( $about['title_image'] ); ?>"
+								title="<?php echo esc_attr( $about['title'] ); ?>"
+								<?php if ( ! empty( $about['title_image_2x'] ) ) { ?>
+									srcset="<?php echo esc_url( $about['title_image_2x'] ); ?> 2x"
 								<?php } ?>
 								/>
 							<div class="version"><?php echo esc_html( $about['version'] ); ?></div>
 						</div>
 					<?php } else { ?>
 						<h1 class="title-image-wrapper">
-							<?php echo esc_html( $about[ 'title' ] ); ?>
+							<?php echo esc_html( $about['title'] ); ?>
 							<div class="version"><?php echo esc_html( $about['version'] ); ?></div>
 						</h1>
 					<?php } ?>
 				</div>
 			</div>
 
-			<?php if ( ! empty( $about[ 'video_thumbnail' ] ) ) { ?>
+			<?php if ( ! empty( $about['video_thumbnail'] ) ) { ?>
 				<div class="about-video">
 					<div class="about-container">
-						<a href="<?php echo esc_url( $about[ 'video_url' ] ); ?>" class="about-play-video" target="_blank">
-							<?php if ( empty( $about[ 'no_video' ] ) ) { ?>
+						<a href="<?php echo esc_url( $about['video_url'] ); ?>" class="about-play-video" target="_blank">
+							<?php if ( empty( $about['no_video'] ) ) { ?>
 								<svg version="1.1" id="play" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 									 viewBox="0 0 540 320.6" style="enable-background:new 0 0 540 320.6;" xml:space="preserve">
 									<path class="st0" d="M511,0H29C13,0,0,13,0,29v262.6c0,16,13,29,29,29h482c16,0,29-13,29-29V29C540,13,527,0,511,0z"/>
@@ -215,10 +215,10 @@ class SiteOrigin_Settings_About_Page {
 
 						<div class="about-video-images">
 							<?php
-							if ( is_array( $about[ 'video_thumbnail' ] ) ) {
-								$images = $about[ 'video_thumbnail' ];
+							if ( is_array( $about['video_thumbnail'] ) ) {
+								$images = $about['video_thumbnail'];
 							} else {
-								$images = array( $about[ 'video_thumbnail' ] );
+								$images = array( $about['video_thumbnail'] );
 							}
 
 							foreach ( $images as $image ) {
@@ -227,9 +227,9 @@ class SiteOrigin_Settings_About_Page {
 				?>
 						</div>
 
-						<?php if ( empty( $about[ 'no_video' ] ) ) { ?>
+						<?php if ( empty( $about['no_video'] ) ) { ?>
 							<div class="about-video-watch">
-								<a href="<?php echo esc_url( $about[ 'video_url' ] ); ?>" target="_blank">
+								<a href="<?php echo esc_url( $about['video_url'] ); ?>" target="_blank">
 									<?php esc_html_e( 'Watch The Video', 'siteorigin' ); ?>
 								</a>
 							</div>

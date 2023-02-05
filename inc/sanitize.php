@@ -42,7 +42,7 @@ class SiteOrigin_Settings_Sanitize {
 			$widget = json_decode( $widget );
 		}
 
-		if ( !empty( $widget['panels_info']['widget'] ) && class_exists( $widget['panels_info']['widget'] ) ) {
+		if ( ! empty( $widget['panels_info']['widget'] ) && class_exists( $widget['panels_info']['widget'] ) ) {
 			$the_widget = new $widget['panels_info']['widget']();
 
 			if ( is_a( $the_widget, 'WP_Widget' ) ) {

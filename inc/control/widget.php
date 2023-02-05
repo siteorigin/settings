@@ -18,7 +18,7 @@ class SiteOrigin_Settings_Control_Widget extends WP_Customize_Control {
 			?><span class="description customize-control-description"><?php echo $this->description; ?></span><?php
 		}
 
-		if ( !class_exists( $this->widget_args['class'] ) && !empty( $this->widget_args['bundle_widget'] ) && class_exists( 'SiteOrigin_Widgets_Bundle' ) ) {
+		if ( ! class_exists( $this->widget_args['class'] ) && ! empty( $this->widget_args['bundle_widget'] ) && class_exists( 'SiteOrigin_Widgets_Bundle' ) ) {
 			// If this is a widget bundle widget, and the class isn't available, then try activate it.
 			SiteOrigin_Widgets_Bundle::single()->activate_widget( $this->widget_args['bundle_widget'] );
 		}

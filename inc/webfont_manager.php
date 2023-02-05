@@ -50,7 +50,7 @@ class SiteOrigin_Settings_Webfont_Manager {
 	public function enqueue() {
 		$default_font_settings = apply_filters( 'siteorigin_settings_font_settings', array() );
 
-		if ( !empty( $default_font_settings ) ) {
+		if ( ! empty( $default_font_settings ) ) {
 			$settings = SiteOrigin_Settings::single();
 
 			foreach ( $default_font_settings as $setting => $webfont ) {
