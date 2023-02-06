@@ -8,20 +8,20 @@
 class SiteOrigin_Settings_Page_Settings {
 	private $meta;
 
-	function __construct(){
+	public function __construct() {
 		$this->meta = array();
 
 		add_action( 'init', array( $this, 'add_page_settings_support' ) );
 
 		// All the meta box stuff
-		add_action( 'add_meta_boxes', array($this, 'add_meta_box'), 10 );
-		add_action( 'save_post', array($this, 'save_post'), 10, 2 );
+		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ), 10 );
+		add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_css' ) );
 
 		// Page Builder integration
 		add_action( 'siteorigin_panels_create_home_page', array( $this, 'panels_save_home_page' ) );
 
-		if( is_admin() || is_customize_preview() ) {
+		if ( is_admin() || is_customize_preview() ) {
 			// Initialize Page Settings Customizer if we're in the admin.
 			SiteOrigin_Settings_Page_Settings_Customizer::single();
 		}
@@ -32,9 +32,10 @@ class SiteOrigin_Settings_Page_Settings {
 	 *
 	 * @return SiteOrigin_Settings_Page_Settings
 	 */
-	static function single(){
+	public static function single() {
 		static $single;
-		if( empty($single) ) {
+
+		if ( empty( $single ) ) {
 			$single = new self();
 		}
 
@@ -44,12 +45,9 @@ class SiteOrigin_Settings_Page_Settings {
 	/**
 	 * Get a settings value
 	 *
-	 * @param $key
-	 * @param $default
-	 *
 	 * @return null
 	 */
-	static function get( $key = false, $default = null ) {
+	public static function get( $key = false, $default = null ) {
 		$single = self::single();
 
 		static $type = false;
@@ -64,7 +62,7 @@ class SiteOrigin_Settings_Page_Settings {
 			return $default;
 		}
 
-		if( empty( $single->meta[ $type . '_' . $id ] ) ) {
+		if ( empty( $single->meta[ $type . '_' . $id ] ) ) {
 			$single->meta[ $type . '_' . $id ] = $single->get_settings_values( $type, $id );
 		}
 
@@ -76,48 +74,45 @@ class SiteOrigin_Settings_Page_Settings {
 		}
 	}
 
-	function get_settings( $type, $id ) {
+	public function get_settings( $type, $id ) {
 		return apply_filters( 'siteorigin_page_settings', array(), $type, $id );
 	}
 
-	function add_page_settings_support(){
+	public function add_page_settings_support() {
 		add_post_type_support( 'page', 'so-page-settings' );
 		add_post_type_support( 'post', 'so-page-settings' );
+
 		if ( post_type_exists( 'jetpack-portfolio' ) ) {
 			add_post_type_support( 'jetpack-portfolio', 'so-page-settings' );
 		}
 	}
 
-	function get_settings_defaults( $type, $id ){
+	public function get_settings_defaults( $type, $id ) {
 		return apply_filters( 'siteorigin_page_settings_defaults', array(), $type, $id );
 	}
 
-	static function get_current_page(){
+	public static function get_current_page() {
 		global $wp_query;
 
-		if( $wp_query->is_home() ) {
+		if ( $wp_query->is_home() ) {
 			$type = 'template';
 			$id = 'home';
-		}
-		else if( $wp_query->is_search() ) {
+		} elseif ( $wp_query->is_search() ) {
 			$type = 'template';
 			$id = 'search';
-		}
-		else if( $wp_query->is_404() ) {
+		} elseif ( $wp_query->is_404() ) {
 			$type = 'template';
 			$id = '404';
-		}
-		else if( $wp_query->is_date() ) {
+		} elseif ( $wp_query->is_date() ) {
 			$type = 'template';
 			$id = 'date';
-		}
-		else if( $wp_query->is_post_type_archive() ) {
+		} elseif ( $wp_query->is_post_type_archive() ) {
 			$type = 'archive';
 			$id = $wp_query->get( 'post_type' );
-		}
-		else {
+		} else {
 			$object = get_queried_object();
-			if( !empty( $object ) ) {
+
+			if ( ! empty( $object ) ) {
 				switch( get_class( $object ) ) {
 					case 'WP_Term':
 						$type = 'taxonomy';
@@ -134,8 +129,7 @@ class SiteOrigin_Settings_Page_Settings {
 						$id = 'author';
 						break;
 				}
-			}
-			else {
+			} else {
 				$type = 'template';
 				$id = 'default';
 			}
@@ -147,12 +141,9 @@ class SiteOrigin_Settings_Page_Settings {
 	/**
 	 * Get the settings post meta and add the default values.
 	 *
-	 * @param $type
-	 * @param $id
-	 *
 	 * @return array|mixed
 	 */
-	function get_settings_values( $type, $id ){
+	public function get_settings_values( $type, $id ) {
 		$defaults = $this->get_settings_defaults( $type, $id );
 		$values = false;
 
@@ -172,7 +163,9 @@ class SiteOrigin_Settings_Page_Settings {
 			}
 		}
 
-		if( empty($values) ) $values = array();
+		if ( empty( $values ) ) {
+			$values = array();
+		}
 		$values = apply_filters( 'siteorigin_page_settings_values', $values, $type, $id );
 
 		return wp_parse_args( $values, $defaults );
@@ -180,22 +173,21 @@ class SiteOrigin_Settings_Page_Settings {
 
 	/**
 	 * Add the meta box.
-	 *
-	 * @param $post_type
 	 */
-	function add_meta_box( $post_type ){
+	public function add_meta_box( $post_type ) {
 		// Don't add meta box to WooCommerce Shop page.
 		$screen = get_current_screen();
+
 		if (
-		    class_exists( 'WooCommerce' ) &&
-		    ! empty( $screen ) && $screen->id == 'page' &&
-		    isset( $_GET['post'] ) &&
-		    get_option( 'woocommerce_shop_page_id' ) == $_GET['post']
+			class_exists( 'WooCommerce' ) &&
+			! empty( $screen ) && $screen->id == 'page' &&
+			isset( $_GET['post'] ) &&
+			get_option( 'woocommerce_shop_page_id' ) == $_GET['post']
 		) {
-		    return;
+			return;
 		}
 
-		if( !empty( $post_type ) && post_type_supports( $post_type, 'so-page-settings' ) ) {
+		if ( ! empty( $post_type ) && post_type_supports( $post_type, 'so-page-settings' ) ) {
 			add_meta_box(
 				'siteorigin_page_settings',
 				__( 'Page settings', 'siteorigin' ),
@@ -209,7 +201,7 @@ class SiteOrigin_Settings_Page_Settings {
 	/**
 	 * Display the Meta Box
 	 */
-	function display_post_meta_box( $post ) {
+	public function display_post_meta_box( $post ) {
 		$settings = $this->get_settings( $post->post_type, $post->ID );
 		$values = $this->get_settings_values( $post->post_type, $post->ID );
 
@@ -217,39 +209,39 @@ class SiteOrigin_Settings_Page_Settings {
 
 		do_action( 'siteorigin_settings_before_page_settings_meta_box', $post );
 
-		foreach( $settings as $id => $field ) {
-			if( empty($values[$id]) ) $values[$id] = false;
+		foreach ( $settings as $id => $field ) {
+			if ( empty( $values[$id] ) ) {
+				$values[$id] = false;
+			}
 
-			?><p><label for="so-page-settings-<?php echo esc_attr( $id ) ?>"><strong><?php echo esc_html( $field['label'] ) ?></strong></label></p><?php
+			?><p><label for="so-page-settings-<?php echo esc_attr( $id ); ?>"><strong><?php echo esc_html( $field['label'] ); ?></strong></label></p><?php
 
 			switch( $field['type'] ) {
-
-				case 'select' :
+				case 'select':
 					?>
-					<select name="so_page_settings[<?php echo esc_attr( $id ) ?>]" id="so-page-settings-<?php echo esc_attr( $id ) ?>">
-						<?php foreach( $field['options'] as $v => $n ) : ?>
-							<option value="<?php echo esc_attr( $v ) ?>" <?php selected( $values[$id], $v ) ?>><?php echo esc_html( $n ) ?></option>
-						<?php endforeach; ?>
+					<select name="so_page_settings[<?php echo esc_attr( $id ); ?>]" id="so-page-settings-<?php echo esc_attr( $id ); ?>">
+						<?php foreach ( $field['options'] as $v => $n ) { ?>
+							<option value="<?php echo esc_attr( $v ); ?>" <?php selected( $values[$id], $v ); ?>><?php echo esc_html( $n ); ?></option>
+						<?php } ?>
 					</select>
 					<?php
 
 					break;
 
-				case 'checkbox' :
+				case 'checkbox':
 					?>
-					<label><input type="checkbox" name="so_page_settings[<?php echo esc_attr( $id ) ?>]" <?php checked( $values[$id] ) ?> /><?php echo esc_html($field['checkbox_label']) ?></label>
+					<label><input type="checkbox" name="so_page_settings[<?php echo esc_attr( $id ); ?>]" <?php checked( $values[$id] ); ?> /><?php echo esc_html( $field['checkbox_label'] ); ?></label>
 					<?php
 					break;
 
-				case 'text' :
-				default :
-					?><input type="text" name="so_page_settings[<?php echo esc_attr( $id ) ?>]" id="so-page-settings-<?php echo esc_attr( $id ) ?>" value="<?php echo esc_attr( $values[$id] ) ?>" /><?php
+				case 'text':
+				default:
+					?><input type="text" name="so_page_settings[<?php echo esc_attr( $id ); ?>]" id="so-page-settings-<?php echo esc_attr( $id ); ?>" value="<?php echo esc_attr( $values[$id] ); ?>" /><?php
 					break;
-
 			}
 
-			if( !empty($field['description']) ) {
-				?><p class="description"><?php echo esc_html( $field['description'] ) ?></p><?php
+			if ( ! empty( $field['description'] ) ) {
+				?><p class="description"><?php echo esc_html( $field['description'] ); ?></p><?php
 			}
 		}
 
@@ -260,31 +252,37 @@ class SiteOrigin_Settings_Page_Settings {
 
 	/**
 	 * Save settings
-	 *
-	 * @param $post_id
 	 */
-	function save_post( $post_id, $post ) {
-		if( !current_user_can( 'edit_post', $post_id ) ) return;
-		if( empty($_POST['_so_page_settings_nonce']) || !wp_verify_nonce( $_POST['_so_page_settings_nonce'], 'save_page_settings' ) ) return;
-		if( empty($_POST['so_page_settings']) ) return;
+	public function save_post( $post_id, $post ) {
+		if ( !current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+
+		if ( empty( $_POST['_so_page_settings_nonce'] ) || !wp_verify_nonce( $_POST['_so_page_settings_nonce'], 'save_page_settings' ) ) {
+			return;
+		}
+
+		if ( empty( $_POST['so_page_settings'] ) ) {
+			return;
+		}
 
 		$settings = stripslashes_deep( $_POST['so_page_settings'] );
 		$post_type = ! wp_is_post_revision( $post_id ) ? $post->post_type : get_post_type( $post->post_parent );
 
-		foreach( $this->get_settings( $post_type, $post_id ) as $id => $field ) {
+		foreach ( $this->get_settings( $post_type, $post_id ) as $id => $field ) {
 			switch( $field['type'] ) {
-				case 'select' :
-					if( !in_array( $settings[$id], array_keys( $field['options'] ) ) ) {
-						$settings[$id] = isset($field['default']) ? $field['default'] : null;
+				case 'select':
+					if ( !in_array( $settings[$id], array_keys( $field['options'] ) ) ) {
+						$settings[$id] = isset( $field['default'] ) ? $field['default'] : null;
 					}
 					break;
 
-				case 'checkbox' :
+				case 'checkbox':
 					$settings[$id] = !empty( $settings[$id] );
 					break;
 
-				case 'text' :
-				default :
+				case 'text':
+				default:
 					$settings[$id] = sanitize_text_field( $settings[$id] );
 					break;
 			}
@@ -293,7 +291,7 @@ class SiteOrigin_Settings_Page_Settings {
 		update_post_meta( $post_id, 'siteorigin_page_settings', $settings );
 	}
 
-	function register_css() {
+	public function register_css() {
 		wp_enqueue_style(
 			'siteorigin-settings-metabox',
 			get_template_directory_uri() . '/inc/settings/css/page-settings.css',
@@ -302,15 +300,11 @@ class SiteOrigin_Settings_Page_Settings {
 		);
 	}
 
-	/**
-	 * @param $post_id
-	 */
-	function panels_save_home_page( $post_id ){
+	public function panels_save_home_page( $post_id ) {
 		$settings = $this->get_settings_values( 'post', $post_id );
 		$settings = apply_filters( 'siteorigin_page_settings_panels_home_defaults', $settings );
 		update_post_meta( $post_id, 'siteorigin_page_settings', $settings );
 	}
-
 }
 SiteOrigin_Settings_Page_Settings::single();
 

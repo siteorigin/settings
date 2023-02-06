@@ -6,22 +6,22 @@ class SiteOrigin_Settings_Control_Premium extends WP_Customize_Control {
 	/**
 	 * Render the font selector.
 	 */
-	public function render_content(){
+	public function render_content() {
 		$theme = wp_get_theme();
 		?>
 		<p>
 			<?php
 			printf(
-				__( "SiteOrigin Premium adds powerful features to %s. They'll save you time and make your site more professional.", 'siteorigin' ),
-				$theme->get( 'Name' )
-			);
-			?>
+			__( "SiteOrigin Premium adds powerful features to %s. They'll save you time and make your site more professional.", 'siteorigin' ),
+			$theme->get( 'Name' )
+		);
+		?>
 		</p>
 		<a
-			href="<?php echo esc_url( SiteOrigin_Settings::get_premium_url( ) ) ?>"
+			href="<?php echo esc_url( SiteOrigin_Settings::get_premium_url( ) ); ?>"
 			class="button-primary so-premium-upgrade"
 			target="_blank">
-			<?php esc_html_e( 'Find Out More', 'siteorigin' ) ?>
+			<?php esc_html_e( 'Find Out More', 'siteorigin' ); ?>
 		</a>
 		<?php
 	}
