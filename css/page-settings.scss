@@ -6,4 +6,10 @@
 	p:not(.description) {
 		margin: 1em 0;
 	}
+
+	.edit-post-meta-boxes-area #poststuff & h2.hndle {
+		font-weight: normal;
+		padding: 16px 48px 16px 16px;
+		text-transform: capitalize;
+	}
 }
