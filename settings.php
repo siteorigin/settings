@@ -256,7 +256,7 @@ class SiteOrigin_Settings {
 				unset( $args['type'] );
 				unset( $args['teaser'] );
 
-				if ( ! empty( $field['teaser'] ) ) {
+				if ( ! empty( $field['teaser'] ) && is_bool( $field['teaser'] ) ) {
 					$this->add_teaser(
 						$section_id,
 						$field_id,
@@ -272,6 +272,19 @@ class SiteOrigin_Settings {
 						! empty( $field['label'] ) ? $field['label'] : '',
 						$args
 					);
+
+					if ( ! empty( $field['teaser'] ) ) {
+						$args['teaser'] = $field['teaser'];
+						$this->add_teaser(
+							$section_id,
+							// $section_id . '_teaser',
+							$field_id . '_teaser',
+							$field['type'],
+							! empty( $field['label'] ) ? $field['label'] : '',
+							$args,
+							true
+						);
+					}
 				}
 			}
 		}
@@ -543,8 +556,14 @@ class SiteOrigin_Settings {
 					}
 				}
 
-				if ( $setting_args['type'] == 'teaser' && ! empty( $setting_args['args']['featured'] ) ) {
-					$control_args['featured'] = $setting_args['args']['featured'];
+				if ( $setting_args['type'] == 'teaser' ) {
+					if ( ! empty( $setting_args['args']['featured'] ) ) {
+						$control_args['featured'] = $setting_args['args']['featured'];
+					}
+
+					if ( ! empty( $setting_args['args']['teaser'] ) ) {
+						$control_args['teaser'] = $setting_args['args']['teaser'];
+					}
 				}
 
 				// Arguments for the range field

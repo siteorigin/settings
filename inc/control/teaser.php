@@ -4,27 +4,44 @@ class SiteOrigin_Settings_Control_Teaser extends WP_Customize_Control {
 	public $type = 'siteorigin-teaser';
 
 	public $featured = false;
+	public $teaser = false;
 
 	/**
 	 * Render the teaser control's content.
 	 */
 	public function render_content() {
-		if ( ! empty( $this->label ) ) {
-			?><span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span><?php
-		}
+		// Are we adding a placeholder for a premium setting?
+		if ( empty( $this->teaser ) ) {
+			if ( ! empty( $this->label ) ) {
+				?>
+				<span class="customize-control-title">
+					<?php echo esc_html( $this->label ); ?>
+				</span>
+				<?php
+			}
 
-		if ( ! empty( $this->description ) ) {
-			?><span class="description customize-control-description"><?php echo $this->description; ?></span><?php
-		}
+			if ( ! empty( $this->description ) ) {
+				?>
+				<span class="description customize-control-description">
+					<?php echo $this->description; ?>
+				</span>
+				<?php
+			}
 
-		?>
-		<a
-			href="<?php echo esc_url( SiteOrigin_Settings::get_premium_url( $this->featured ) ); ?>"
-			class="button-primary so-premium-upgrade"
-			target="_blank">
-			<?php esc_html_e( 'Available in Premium', 'siteorigin' ); ?>
-		</a>
-		<?php
+			?>
+			<a
+				href="<?php echo esc_url( SiteOrigin_Settings::get_premium_url( $this->featured ) ); ?>"
+				class="button-primary so-premium-upgrade"
+				target="_blank"
+			>
+				<?php esc_html_e( 'Available in Premium', 'siteorigin-corp' ); ?>
+			</a>
+		<?php } else { ?>
+			<div class="siteorigin-teaser-text">
+				<?php echo $this->teaser; ?>
+			</div>
+			<?php
+		}
 	}
 
 	/**
