@@ -282,7 +282,8 @@ class SiteOrigin_Settings {
 							$field['type'],
 							! empty( $field['label'] ) ? $field['label'] : '',
 							$args,
-							true
+							false,
+							false
 						);
 					}
 				}
@@ -399,11 +400,11 @@ class SiteOrigin_Settings {
 	 * @param array       $args
 	 * @param string|bool $after Add this field after another one
 	 */
-	public function add_teaser( $section, $id, $type, $label, $args = array(), $after = false ) {
+	public function add_teaser( $section, $id, $type, $label, $args = array(), $after = false, $do_action = true ) {
 		if ( apply_filters( 'siteorigin_settings_display_teaser', true, $section, $id ) ) {
 			// The theme hasn't implemented this setting yet
 			$this->add_field( $section, $id, 'teaser', $label, $args, $after );
-		} else {
+		} elseif ( $do_action ) {
 			// Handle this field elsewhere
 			do_action( 'siteorigin_settings_add_teaser_field', $this, $section, $id, $type, $label, $args, $after );
 		}
