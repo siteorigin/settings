@@ -3,6 +3,7 @@
 #siteorigin_page_settings p:not(.description) {
   margin: 1em 0; }
 .edit-post-meta-boxes-area #poststuff #siteorigin_page_settings h2.hndle {
-	font-weight: normal;
+	font-size: 13px;
+	font-weight: 500;
 	padding: 16px 48px 16px 16px;
 	text-transform: capitalize; }
