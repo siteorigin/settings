@@ -5,6 +5,7 @@ class SiteOrigin_Settings_Control_Teaser extends WP_Customize_Control {
 
 	public $featured = false;
 	public $teaser = false;
+	public $teaser_title = false;
 
 	/**
 	 * Render the teaser control's content.
@@ -37,6 +38,12 @@ class SiteOrigin_Settings_Control_Teaser extends WP_Customize_Control {
 				<?php esc_html_e( 'Available in Premium', 'siteorigin-corp' ); ?>
 			</a>
 		<?php } else { ?>
+			<?php if ( ! empty( $this->teaser_title ) ) { ?>
+				<span class="customize-control-title siteorigin-teaser-text">
+					<?php echo esc_html( $this->teaser_title ); ?>
+				</span>
+			<?php } ?>
+
 			<div class="siteorigin-teaser-text">
 				<?php echo $this->teaser; ?>
 			</div>
@@ -48,7 +55,7 @@ class SiteOrigin_Settings_Control_Teaser extends WP_Customize_Control {
 	 * Enqueue everything we need for this teaser.
 	 */
 	public function enqueue() {
-		wp_enqueue_script( 'siteorigin-settings-teaser-control', get_template_directory_uri() . '/inc/settings/js/control/teaser-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery', 'customize-controls'  ) );
+		wp_enqueue_script( 'siteorigin-settings-teaser-control', get_template_directory_uri() . '/inc/settings/js/control/teaser-control' . SITEORIGIN_THEME_JS_PREFIX . '.js', array( 'jquery', 'customize-controls' ) );
 		wp_enqueue_style( 'siteorigin-settings-teaser-control', get_template_directory_uri() . '/inc/settings/css/control/teaser-control.css', array() );
 	}
 }

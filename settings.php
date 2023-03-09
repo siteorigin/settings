@@ -275,9 +275,9 @@ class SiteOrigin_Settings {
 
 					if ( ! empty( $field['teaser'] ) ) {
 						$args['teaser'] = $field['teaser'];
+						$args['teaser_title'] = ! empty( $field['teaser_title'] ) ? $field['teaser_title'] : '';
 						$this->add_teaser(
 							$section_id,
-							// $section_id . '_teaser',
 							$field_id . '_teaser',
 							$field['type'],
 							! empty( $field['label'] ) ? $field['label'] : '',
@@ -564,6 +564,10 @@ class SiteOrigin_Settings {
 
 					if ( ! empty( $setting_args['args']['teaser'] ) ) {
 						$control_args['teaser'] = $setting_args['args']['teaser'];
+
+						if ( ! empty( $setting_args['args']['teaser_title'] ) ) {
+							$control_args['teaser_title'] = $setting_args['args']['teaser_title'];
+						}
 					}
 				}
 
