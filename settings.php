@@ -256,7 +256,7 @@ class SiteOrigin_Settings {
 				unset( $args['type'] );
 				unset( $args['teaser'] );
 
-				if ( ! empty( $field['teaser'] ) ) {
+				if ( ! empty( $field['teaser'] ) && ! is_array( $field['teaser'] ) ) {
 					$this->add_teaser(
 						$section_id,
 						$field_id,
@@ -272,6 +272,19 @@ class SiteOrigin_Settings {
 						! empty( $field['label'] ) ? $field['label'] : '',
 						$args
 					);
+
+					if ( ! empty( $field['teaser'] ) ) {
+						$args['teaser'] = $field['teaser'];
+						$this->add_teaser(
+							$section_id,
+							$field_id . '_teaser',
+							$field['type'],
+							! empty( $field['label'] ) ? $field['label'] : '',
+							$args,
+							false,
+							false
+						);
+					}
 				}
 			}
 		}
@@ -386,11 +399,11 @@ class SiteOrigin_Settings {
 	 * @param array       $args
 	 * @param string|bool $after Add this field after another one
 	 */
-	public function add_teaser( $section, $id, $type, $label, $args = array(), $after = false ) {
+	public function add_teaser( $section, $id, $type, $label, $args = array(), $after = false, $do_action = true ) {
 		if ( apply_filters( 'siteorigin_settings_display_teaser', true, $section, $id ) ) {
 			// The theme hasn't implemented this setting yet
 			$this->add_field( $section, $id, 'teaser', $label, $args, $after );
-		} else {
+		} elseif ( $do_action ) {
 			// Handle this field elsewhere
 			do_action( 'siteorigin_settings_add_teaser_field', $this, $section, $id, $type, $label, $args, $after );
 		}
@@ -543,8 +556,14 @@ class SiteOrigin_Settings {
 					}
 				}
 
-				if ( $setting_args['type'] == 'teaser' && ! empty( $setting_args['args']['featured'] ) ) {
-					$control_args['featured'] = $setting_args['args']['featured'];
+				if ( $setting_args['type'] == 'teaser' ) {
+					if ( ! empty( $setting_args['args']['featured'] ) ) {
+						$control_args['featured'] = $setting_args['args']['featured'];
+					}
+
+					if ( ! empty( $setting_args['args']['teaser'] ) ) {
+						$control_args['teaser'] = $setting_args['args']['teaser'];
+					}
 				}
 
 				// Arguments for the range field
