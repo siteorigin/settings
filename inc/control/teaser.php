@@ -38,15 +38,17 @@ class SiteOrigin_Settings_Control_Teaser extends WP_Customize_Control {
 				<?php esc_html_e( 'Available in Premium', 'siteorigin-corp' ); ?>
 			</a>
 		<?php } else { ?>
-			<?php if ( ! empty( $this->teaser_title ) ) { ?>
+			<?php if ( ! empty( $this->teaser['title'] ) ) { ?>
 				<span class="customize-control-title siteorigin-teaser-text">
-					<?php echo esc_html( $this->teaser_title ); ?>
+					<?php echo esc_html( $this->teaser['title'] ); ?>
 				</span>
 			<?php } ?>
 
-			<div class="siteorigin-teaser-text">
-				<?php echo $this->teaser; ?>
-			</div>
+			<?php if ( ! empty( $this->teaser['text'] ) ) { ?>
+				<div class="siteorigin-teaser-text">
+					<?php echo $this->teaser['text']; ?>
+				</div>
+			<?php } ?>
 			<?php
 		}
 	}
