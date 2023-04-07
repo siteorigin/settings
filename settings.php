@@ -910,3 +910,27 @@ function siteorigin_setting( $setting ) {
 function siteorigin_settings_set( $setting, $value ) {
 	SiteOrigin_Settings::single()->set( $setting, $value );
 }
+
+/**
+ * Display's breadcrumbs supported by Breadcrumb NavXT, Rank Math, and Yoast SEO.
+ */
+function siteorigin_settings_breadcrumbs( $class = null ) {
+	if ( function_exists( 'bcn_display' ) ) {
+		?>
+		<div id="navxt-breadcrumbs" class="breadcrumbs bcn<?php echo $class; ?>">
+			<?php bcn_display(); ?>
+		</div>
+	<?php
+	} elseif ( function_exists( 'yoast_breadcrumb' ) ) {
+		yoast_breadcrumb( "<div id='yoast-breadcrumbs' class='breadcrumbs$class'>", '</div>' );
+	} elseif ( function_exists( 'rank_math_the_breadcrumbs' ) ) {
+		$rank_math_breadcrumbs = rank_math_get_breadcrumbs();
+		if ( ! empty( $rank_math_breadcrumbs ) ) {
+			?>
+			<div id="rank_math-breadcrumbs" class="breadcrumbs<?php echo $class; ?>">
+				<?php echo $rank_math_breadcrumbs; ?>
+			</div>
+			<?php
+		}
+	}
+}
