@@ -35,7 +35,7 @@ class SiteOrigin_Settings_Control_Teaser extends WP_Customize_Control {
 				class="button-primary so-premium-upgrade"
 				target="_blank"
 			>
-				<?php esc_html_e( 'Available in Premium', 'siteorigin-corp' ); ?>
+				<?php esc_html_e( 'Available in Premium', 'siteorigin' ); ?>
 			</a>
 		<?php } else { ?>
 			<?php if ( ! empty( $this->teaser['title'] ) ) { ?>
