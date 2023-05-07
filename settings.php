@@ -915,6 +915,8 @@ function siteorigin_settings_set( $setting, $value ) {
  * Display's breadcrumbs supported by Breadcrumb NavXT, Rank Math, and Yoast SEO.
  */
 function siteorigin_settings_breadcrumbs( $class = null ) {
+	do_action( 'siteorigin_settings_before_breadcrumbs' );
+
 	if ( function_exists( 'bcn_display' ) ) {
 		?>
 		<div id="navxt-breadcrumbs" class="breadcrumbs bcn<?php echo $class; ?>">
@@ -933,4 +935,6 @@ function siteorigin_settings_breadcrumbs( $class = null ) {
 			<?php
 		}
 	}
+
+	do_action( 'siteorigin_settings_after_breadcrumbs' );
 }
