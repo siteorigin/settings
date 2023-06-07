@@ -91,13 +91,18 @@ class SiteOrigin_Settings_Webfont_Manager {
 
 		wp_enqueue_style(
 			'siteorigin-google-web-fonts',
-			add_query_arg(
-				array(
-					'family' => implode( '|', $family ),
-					'subset' => implode( ',', $subset ),
-					'display' => 'block',
-				),
-				esc_url( apply_filters( 'siteorigin_web_font_url', 'https://fonts.googleapis.com/css' ) )
+			esc_url(
+				apply_filters(
+					'siteorigin_web_font_url_processed',
+					add_query_arg(
+						array(
+							'family' => implode( '|', $family ),
+							'subset' => implode( ',', $subset ),
+							'display' => 'block',
+						),
+						apply_filters( 'siteorigin_web_font_url', 'https://fonts.googleapis.com/css' )
+					)
+				)
 			)
 		);
 	}
