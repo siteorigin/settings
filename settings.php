@@ -32,7 +32,6 @@ class SiteOrigin_Settings {
 		$this->defaults = array();
 		$this->settings = array();
 		$this->sections = array();
-		$this->loc = array();
 
 		if ( ! empty( $_POST['wp_customize'] ) && $_POST['wp_customize'] == 'on' && is_customize_preview() ) {
 			add_filter( 'siteorigin_setting', array( $this, 'customizer_filter' ), 15, 2 );
