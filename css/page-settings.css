@@ -1,5 +1,7 @@
 #siteorigin_page_settings .inside {
   color: #3c434a; }
+#siteorigin_page_settings .inside label {
+  text-transform: capitalize; }
 #siteorigin_page_settings p:not(.description) {
   margin: 1em 0; }
 .edit-post-meta-boxes-area #poststuff #siteorigin_page_settings h2.hndle {
