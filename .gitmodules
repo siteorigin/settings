@@ -1,0 +1,7 @@
+[submodule "installer"]
+	path = installer
+	path = installer
+	url = https://github.com/siteorigin/siteorigin-installer/
+	url = git@github.com:siteorigin/siteorigin-installer.git
+	branch = theme-mode
+	branch = theme-mode

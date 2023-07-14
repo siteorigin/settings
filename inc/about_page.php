@@ -131,6 +131,12 @@ class SiteOrigin_Settings_About_Page {
 		<div class="wrap" id="siteorigin-about-page">
 			<ul class="top-area-tabs">
 
+				<li>
+					<a href="<?php echo esc_url( admin_url( 'admin.php?page=siteorigin-installer' ) ); ?>">
+						<?php esc_html_e( 'Installer', 'origami' ); ?>
+					</a>
+				</li>
+
 				<?php if ( ! empty( $about['tour_url'] ) ) { ?>
 					<li>
 						<a href="<?php echo esc_url( $about['tour_url'] ); ?>" class="about-button-tour" target="_blank">
