@@ -3,7 +3,7 @@
 #siteorigin_page_settings .inside label {
   text-transform: capitalize; }
 #siteorigin_page_settings p:not(.description) {
-  margin: 1em 0; }
+  margin: 1em 0 0.25em; }
 .edit-post-meta-boxes-area #poststuff #siteorigin_page_settings h2.hndle {
 	font-size: 13px;
 	font-weight: 500;
