@@ -272,8 +272,11 @@ class SiteOrigin_Settings_Page_Settings {
 		foreach ( $this->get_settings( $post_type, $post_id ) as $id => $field ) {
 			switch( $field['type'] ) {
 				case 'select':
-					if ( !in_array( $settings[$id], array_keys( $field['options'] ) ) ) {
-						$settings[$id] = isset( $field['default'] ) ? $field['default'] : null;
+					if (
+						isset( $settings[ $id ] ) &&
+						! in_array( $settings[ $id ], array_keys( $field['options'] ) )
+					) {
+						$settings[ $id ] = isset( $field['default'] ) ? $field['default'] : null;
 					}
 					break;
 
