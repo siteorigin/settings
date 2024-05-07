@@ -2216,29 +2216,26 @@ class CssMin
 	 * @return void
 	 */
 	public static function initialise()
-		{
+	{
 		// Create the class index for autoloading or including
 		$paths = array(dirname(__FILE__));
-		while (list($i, $path) = each($paths))
-			{
+		
+		foreach ($paths as $i => $path) {
 			$subDirectorys = glob($path . "*", GLOB_MARK | GLOB_ONLYDIR | GLOB_NOSORT);
-			if (is_array($subDirectorys))
-				{
-				foreach ($subDirectorys as $subDirectory)
-					{
+			if (is_array($subDirectorys)) {
+				foreach ($subDirectorys as $subDirectory) {
 					$paths[] = $subDirectory;
-					}
-				}
-			$files = glob($path . "*.php", 0);
-			if (is_array($files))
-				{
-				foreach ($files as $file)
-					{
-					$class = substr(basename($file), 0, -4);
-					self::$classIndex[$class] = $file;
-					}
 				}
 			}
+			
+			$files = glob($path . "*.php", 0);
+			if (is_array($files)) {
+				foreach ($files as $file) {
+					$class = substr(basename($file), 0, -4);
+					self::$classIndex[$class] = $file;
+				}
+			}
+		}
 		krsort(self::$classIndex);
 		// Only use autoloading if spl_autoload_register() is available and no __autoload() is defined (because 
 		// __autoload() breaks if spl_autoload_register() is used. 
@@ -4281,17 +4278,24 @@ class CssAtPageDeclarationToken extends aCssDeclarationToken
  * @version		3.0.1
  */
 class CssAtMediaStartToken extends aCssAtBlockStartToken
-	{
-	/**
-	 * Sets the properties of the @media at-rule.
-	 * 
-	 * @param array $mediaTypes Media types
-	 * @return void
-	 */
-	public function __construct(array $mediaTypes = array())
-		{
-		$this->MediaTypes = $mediaTypes;
-		}
+{
+    /**
+     * Media types of the @media at-rule block.
+     *
+     * @var array
+     */
+    public $MediaTypes = array();
+
+    /**
+     * Set the properties of the @media at-rule.
+     *
+     * @param array $mediaTypes Media types
+     * @return void
+     */
+    public function __construct(array $mediaTypes = array())
+    {
+        $this->MediaTypes = $mediaTypes;
+    }
 	/**
 	 * Implements {@link aCssToken::__toString()}.
 	 * 

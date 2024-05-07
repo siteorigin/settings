@@ -122,7 +122,7 @@ foreach ( $conf['stylesheets'] as $s ) {
 $all_css = '';
 
 foreach ( $conf['stylesheets'] as $s ) {
-	$css = CssMin::minify( implode( $output[$s], "\n\n" ), array(
+	$css = CssMin::minify( implode("\n\n", ( array ) $output[$s] ), array(
 		'ImportImports'                 => false,
 		'RemoveComments'                => true,
 		'RemoveEmptyRulesets'           => true,
