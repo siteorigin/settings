@@ -141,6 +141,13 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 			return;
 		}
 
+		wp_enqueue_style(
+			'siteorigin-page-template-settings',
+			get_template_directory_uri() . '/inc/settings/css/page-template-settings.css',
+			array( 'customize-controls' ),
+			SITEORIGIN_THEME_VERSION
+		);
+
 		wp_enqueue_script(
 			'siteorigin-page-template-settings',
 			get_template_directory_uri() . '/inc/settings/js/page-settings-admin' . SITEORIGIN_THEME_JS_PREFIX . '.js',
