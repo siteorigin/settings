@@ -4,7 +4,6 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 	public function __construct() {
 		// Customizer integration
 		add_action( 'customize_register', array( $this, 'customize_register' ) );
-		add_action( 'customize_controls_enqueue_scripts', array( $this, 'enqueue_customizer' ) );
 		add_action( 'customize_preview_init', array( $this, 'customize_enqueue_preview' ) );
 	}
 
@@ -134,19 +133,6 @@ class SiteOrigin_Settings_Page_Settings_Customizer {
 				);
 			}
 		}
-	}
-
-	public function enqueue_customizer() {
-		if ( ! current_theme_supports( 'siteorigin-template-settings' ) ) {
-			return;
-		}
-
-		wp_enqueue_script(
-			'siteorigin-page-template-settings',
-			get_template_directory_uri() . '/inc/settings/js/page-settings-admin' . SITEORIGIN_THEME_JS_PREFIX . '.js',
-			array( 'jquery', 'customize-controls' ),
-			SITEORIGIN_THEME_VERSION
-		);
 	}
 
 	public function customize_enqueue_preview() {
