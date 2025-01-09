@@ -944,6 +944,15 @@ function siteorigin_settings_breadcrumbs( $class = null ) {
 			</div>
 			<?php
 		}
+	} elseif ( function_exists( 'aioseo_breadcrumbs' ) ) {
+		?>
+		<div
+			id="aioseo-breadcrumbs"
+			class="breadcrumbs<?php echo esc_attr( $class ); ?>"
+		>
+			<?php aioseo_breadcrumbs(); ?>
+		</div>
+		<?php
 	}
 
 	do_action( 'siteorigin_settings_after_breadcrumbs' );
