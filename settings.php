@@ -916,23 +916,43 @@ function siteorigin_settings_set( $setting, $value ) {
 function siteorigin_settings_breadcrumbs( $class = null ) {
 	do_action( 'siteorigin_settings_before_breadcrumbs' );
 
+	$class = ! empty( $class ) ? ' ' . sanitize_html_class( $class ) : '';
+
 	if ( function_exists( 'bcn_display' ) ) {
 		?>
-		<div id="navxt-breadcrumbs" class="breadcrumbs bcn<?php echo $class; ?>">
+		<div id="navxt-breadcrumbs" class="breadcrumbs bcn<?php echo esc_attr( $class ); ?>">
 			<?php bcn_display(); ?>
 		</div>
-	<?php
+		<?php
 	} elseif ( function_exists( 'yoast_breadcrumb' ) ) {
-		yoast_breadcrumb( "<div id='yoast-breadcrumbs' class='breadcrumbs$class'>", '</div>' );
+		yoast_breadcrumb(
+			sprintf(
+				'<div id="yoast-breadcrumbs" class="breadcrumbs%s">',
+				esc_attr( $class )
+			),
+			'</div>'
+		);
 	} elseif ( function_exists( 'rank_math_the_breadcrumbs' ) ) {
 		$rank_math_breadcrumbs = rank_math_get_breadcrumbs();
 		if ( ! empty( $rank_math_breadcrumbs ) ) {
 			?>
-			<div id="rank_math-breadcrumbs" class="breadcrumbs<?php echo $class; ?>">
+			<div
+				id="rank_math-breadcrumbs"
+				class="breadcrumbs<?php echo esc_attr( $class ); ?>"
+			>
 				<?php echo $rank_math_breadcrumbs; ?>
 			</div>
 			<?php
 		}
+	} elseif ( function_exists( 'aioseo_breadcrumbs' ) ) {
+		?>
+		<div
+			id="aioseo-breadcrumbs"
+			class="breadcrumbs<?php echo esc_attr( $class ); ?>"
+		>
+			<?php aioseo_breadcrumbs(); ?>
+		</div>
+		<?php
 	}
 
 	do_action( 'siteorigin_settings_after_breadcrumbs' );
