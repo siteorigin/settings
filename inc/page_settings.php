@@ -126,7 +126,7 @@ class SiteOrigin_Settings_Page_Settings {
 						break;
 
 					case 'WP_Post':
-						$type = 'post';
+						$type = $object->post_type;
 						$id = $object->ID;
 						break;
 
@@ -163,8 +163,28 @@ class SiteOrigin_Settings_Page_Settings {
 					break;
 
 				case 'post':
-				default:
 					$values = get_post_meta( $id, 'siteorigin_page_settings', true );
+					break;
+
+				default:
+					/**
+					 * For custom post types, merge Customizer archive and single settings with post meta.
+					 * This ensures CPTs respect global and per-post settings.
+					 */
+					$single_mod  = get_theme_mod( 'page_settings_' . $type . '_default' );
+					$archive_mod = get_theme_mod( 'page_settings_archive_' . $type );
+					$meta        = get_post_meta( $id, 'siteorigin_page_settings', true );
+					$values      = array();
+
+					if ( is_array( $archive_mod ) ) {
+						$values = array_merge( $values, $archive_mod );
+					}
+					if ( is_array( $single_mod ) ) {
+						$values = array_merge( $values, $single_mod );
+					}
+					if ( is_array( $meta ) ) {
+						$values = array_merge( $values, $meta );
+					}
 					break;
 			}
 		}
