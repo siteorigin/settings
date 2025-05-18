@@ -126,7 +126,7 @@ class SiteOrigin_Settings_Page_Settings {
 						break;
 
 					case 'WP_Post':
-						$type = 'post';
+						$type = $object->post_type;
 						$id = $object->ID;
 						break;
 
