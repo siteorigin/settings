@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class SiteOrigin_Settings
+ * Class SiteOrigin_Settings.
  *
  * A simple settings framework that works with the customizer in magical ways.
  */
@@ -12,7 +12,7 @@ class SiteOrigin_Settings {
 	private $defaults;
 
 	/**
-	 * @var The current theme name
+	 * @var string The current theme name
 	 */
 	private $theme_name;
 
@@ -44,7 +44,7 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * Create the singleton
+	 * Creates the singleton.
 	 *
 	 * @return SiteOrigin_Settings
 	 */
@@ -65,7 +65,7 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * Get a theme setting value
+	 * Gets a theme setting value.
 	 *
 	 * @return string
 	 */
@@ -87,7 +87,7 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * Handle migration of settings from one key to another
+	 * Handles migration of settings from one key to another.
 	 */
 	public function handle_migrations() {
 		$migrations = apply_filters( 'siteorigin_settings_migrated_settings', array(  ) );
@@ -195,7 +195,7 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * Add all the necessary actions
+	 * Adds all the necessary actions.
 	 */
 	public function add_actions() {
 		add_action( 'after_setup_theme', array( $this, 'init' ), 5 );
@@ -206,7 +206,7 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * Check if a setting is currently at its default value
+	 * Checks if a setting is currently at its default value.
 	 *
 	 * @param string $setting The setting name.
 	 *
@@ -219,7 +219,7 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * Get the default value for the setting
+	 * Gets the default value for the setting.
 	 *
 	 * @param string $setting The name of the setting
 	 *
@@ -230,7 +230,7 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * Initialize the theme settings
+	 * Initializes the theme settings.
 	 */
 	public function init() {
 		$theme = wp_get_theme();
@@ -335,7 +335,7 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * Add a new settings field
+	 * Adds a new settings field.
 	 *
 	 * @param null        $label
 	 * @param array       $args
@@ -393,7 +393,7 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * Add a teaser field that points to a premium upgrade page
+	 * Adds a teaser field that points to a premium upgrade page.
 	 *
 	 * @param array       $args
 	 * @param string|bool $after Add this field after another one
@@ -429,7 +429,7 @@ class SiteOrigin_Settings {
 	);
 
 	/**
-	 * Register everything for the customizer
+	 * Registers everything for the customizer.
 	 *
 	 * @param WP_Customize_Manager $wp_customize
 	 */
@@ -608,7 +608,7 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * Enqueue everything necessary for the live previewing in the Customizer
+	 * Enqueues everything necessary for the live previewing in the Customizer.
 	 */
 	public function enqueue_preview() {
 		if ( !did_action( 'siteorigin_settings_init' ) ) {
@@ -747,7 +747,8 @@ class SiteOrigin_Settings {
 			if ( ! empty( $css ) ) {
 				?>
 				<style type="text/css" id="<?php echo esc_attr( $this->theme_name ); ?>-settings-custom" data-siteorigin-settings="true">
-					<?php echo strip_tags( $css ); ?>
+					<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Outputting generated CSS inside style tag is intentional and safe.
+					echo strip_tags( $css ); ?>
 				</style>
 				<?php
 			}
@@ -755,7 +756,7 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * LESS style CSS functions
+	 * Contains LESS-style CSS functions.
 	 *
 	 * @return string
 	 */
@@ -776,7 +777,7 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * Get the names of a specific template part
+	 * Gets the names of a specific template part.
 	 *
 	 * @return array
 	 */
@@ -811,7 +812,7 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * Convert an attachment URL to a post ID
+	 * Converts an attachment URL to a post ID.
 	 *
 	 * @return mixed
 	 */
@@ -866,7 +867,7 @@ class SiteOrigin_Settings {
 	}
 
 	/**
-	 * Get the Premium upgrade URL
+	 * Gets the Premium upgrade URL.
 	 */
 	public static function get_premium_url( $featured_addon = false ) {
 		// Get the args we want to add to the URL
@@ -893,7 +894,7 @@ class SiteOrigin_Settings {
 SiteOrigin_Settings::single();
 
 /**
- * Access a single setting
+ * Accesses a single setting.
  *
  * @param $setting string The name of the setting.
  *
@@ -940,7 +941,8 @@ function siteorigin_settings_breadcrumbs( $class = null ) {
 				id="rank_math-breadcrumbs"
 				class="breadcrumbs<?php echo esc_attr( $class ); ?>"
 			>
-				<?php echo $rank_math_breadcrumbs; ?>
+				<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Breadcrumb HTML is escaped/sanitized by Rank Math.
+				echo $rank_math_breadcrumbs; ?>
 			</div>
 			<?php
 		}
