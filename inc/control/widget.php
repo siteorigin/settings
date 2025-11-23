@@ -30,7 +30,7 @@ class SiteOrigin_Settings_Control_Widget extends WP_Customize_Control {
 			echo ' ';
 			printf( __( '<a href="%s">Install</a> the Widgets Bundle now.', 'siteorigin' ), 'https://wordpress.org/plugins/so-widgets-bundle/' );
 			?></div>
-			<input type="hidden" class="widget-value" value="<?php esc_attr( $this->value()  ); ?>" />
+			<input type="hidden" class="widget-value" value="<?php echo esc_attr( $this->value()  ); ?>" />
 			<?php
 		} else {
 			$widget_values = $this->value();
